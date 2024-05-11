@@ -9,17 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "^3.9.9",
-    "@fullcalendar/core": "^6.1.11",
-    "@fullcalendar/daygrid": "^6.1.11",
-    "@fullcalendar/interaction": "^6.1.11",
-    "@fullcalendar/list": "^6.1.11",
-    "@fullcalendar/moment": "^6.1.11",
-    "@fullcalendar/react": "^6.1.11",
-    "@fullcalendar/resource": "^6.1.11",
-    "@fullcalendar/resource-timegrid": "^6.1.11",
-    "@fullcalendar/resource-timeline": "^6.1.11",
-    "@fullcalendar/timegrid": "^6.1.11",
     "@nextui-org/button": "^2.0.31",
     "@nextui-org/card": "^2.0.28",
     "@nextui-org/chip": "^2.0.28",
