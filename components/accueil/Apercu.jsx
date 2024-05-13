@@ -21,7 +21,7 @@ export default function Apercu () {
 
         <div className={styles.card}>
           <Image src={Idea} className={styles.imageCard} />
-          <h3 className={styles.h3Card}>créé par des professionels</h3>
+          <h3 className={styles.h3Card}>Créé par des professionels</h3>
           <p className={styles.pCard}>Des jeux conçus par des érgothérapeutes, orthophonistes et developpeur</p>
         </div>
 

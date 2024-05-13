@@ -17,7 +17,7 @@ export default function Gaming () {
         </Link>
       </div>
       <div className='flex items-center justify-center p-4'>
-        <h2 className='text-center'>Nos jeux arrivent bientôt !</h2>
+        <h2 className='text-center normal-case'>Nos jeux arrivent bientôt !</h2>
       </div>
     </div>
   )
