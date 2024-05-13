@@ -17,7 +17,7 @@ export default function Abonnement () {
           <p className='flex items-center gap-3'><TiArrowRightThick className='text-secondary text-2xl' />Suivi de la progression
           </p>
           <div>
-            <h2 className='text-primary-500'>29€ <span className='text-gray-300 text-lg'>/mois</span></h2>
+            <h2 className='text-primary-500'>0€ <span className='text-gray-300 text-lg'>/mois</span></h2>
             <button className={styles.buttonChoisir}>Choisir</button>
           </div>
         </div>
