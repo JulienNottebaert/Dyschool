@@ -31,7 +31,9 @@ function CustomNavbar () {
         /> */}
         <NavbarBrand>
           {/* className='hidden sm:flex' */}
-          <Image src={Logo} href='' width={65} height={65} />
+          <Link href='/' className='cursor-pointer'>
+            <Image src={Logo} width={65} height={65} />
+          </Link>
         </NavbarBrand>
       </NavbarContent>
 
@@ -56,12 +58,12 @@ function CustomNavbar () {
       <NavbarContent justify='end'>
         {/* <ThemeSwitcher /> */}
         <NavbarItem className='hidden sm:flex'>
-          <Link href='#' className='text-secondary'>
+          <Link href='/connexion' className='text-secondary'>
             <Chip color='secondary' variant='bordered' className='px-3'>Connexion</Chip>
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href=''>
+          <Link href='/inscription'>
             <Chip color='secondary' variant='solid' className='px-3'>S'inscrire</Chip>
           </Link>
         </NavbarItem>
