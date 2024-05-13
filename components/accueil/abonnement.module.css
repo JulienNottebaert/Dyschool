@@ -9,7 +9,7 @@
   margin: 80px auto;
   gap: 50px;
   justify-content: center;
-
+  flex-wrap: wrap;
 }
 
 .card{
@@ -22,6 +22,7 @@
   justify-content: space-between;
   flex-direction: column;
   box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+  
 }
 
 .buttonChoisir{
@@ -31,13 +32,6 @@
   color: white;
   font-size: 24px;
   text-transform: capitalize;
-}
-
-@media (max-width: 1024px){
-  .containerCard{
-    flex-direction: column;
-    align-items: center;
-  }
 }
 
 @media (max-width: 500px){
