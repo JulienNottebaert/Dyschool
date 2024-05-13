@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Accueil from '@/public/asset/home/accuel.png'
 import Link from 'next/link'
 import { Chip } from '@nextui-org/chip'
+import styles from './homePage.module.css'
 
 export default function HomePage () {
   return (
@@ -23,7 +24,7 @@ export default function HomePage () {
         </div>
       </div>
       <div className='w-9/12'>
-        <Image src={Accueil} className='w-full' />
+        <Image src={Accueil} className={styles.anim} />
       </div>
     </div>
   )

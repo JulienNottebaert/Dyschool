@@ -6,10 +6,10 @@ import {
   Navbar,
   NavbarBrand,
   NavbarContent,
-  NavbarItem,
+  NavbarItem
   // NavbarMenu,
   // NavbarMenuItem,
-  NavbarMenuToggle
+  // NavbarMenuToggle
 } from '@nextui-org/react'
 import { useState } from 'react'
 // import { ThemeSwitcher } from './ThemeSwitcher.jsx'
@@ -25,11 +25,12 @@ function CustomNavbar () {
       onMenuOpenChange={setIsMenuOpen} shouldHideOnScroll
     >
       <NavbarContent>
-        <NavbarMenuToggle
+        {/* <NavbarMenuToggle
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           className='sm:hidden'
-        />
-        <NavbarBrand className='hidden sm:flex'>
+        /> */}
+        <NavbarBrand>
+          {/* className='hidden sm:flex' */}
           <Image src={Logo} href='' width={65} height={65} />
         </NavbarBrand>
       </NavbarContent>
@@ -54,7 +55,7 @@ function CustomNavbar () {
 
       <NavbarContent justify='end'>
         {/* <ThemeSwitcher /> */}
-        <NavbarItem className='hidden lg:flex'>
+        <NavbarItem className='hidden sm:flex'>
           <Link href='#' className='text-secondary'>
             <Chip color='secondary' variant='bordered' className='px-3'>Connexion</Chip>
           </Link>
