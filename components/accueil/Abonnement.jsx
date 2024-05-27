@@ -5,7 +5,7 @@ export default function Abonnement () {
   return (
     <div className={styles.containerAbo}>
       <h2 className='text-secondary-500 px-6 text-center'>Choisir son abonnement</h2>
-      <h3 className='text-gray-600 px-6 text-center normal-case'>Découvre nos offres adaptés pour tous !</h3>
+      <h3 className='text-gray-600 px-6 text-center normal-case'>Découvre nos offres adaptés pour tous les troubles DYS!</h3>
       <div className={styles.containerCard}>
 
         <div className={styles.card}>
