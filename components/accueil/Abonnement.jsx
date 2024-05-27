@@ -5,7 +5,7 @@ export default function Abonnement () {
   return (
     <div className={styles.containerAbo}>
       <h2 className='text-secondary-500 px-6 text-center'>Choisir son abonnement</h2>
-      <h3 className='text-gray-600 px-6 text-center normal-case'>En fonction de votre complémentaire santé, dyschool peut-être gratuit pour vous ! </h3>
+      <h3 className='text-gray-600 px-6 text-center normal-case'>Découvre nos offres adaptés pour tous !</h3>
       <div className={styles.containerCard}>
 
         <div className={styles.card}>
@@ -31,7 +31,7 @@ export default function Abonnement () {
           <p className='flex items-center gap-3'><TiArrowRightThick className='text-secondary text-2xl' />Suivi de la progression
           </p>
           <div>
-            <h2 className='text-primary-500'>29€ <span className='text-gray-300 text-lg'>/mois</span></h2>
+            <h2 className='text-primary-500'>9€ <span className='text-gray-300 text-lg'>/mois</span></h2>
             <button className={styles.buttonChoisir}>Choisir</button>
           </div>
         </div>
