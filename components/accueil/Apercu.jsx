@@ -20,15 +20,15 @@ export default function Apercu () {
         </div>
 
         <div className={styles.card}>
-          <Image src={Idea} className={styles.imageCard} />
+          <Image src={Doctor} className={styles.imageCard} />
           <h3 className={styles.h3Card}>Créé par des professionels</h3>
-          <p className={styles.pCard}>Des jeux conçus par des érgothérapeutes, orthophonistes et developpeur</p>
+          <p className={styles.pCard}>Des jeux conçus par des érgothérapeutes, orthophonistes et developpeurs</p>
         </div>
 
         <div className={styles.card}>
-          <Image src={Doctor} className={styles.imageCard} />
-          <h3 className={styles.h3Card}>Objectif réussite</h3>
-          <p className={styles.pCard}>Fixe toi des objectifs et réussit les !</p>
+          <Image src={Idea} className={styles.imageCard} />
+          <h3 className={styles.h3Card}>Tous concernés</h3>
+          <p className={styles.pCard}>Dyschool touche tous les troubles Dys, personne n'est mis de côté </p>
         </div>
 
       </div>
