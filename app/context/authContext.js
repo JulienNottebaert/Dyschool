@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useState, useEffect } from 'react'
-import { auth } from '@/lib/firebase' // Assurez-vous que Firebase est bien configuré et que le chemin est correct
+import { auth } from '@/lib/firebase'
 import { onAuthStateChanged, signOut } from 'firebase/auth'
 
 // Créer un contexte d'authentification
@@ -14,16 +14,17 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
+    // Écoute les changements d'état d'authentification
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser) // Mettre à jour l'utilisateur lorsque l'état change
     })
 
-    return () => unsubscribe() // Cleanup l'écouteur lors du démontage du composant
+    return () => unsubscribe() // Cleanup lors du démontage
   }, [])
 
   const logout = async () => {
     await signOut(auth)
-    setUser(null) // Réinitialiser l'utilisateur après déconnexion
+    setUser(null) // Réinitialiser l'utilisateur après la déconnexion
   }
 
   return (

@@ -2,6 +2,9 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation' // Utilisation de useRouter
+import { auth, db } from '@/lib/firebase' // Assurez-vous que Firebase est bien configuré
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { doc, setDoc } from 'firebase/firestore'
 
 export default function InscriptionPage () {
   const [formData, setFormData] = useState({
@@ -18,7 +21,7 @@ export default function InscriptionPage () {
   })
 
   const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
+  const [loading, setLoading] = useState(false)
   const router = useRouter() // Initialiser useRouter pour la redirection
 
   const handleChange = (e) => {
@@ -32,41 +35,34 @@ export default function InscriptionPage () {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    setSuccess('')
+    setLoading(true)
 
     try {
-      const response = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'register',
-          email: formData.email,
-          password: formData.password,
-          nom: formData.nom,
-          prenom: formData.prenom,
-          troubles: {
-            dyscalculie: formData.dyscalculie,
-            dysgraphie: formData.dysgraphie,
-            dyslexie: formData.dyslexie,
-            dysorthographie: formData.dysorthographie,
-            dysphasie: formData.dysphasie,
-            troubleAttention: formData.troubleAttention
-          }
-        })
+      // Inscription via Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password)
+      const user = userCredential.user
+
+      // Enregistrer les informations supplémentaires dans Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        nom: formData.nom,
+        prenom: formData.prenom,
+        email: formData.email,
+        troubles: {
+          dyscalculie: formData.dyscalculie,
+          dysgraphie: formData.dysgraphie,
+          dyslexie: formData.dyslexie,
+          dysorthographie: formData.dysorthographie,
+          dysphasie: formData.dysphasie,
+          troubleAttention: formData.troubleAttention
+        }
       })
 
-      const data = await response.json()
-
-      if (response.ok) {
-        setSuccess('Inscription réussie !')
-
-        // Rediriger vers le tableau de bord après l'inscription
-        router.push('/dashboard') // Assure-toi que la page dashboard existe
-      } else {
-        setError(data.message)
-      }
+      // Rediriger immédiatement après l'inscription réussie
+      router.push('/dashboard') // Rediriger vers le tableau de bord
     } catch (error) {
-      setError('Erreur lors de l\'inscription')
+      setError('Erreur lors de l\'inscription : ' + error.message)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -76,7 +72,6 @@ export default function InscriptionPage () {
         <h1 className='text-2xl mb-4'>Inscription</h1>
 
         {error && <p className='text-red-500'>{error}</p>}
-        {success && <p className='text-green-500'>{success}</p>}
 
         {/* Champs du formulaire */}
         <div className='mb-4'>
@@ -153,8 +148,12 @@ export default function InscriptionPage () {
           ))}
         </div>
 
-        <button type='submit' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
-          S'inscrire
+        <button
+          type='submit'
+          className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+          disabled={loading}
+        >
+          {loading ? 'Inscription en cours...' : "S'inscrire"}
         </button>
       </form>
     </div>

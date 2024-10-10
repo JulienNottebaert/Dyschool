@@ -12,12 +12,19 @@ export async function POST (req) {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
       const user = userCredential.user
 
-      // Ajouter des informations supplémentaires dans Firestore
+      // Ajouter des informations supplémentaires dans Firestore, y compris les troubles
       await setDoc(doc(db, 'users', user.uid), {
         nom,
         prenom,
         email,
-        ...troubles // Spread des troubles pour les ajouter dans Firestore
+        troubles: { // Regrouper les troubles sous une seule clé "troubles"
+          dyscalculie: troubles.dyscalculie,
+          dysgraphie: troubles.dysgraphie,
+          dyslexie: troubles.dyslexie,
+          dysorthographie: troubles.dysorthographie,
+          dysphasie: troubles.dysphasie,
+          troubleAttention: troubles.troubleAttention
+        }
       })
 
       return new Response(JSON.stringify({ message: 'Inscription réussie', uid: user.uid }), {
@@ -27,6 +34,7 @@ export async function POST (req) {
       // Connexion
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
       const user = userCredential.user
+
       return new Response(JSON.stringify({ message: 'Connexion réussie', uid: user.uid }), {
         status: 200
       })

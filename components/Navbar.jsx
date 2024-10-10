@@ -1,9 +1,10 @@
 'use client'
 
-import { Chip, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
+import { Chip, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
 import { useAuth } from '@/app/context/authContext' // Utiliser le contexte Auth
 import Logo from '@/public/asset/logo.png'
 import Image from 'next/image'
+import Link from 'next/link' // Utiliser Link directement de Next.js
 
 // Fonction pour afficher les options lorsque l'utilisateur est connecté
 const LoggedInNavItems = ({ user, logout }) => {
@@ -11,7 +12,7 @@ const LoggedInNavItems = ({ user, logout }) => {
     <>
       <NavbarItem>
         <span className='text-secondary'>
-          {user.displayName ? user.displayName : user.email}
+          {user.displayName ? user.displayName : user.email} {/* Affichage de l'email ou nom d'utilisateur */}
         </span>
       </NavbarItem>
 
@@ -19,7 +20,7 @@ const LoggedInNavItems = ({ user, logout }) => {
         <Chip
           color='secondary'
           variant='solid'
-          className='px-3'
+          className='px-3 cursor-pointer'
           onClick={logout}
         >
           Déconnexion
@@ -66,13 +67,7 @@ function CustomNavbar () {
 
       <NavbarContent justify='end'>
         {/* Vérifie si l'utilisateur est connecté et rend les éléments correspondants */}
-        {user
-          ? (
-            <LoggedInNavItems user={user} logout={logout} />
-            )
-          : (
-            <LoggedOutNavItems />
-            )}
+        {user ? <LoggedInNavItems user={user} logout={logout} /> : <LoggedOutNavItems />}
       </NavbarContent>
     </Navbar>
   )
