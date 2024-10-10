@@ -1,95 +1,81 @@
 'use client'
-// import { menuItems } from '@/config/site.js'
-import {
-  Chip,
-  Link,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem
-  // NavbarMenu,
-  // NavbarMenuItem,
-  // NavbarMenuToggle
-} from '@nextui-org/react'
-import { useState } from 'react'
-// import { ThemeSwitcher } from './ThemeSwitcher.jsx'
+
+import { Chip, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
+import { useAuth } from '@/app/context/authContext' // Utiliser le contexte Auth
 import Logo from '@/public/asset/logo.png'
-import Image from 'next/image.js'
+import Image from 'next/image'
+
+// Fonction pour afficher les options lorsque l'utilisateur est connecté
+const LoggedInNavItems = ({ user, logout }) => {
+  return (
+    <>
+      <NavbarItem>
+        <span className='text-secondary'>
+          {user.displayName ? user.displayName : user.email}
+        </span>
+      </NavbarItem>
+
+      <NavbarItem>
+        <Chip
+          color='secondary'
+          variant='solid'
+          className='px-3'
+          onClick={logout}
+        >
+          Déconnexion
+        </Chip>
+      </NavbarItem>
+    </>
+  )
+}
+
+// Fonction pour afficher les options lorsque l'utilisateur est déconnecté
+const LoggedOutNavItems = () => {
+  return (
+    <>
+      <NavbarItem className='hidden sm:flex'>
+        <Link href='/connexion' className='text-secondary'>
+          <Chip color='secondary' variant='bordered' className='px-3'>
+            Connexion
+          </Chip>
+        </Link>
+      </NavbarItem>
+      <NavbarItem>
+        <Link href='/inscription'>
+          <Chip color='secondary' variant='solid' className='px-3'>
+            S'inscrire
+          </Chip>
+        </Link>
+      </NavbarItem>
+    </>
+  )
+}
+
 function CustomNavbar () {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { user, logout } = useAuth() // Récupérer l'utilisateur et la fonction logout depuis le contexte
 
   return (
-    <Navbar
-      isBordered
-      isMenuOpen={isMenuOpen}
-      onMenuOpenChange={setIsMenuOpen} shouldHideOnScroll
-    >
+    <Navbar isBordered shouldHideOnScroll>
       <NavbarContent>
-        {/* <NavbarMenuToggle
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-          className='sm:hidden'
-        /> */}
         <NavbarBrand>
-          {/* className='hidden sm:flex' */}
           <Link href='/' className='cursor-pointer'>
-            <Image src={Logo} width={65} height={65} />
+            <Image src={Logo} width={65} height={65} alt='Logo' />
           </Link>
         </NavbarBrand>
       </NavbarContent>
 
-      {/* <NavbarContent className='hidden sm:flex gap-4' justify='center'>
-        <NavbarItem isActive>
-          <Link color='foreground' href='#'>
-            Tout savoir
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link color='foreground' href='#' aria-current='page'>
-            Qui sommes-nous
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link color='foreground' href='/evenements'>
-            Contact
-          </Link>
-        </NavbarItem>
-      </NavbarContent> */}
-
       <NavbarContent justify='end'>
-        {/* <ThemeSwitcher /> */}
-        <NavbarItem className='hidden sm:flex'>
-          <Link href='/connexion' className='text-secondary'>
-            <Chip color='secondary' variant='bordered' className='px-3'>Connexion</Chip>
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link href='/inscription'>
-            <Chip color='secondary' variant='solid' className='px-3'>S'inscrire</Chip>
-          </Link>
-        </NavbarItem>
+        {/* Vérifie si l'utilisateur est connecté et rend les éléments correspondants */}
+        {user
+          ? (
+            <LoggedInNavItems user={user} logout={logout} />
+            )
+          : (
+            <LoggedOutNavItems />
+            )}
       </NavbarContent>
-
-      {/* <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color={
-                index === 2
-                  ? 'secondary'
-                  : index === menuItems.length - 1
-                    ? 'danger'
-                    : 'foreground'
-              }
-              className='w-full'
-              href='#'
-              size='lg'
-            >
-              {item}
-            </Link>
-          </NavbarMenuItem>
-        ))}
-      </NavbarMenu> */}
     </Navbar>
   )
 }
+
 export default CustomNavbar
