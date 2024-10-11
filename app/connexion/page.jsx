@@ -76,7 +76,6 @@ export default function ConnexionPage () {
 
         {/* Champ mot de passe */}
         <Input
-          type={isVisible ? 'text' : 'password'}
           id='password'
           label='Mot de passe'
           labelPlacement='inside'
@@ -85,6 +84,7 @@ export default function ConnexionPage () {
           onChange={(e) => setPassword(e.target.value)}
           required
           radius='sm'
+          type={isVisible ? 'text' : 'password'}
           endContent={
             <button className='focus:outline-none' type='button' onClick={toggleVisibility} aria-label='toggle password visibility'>
               {!isVisible

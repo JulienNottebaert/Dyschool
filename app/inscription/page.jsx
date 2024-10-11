@@ -1,18 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation' // Utilisation de useRouter
 import { auth, db } from '@/lib/firebase' // Assurez-vous que Firebase est bien configuré
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
-import { Input } from '@nextui-org/react'
+import { Input, Checkbox } from '@nextui-org/react'
 import Image from 'next/image'
 import LogoDyschool from '@/public/asset/dyschool.png'
+import { EyeFilledIcon } from './EyeFilledIcon'
+import { EyeSlashFilledIcon } from './EyeSlashFilledIcon'
 
 export default function InscriptionPage () {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    confirmPassword: '',
     nom: '',
     prenom: '',
     dyscalculie: false,
@@ -27,6 +30,24 @@ export default function InscriptionPage () {
   const [loading, setLoading] = useState(false)
   const router = useRouter() // Initialiser useRouter pour la redirection
 
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false)
+
+  // Vérification de l'état d'authentification au chargement de la page
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Si l'utilisateur est connecté, redirige vers le tableau de bord
+        router.push('/dashboard')
+      }
+    })
+
+    return () => unsubscribe() // Cleanup l'écouteur lors du démontage du composant
+  }, [router])
+
+  const togglePasswordVisibility = () => setIsPasswordVisible(!isPasswordVisible)
+  const toggleConfirmPasswordVisibility = () => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
     setFormData({
@@ -39,6 +60,12 @@ export default function InscriptionPage () {
     e.preventDefault()
     setError('')
     setLoading(true)
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Les mots de passe ne correspondent pas')
+      setLoading(false)
+      return
+    }
 
     try {
       // Inscription via Firebase Authentication
@@ -70,8 +97,8 @@ export default function InscriptionPage () {
   }
 
   return (
-    <div className='my-28 flex flex-col justify-center items-center text-center px-5'>
-      <Image src={LogoDyschool} alt='Logo' width={200} height={200} className='mb-16' />
+    <div className='my-12 flex flex-col justify-center items-center text-center px-5'>
+      <Image src={LogoDyschool} alt='Logo' width={250} height={250} className='mb-16' />
       <form onSubmit={handleSubmit} className='flex flex-col gap-6 max-w-2xl w-full'>
         <h2 className='font-bold text-primary text-4xl mb-4'>Inscription</h2>
 
@@ -80,68 +107,152 @@ export default function InscriptionPage () {
 
         {/* Champs du formulaire */}
         <Input
-          type='text'
-          label='Nom'
-          name='nom'
-          value={formData.nom}
-          onChange={handleChange}
-          required
-          labelPlacement='inside'
-          className='max-w-xs m-auto'
-          radius='sm'
-        />
-
-        <Input
-          type='text'
-          label='Prénom'
-          name='prenom'
-          value={formData.prenom}
-          onChange={handleChange}
-          required
-          labelPlacement='inside'
-          className='max-w-xs m-auto'
-          radius='sm'
-        />
-
-        <Input
           type='email'
           label='Email'
           name='email'
           value={formData.email}
           onChange={handleChange}
-          required
+          isRequired
           labelPlacement='inside'
-          className='max-w-xs m-auto'
+          className='w-full'
           radius='sm'
         />
 
-        <Input
-          type='password'
-          label='Mot de passe'
-          name='password'
-          value={formData.password}
-          onChange={handleChange}
-          required
-          labelPlacement='inside'
-          className='max-w-xs m-auto'
-          radius='sm'
-        />
+        <div className='flex gap-4'>
+          <Input
+            type={isPasswordVisible ? 'text' : 'password'}
+            label='Mot de passe'
+            name='password'
+            value={formData.password}
+            onChange={handleChange}
+            isRequired
+            labelPlacement='inside'
+            className='max-w-xs m-auto'
+            radius='sm'
+            endContent={
+              <button
+                className='focus:outline-none'
+                type='button'
+                onClick={togglePasswordVisibility}
+                aria-label='toggle password visibility'
+              >
+                {!isPasswordVisible
+                  ? (
+                    <EyeSlashFilledIcon className='text-2xl text-default-400 pointer-events-none' />
+                    )
+                  : (
+                    <EyeFilledIcon className='text-2xl text-default-400 pointer-events-none' />
+                    )}
+              </button>
+            }
+          />
+
+          <Input
+            type={isConfirmPasswordVisible ? 'text' : 'password'}
+            label='Confirmer le mot de passe'
+            name='confirmPassword'
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            isRequired
+            labelPlacement='inside'
+            className='max-w-xs m-auto'
+            radius='sm'
+            endContent={
+              <button
+                className='focus:outline-none'
+                type='button'
+                onClick={toggleConfirmPasswordVisibility}
+                aria-label='toggle confirm password visibility'
+              >
+                {!isConfirmPasswordVisible
+                  ? (
+                    <EyeSlashFilledIcon className='text-2xl text-default-400 pointer-events-none' />
+                    )
+                  : (
+                    <EyeFilledIcon className='text-2xl text-default-400 pointer-events-none' />
+                    )}
+              </button>
+            }
+          />
+        </div>
+
+        <div className='flex gap-4'>
+          <Input
+            type='text'
+            label='Nom'
+            name='nom'
+            value={formData.nom}
+            onChange={handleChange}
+            isRequired
+            labelPlacement='inside'
+            className='max-w-xs m-auto'
+            radius='sm'
+          />
+
+          <Input
+            type='text'
+            label='Prénom'
+            name='prenom'
+            isRequired
+            value={formData.prenom}
+            onChange={handleChange}
+            labelPlacement='inside'
+            className='max-w-xs m-auto'
+            radius='sm'
+          />
+        </div>
 
         {/* Cases à cocher pour les troubles */}
-        <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-bold mb-2'>Troubles</label>
-          {['dyscalculie', 'dysgraphie', 'dyslexie', 'dysorthographie', 'dysphasie', 'troubleAttention'].map((trouble) => (
-            <div key={trouble} className='flex items-center mb-2'>
-              <input
-                type='checkbox'
-                name={trouble}
-                checked={formData[trouble]}
-                onChange={handleChange}
-                className='mr-2'
-              />
-              <label className='text-gray-700 capitalize'>{trouble}</label>
-            </div>
-          ))}
+        <label className='block text-primary font-bold text-lg mt-4'>Quels sont les troubles de l'enfant ?</label>
+        <div className='flex flex-wrap gap-4 justify-center mb-4'>
+          <div className='flex items-center mb-2'>
+            <Checkbox
+              isSelected={formData.dyscalculie}
+              onChange={() => setFormData({ ...formData, dyscalculie: !formData.dyscalculie })}
+              className='mr-2'
+            />
+            <label className='text-gray-500'>Dyscalculie</label>
+          </div>
+          <div className='flex items-center mb-2'>
+            <Checkbox
+              isSelected={formData.dysgraphie}
+              onChange={() => setFormData({ ...formData, dysgraphie: !formData.dysgraphie })}
+              className='mr-2'
+            />
+            <label className='text-gray-500'>Dysgraphie</label>
+          </div>
+          <div className='flex items-center mb-2'>
+            <Checkbox
+              isSelected={formData.dyslexie}
+              onChange={() => setFormData({ ...formData, dyslexie: !formData.dyslexie })}
+              className='mr-2'
+            />
+            <label className='text-gray-500'>Dyslexie</label>
+          </div>
+          <div className='flex items-center mb-2'>
+            <Checkbox
+              isSelected={formData.dysorthographie}
+              onChange={() => setFormData({ ...formData, dysorthographie: !formData.dysorthographie })}
+              className='mr-2'
+            />
+            <label className='text-gray-500'>Dysorthographie</label>
+          </div>
+          <div className='flex items-center mb-2'>
+            <Checkbox
+              isSelected={formData.dysphasie}
+              onChange={() => setFormData({ ...formData, dysphasie: !formData.dysphasie })}
+              className='mr-2'
+            />
+            <label className='text-gray-500'>Dysphasie</label>
+          </div>
+          <div className='flex items-center mb-2'>
+            <Checkbox
+              isSelected={formData.troubleAttention}
+              onChange={() => setFormData({ ...formData, troubleAttention: !formData.troubleAttention })}
+              className='mr-2'
+            />
+            <label className='text-gray-500'>Trouble de l'attention</label>
+          </div>
         </div>
 
         {/* Bouton de soumission */}
