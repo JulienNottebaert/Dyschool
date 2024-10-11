@@ -15,8 +15,7 @@ module.exports = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
       }
     }
   },
@@ -29,32 +28,33 @@ module.exports = {
             background: '#fafafa',
             foreground: '#262626',
             primary: {
-              50: '#FDF3EC',
-              100: '#FBE0D1',
-              200: '#F8BC9C',
-              300: '#F59868',
-              400: '#F27533',
-              500: '#F18B4A', // Default color
-              600: '#C0663C',
-              700: '#8F482D',
-              800: '#5E2B1E',
-              900: '#2E0E0F',
-              950: '#1A0808',
+              50: '#FEEBE4',
+              100: '#FDD6C8',
+              200: '#FBB095',
+              300: '#F88B61',
+              400: '#F5652E',
+              500: '#EB611C', // Orange
+              600: '#BC4D17',
+              700: '#8C3911',
+              800: '#5D260B',
+              900: '#2E1306',
+              950: '#170903',
               foreground: '#ffffff',
-              DEFAULT: '#F18B4A'
+              DEFAULT: '#EB611C'
             },
             secondary: {
-              50: '#EDE7F3',
-              100: '#D9CBE7',
-              200: '#B399CF',
-              300: '#8C66B7',
-              400: '#66348F',
-              500: '#67378C', // Default color
-              600: '#4C2967',
-              700: '#331C44',
-              800: '#190E22',
-              900: '#0A030E',
-              950: '#060207'
+              50: '#E1F0F1',
+              100: '#BCE2E4',
+              200: '#82C5C8',
+              300: '#48A9AB',
+              400: '#0F8D8F',
+              500: '#095C67', // Vert personnalisé
+              600: '#07484F',
+              700: '#053437',
+              800: '#03221E',
+              900: '#01110F',
+              950: '#000809',
+              DEFAULT: '#095C67' // Définir cette couleur comme la couleur par défaut de secondary
             }
           }
         },
@@ -63,32 +63,33 @@ module.exports = {
             background: '#18181d',
             foreground: '#fafafa',
             primary: {
-              50: '#FDF3EC',
-              100: '#FBE0D1',
-              200: '#F8BC9C',
-              300: '#F59868',
-              400: '#F27533',
-              500: '#F18B4A', // Default color
-              600: '#C0663C',
-              700: '#8F482D',
-              800: '#5E2B1E',
-              900: '#2E0E0F',
-              950: '#1A0808',
+              50: '#FEEBE4',
+              100: '#FDD6C8',
+              200: '#FBB095',
+              300: '#F88B61',
+              400: '#F5652E',
+              500: '#EB611C', // Orange
+              600: '#BC4D17',
+              700: '#8C3911',
+              800: '#5D260B',
+              900: '#2E1306',
+              950: '#170903',
               foreground: '#ffffff',
-              DEFAULT: '#F18B4A'
+              DEFAULT: '#EB611C'
             },
             secondary: {
-              50: '#EDE7F3',
-              100: '#D9CBE7',
-              200: '#B399CF',
-              300: '#8C66B7',
-              400: '#66348F',
-              500: '#67378C', // Default color
-              600: '#4C2967',
-              700: '#331C44',
-              800: '#190E22',
-              900: '#0A030E',
-              950: '#060207'
+              50: '#E1F0F1',
+              100: '#BCE2E4',
+              200: '#82C5C8',
+              300: '#48A9AB',
+              400: '#0F8D8F',
+              500: '#095C67', // Vert personnalisé
+              600: '#07484F',
+              700: '#053437',
+              800: '#03221E',
+              900: '#01110F',
+              950: '#000809',
+              DEFAULT: '#095C67' // Définir cette couleur comme la couleur par défaut de secondary
             }
           }
         }

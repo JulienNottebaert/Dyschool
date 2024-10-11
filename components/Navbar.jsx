@@ -2,7 +2,7 @@
 
 import { Chip, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
 import { useAuth } from '@/app/context/authContext' // Utiliser le contexte Auth
-import Logo from '@/public/asset/logo.png'
+import Logo from '@/public/asset/dyschool.png'
 import Image from 'next/image'
 import Link from 'next/link' // Utiliser Link directement de Next.js
 
@@ -60,7 +60,7 @@ function CustomNavbar () {
       <NavbarContent>
         <NavbarBrand>
           <Link href='/' className='cursor-pointer'>
-            <Image src={Logo} width={65} height={65} alt='Logo' />
+            <Image src={Logo} width={100} height={100} alt='Logo' />
           </Link>
         </NavbarBrand>
       </NavbarContent>

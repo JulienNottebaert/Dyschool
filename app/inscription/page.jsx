@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation' // Utilisation de useRouter
 import { auth, db } from '@/lib/firebase' // Assurez-vous que Firebase est bien configuré
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
+import { Input } from '@nextui-org/react'
+import Image from 'next/image'
+import LogoDyschool from '@/public/asset/dyschool.png'
 
 export default function InscriptionPage () {
   const [formData, setFormData] = useState({
@@ -67,73 +70,66 @@ export default function InscriptionPage () {
   }
 
   return (
-    <div className='h-screen flex justify-center items-center text-center px-5'>
-      <form onSubmit={handleSubmit} className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
-        <h1 className='text-2xl mb-4'>Inscription</h1>
+    <div className='my-28 flex flex-col justify-center items-center text-center px-5'>
+      <Image src={LogoDyschool} alt='Logo' width={200} height={200} className='mb-16' />
+      <form onSubmit={handleSubmit} className='flex flex-col gap-6 max-w-2xl w-full'>
+        <h2 className='font-bold text-primary text-4xl mb-4'>Inscription</h2>
 
+        {/* Afficher l'erreur en cas de problème */}
         {error && <p className='text-red-500'>{error}</p>}
 
         {/* Champs du formulaire */}
-        <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='nom'>
-            Nom
-          </label>
-          <input
-            name='nom'
-            type='text'
-            value={formData.nom}
-            onChange={handleChange}
-            required
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700'
-          />
-        </div>
+        <Input
+          type='text'
+          label='Nom'
+          name='nom'
+          value={formData.nom}
+          onChange={handleChange}
+          required
+          labelPlacement='inside'
+          className='max-w-xs m-auto'
+          radius='sm'
+        />
 
-        <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='prenom'>
-            Prénom
-          </label>
-          <input
-            name='prenom'
-            type='text'
-            value={formData.prenom}
-            onChange={handleChange}
-            required
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700'
-          />
-        </div>
+        <Input
+          type='text'
+          label='Prénom'
+          name='prenom'
+          value={formData.prenom}
+          onChange={handleChange}
+          required
+          labelPlacement='inside'
+          className='max-w-xs m-auto'
+          radius='sm'
+        />
 
-        <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='email'>
-            Email
-          </label>
-          <input
-            name='email'
-            type='email'
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700'
-          />
-        </div>
+        <Input
+          type='email'
+          label='Email'
+          name='email'
+          value={formData.email}
+          onChange={handleChange}
+          required
+          labelPlacement='inside'
+          className='max-w-xs m-auto'
+          radius='sm'
+        />
 
-        <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='password'>
-            Mot de passe
-          </label>
-          <input
-            name='password'
-            type='password'
-            value={formData.password}
-            onChange={handleChange}
-            required
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700'
-          />
-        </div>
+        <Input
+          type='password'
+          label='Mot de passe'
+          name='password'
+          value={formData.password}
+          onChange={handleChange}
+          required
+          labelPlacement='inside'
+          className='max-w-xs m-auto'
+          radius='sm'
+        />
 
         {/* Cases à cocher pour les troubles */}
         <div className='mb-4'>
           <label className='block text-gray-700 text-sm font-bold mb-2'>Troubles</label>
-
           {['dyscalculie', 'dysgraphie', 'dyslexie', 'dysorthographie', 'dysphasie', 'troubleAttention'].map((trouble) => (
             <div key={trouble} className='flex items-center mb-2'>
               <input
@@ -148,13 +144,16 @@ export default function InscriptionPage () {
           ))}
         </div>
 
-        <button
-          type='submit'
-          className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-          disabled={loading}
-        >
-          {loading ? 'Inscription en cours...' : "S'inscrire"}
-        </button>
+        {/* Bouton de soumission */}
+        <div className='flex items-center justify-center'>
+          <button
+            type='submit'
+            className='bg-secondary hover:bg-secondary-600 text-white font-bold py-4 px-8 rounded-lg transition duration-200 uppercase max-w-xs w-full'
+            disabled={loading} // Désactiver le bouton pendant le chargement
+          >
+            {loading ? 'Inscription en cours...' : "S'inscrire"}
+          </button>
+        </div>
       </form>
     </div>
   )
