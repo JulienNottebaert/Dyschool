@@ -10,7 +10,8 @@ import Image from 'next/image'
 import LogoDyschool from '@/public/asset/dyschool.png'
 import { EyeFilledIcon } from './EyeFilledIcon'
 import { EyeSlashFilledIcon } from './EyeSlashFilledIcon'
-
+import Link
+ from 'next/link'
 export default function InscriptionPage () {
   const [formData, setFormData] = useState({
     email: '',
@@ -37,7 +38,7 @@ export default function InscriptionPage () {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // Si l'utilisateur est connecté, redirige vers le tableau de bord
+        // Après une inscription réussie, rediriger vers /troubles
         router.push('/dashboard')
       }
     })
@@ -76,15 +77,7 @@ export default function InscriptionPage () {
       await setDoc(doc(db, 'users', user.uid), {
         nom: formData.nom,
         prenom: formData.prenom,
-        email: formData.email,
-        troubles: {
-          dyscalculie: formData.dyscalculie,
-          dysgraphie: formData.dysgraphie,
-          dyslexie: formData.dyslexie,
-          dysorthographie: formData.dysorthographie,
-          dysphasie: formData.dysphasie,
-          troubleAttention: formData.troubleAttention
-        }
+        email: formData.email
       })
 
       // Rediriger immédiatement après l'inscription réussie
@@ -97,7 +90,7 @@ export default function InscriptionPage () {
   }
 
   return (
-    <div className='my-12 flex flex-col justify-center items-center text-center px-5'>
+    <div className='my-28 flex flex-col justify-center items-center text-center px-5' >
       <Image src={LogoDyschool} alt='Logo' width={250} height={250} className='mb-16' />
       <form onSubmit={handleSubmit} className='flex flex-col gap-6 max-w-2xl w-full'>
         <h2 className='font-bold text-primary text-4xl mb-4'>Inscription</h2>
@@ -117,6 +110,32 @@ export default function InscriptionPage () {
           className='w-full'
           radius='sm'
         />
+
+<div className='flex gap-4'>
+          <Input
+            type='text'
+            label='Nom'
+            name='nom'
+            value={formData.nom}
+            onChange={handleChange}
+            isRequired
+            labelPlacement='inside'
+            className='max-w-xs m-auto'
+            radius='sm'
+          />
+
+          <Input
+            type='text'
+            label='Prénom'
+            name='prenom'
+            isRequired
+            value={formData.prenom}
+            onChange={handleChange}
+            labelPlacement='inside'
+            className='max-w-xs m-auto'
+            radius='sm'
+          />
+        </div>
 
         <div className='flex gap-4'>
           <Input
@@ -176,87 +195,8 @@ export default function InscriptionPage () {
           />
         </div>
 
-        <div className='flex gap-4'>
-          <Input
-            type='text'
-            label='Nom'
-            name='nom'
-            value={formData.nom}
-            onChange={handleChange}
-            isRequired
-            labelPlacement='inside'
-            className='max-w-xs m-auto'
-            radius='sm'
-          />
-
-          <Input
-            type='text'
-            label='Prénom'
-            name='prenom'
-            isRequired
-            value={formData.prenom}
-            onChange={handleChange}
-            labelPlacement='inside'
-            className='max-w-xs m-auto'
-            radius='sm'
-          />
-        </div>
-
-        {/* Cases à cocher pour les troubles */}
-        <label className='block text-primary font-bold text-lg mt-4'>Quels sont les troubles de l'enfant ?</label>
-        <div className='flex flex-wrap gap-4 justify-center mb-4'>
-          <div className='flex items-center mb-2'>
-            <Checkbox
-              isSelected={formData.dyscalculie}
-              onChange={() => setFormData({ ...formData, dyscalculie: !formData.dyscalculie })}
-              className='mr-2'
-            />
-            <label className='text-gray-500'>Dyscalculie</label>
-          </div>
-          <div className='flex items-center mb-2'>
-            <Checkbox
-              isSelected={formData.dysgraphie}
-              onChange={() => setFormData({ ...formData, dysgraphie: !formData.dysgraphie })}
-              className='mr-2'
-            />
-            <label className='text-gray-500'>Dysgraphie</label>
-          </div>
-          <div className='flex items-center mb-2'>
-            <Checkbox
-              isSelected={formData.dyslexie}
-              onChange={() => setFormData({ ...formData, dyslexie: !formData.dyslexie })}
-              className='mr-2'
-            />
-            <label className='text-gray-500'>Dyslexie</label>
-          </div>
-          <div className='flex items-center mb-2'>
-            <Checkbox
-              isSelected={formData.dysorthographie}
-              onChange={() => setFormData({ ...formData, dysorthographie: !formData.dysorthographie })}
-              className='mr-2'
-            />
-            <label className='text-gray-500'>Dysorthographie</label>
-          </div>
-          <div className='flex items-center mb-2'>
-            <Checkbox
-              isSelected={formData.dysphasie}
-              onChange={() => setFormData({ ...formData, dysphasie: !formData.dysphasie })}
-              className='mr-2'
-            />
-            <label className='text-gray-500'>Dysphasie</label>
-          </div>
-          <div className='flex items-center mb-2'>
-            <Checkbox
-              isSelected={formData.troubleAttention}
-              onChange={() => setFormData({ ...formData, troubleAttention: !formData.troubleAttention })}
-              className='mr-2'
-            />
-            <label className='text-gray-500'>Trouble de l'attention</label>
-          </div>
-        </div>
-
         {/* Bouton de soumission */}
-        <div className='flex items-center justify-center'>
+        <div className='flex items-center justify-center mt-6'>
           <button
             type='submit'
             className='bg-secondary hover:bg-secondary-600 text-white font-bold py-4 px-8 rounded-lg transition duration-200 uppercase max-w-xs w-full'
@@ -265,6 +205,7 @@ export default function InscriptionPage () {
             {loading ? 'Inscription en cours...' : "S'inscrire"}
           </button>
         </div>
+        <Link href='/connexion' className='hover:underline text-primary-300'>Déjà inscrit ? Connecte toi</Link>
       </form>
     </div>
   )

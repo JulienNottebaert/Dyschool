@@ -26,6 +26,13 @@ const LoggedInNavItems = ({ user, logout }) => {
           Déconnexion
         </Chip>
       </NavbarItem>
+      <NavbarItem>
+        <Link href='/dashboard'>
+          <Chip color='secondary' variant='solid' className='px-3'>
+            Tableau de bord
+          </Chip>
+        </Link>
+      </NavbarItem>
     </>
   )
 }
@@ -48,6 +55,7 @@ const LoggedOutNavItems = () => {
           </Chip>
         </Link>
       </NavbarItem>
+      
     </>
   )
 }
