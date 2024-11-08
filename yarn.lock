@@ -702,7 +702,7 @@
     "@react-types/combobox" "3.11.1"
     "@react-types/shared" "3.23.1"
 
-"@nextui-org/avatar@2.0.33":
+"@nextui-org/avatar@2.0.33", "@nextui-org/avatar@^2.0.33":
   version "2.0.33"
   resolved "https://registry.yarnpkg.com/@nextui-org/avatar/-/avatar-2.0.33.tgz#1fe5d199bdc7967a0e19b4a422caf4a832e88740"
   integrity sha512-SPnIKM+34T/a+KCRCBiG8VwMBzu2/bap7IPHhmICtQ6KmG8Dzmazj3tGZsVt7HjhMRVY7e1vzev4IMaHqkIdRg==
@@ -884,7 +884,7 @@
     "@nextui-org/system-rsc" "2.1.6"
     "@react-types/shared" "3.23.1"
 
-"@nextui-org/dropdown@2.1.31", "@nextui-org/dropdown@^2.1.23":
+"@nextui-org/dropdown@2.1.31", "@nextui-org/dropdown@^2.1.31":
   version "2.1.31"
   resolved "https://registry.yarnpkg.com/@nextui-org/dropdown/-/dropdown-2.1.31.tgz#4606509b00101f9a04a420400837485fe0390081"
   integrity sha512-tP6c5MAhWK4hJ6U02oX6APUpjjrn97Zn7t+56Xx4YyQOSj0CJx18VF0JsU+MrjFZxPX3UBKU3B2zGBHOEGE4Kw==

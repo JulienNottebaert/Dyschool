@@ -19,12 +19,15 @@ export default function InscriptionPage () {
     confirmPassword: '',
     nom: '',
     prenom: '',
-    dyscalculie: false,
-    dysgraphie: false,
-    dyslexie: false,
-    dysorthographie: false,
-    dysphasie: false,
-    troubleAttention: false
+    troubles: {
+      dyscalculie: false,
+      dysgraphie: false,
+      dyslexie: false,
+      dysorthographie: false,
+      dysphasie: false,
+      dyspraxie: false,
+      dyséxécutif: false,
+    },
   })
 
   const [error, setError] = useState('')
@@ -77,7 +80,16 @@ export default function InscriptionPage () {
       await setDoc(doc(db, 'users', user.uid), {
         nom: formData.nom,
         prenom: formData.prenom,
-        email: formData.email
+        email: formData.email,
+        troubles: {
+          dyscalculie: false,
+          dysgraphie: false,
+          dyslexie: false,
+          dysorthographie: false,
+          dysphasie: false,
+          dyspraxie: false,
+          dyséxécutif: false,
+        },
       })
 
       // Rediriger immédiatement après l'inscription réussie
@@ -111,7 +123,7 @@ export default function InscriptionPage () {
           radius='sm'
         />
 
-<div className='flex gap-4'>
+      <div className='flex gap-4'>
           <Input
             type='text'
             label='Nom'

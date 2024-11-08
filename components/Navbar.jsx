@@ -1,43 +1,51 @@
 'use client'
 
-import { Chip, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/react'
-import { useAuth } from '@/app/context/authContext' // Utiliser le contexte Auth
+import { useState, useEffect } from 'react'
+import { Chip, Navbar, NavbarBrand, NavbarContent, NavbarItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/react'
+import { auth, db } from '@/lib/firebase'
 import Logo from '@/public/asset/dyschool.png'
 import Image from 'next/image'
-import Link from 'next/link' // Utiliser Link directement de Next.js
+import Link from 'next/link'
+import User from '@/public/asset/navbar/user.png'
+import { onAuthStateChanged } from 'firebase/auth'
+import { doc, getDoc } from 'firebase/firestore'
+import { useRouter, usePathname } from 'next/navigation'
 
 // Fonction pour afficher les options lorsque l'utilisateur est connecté
-const LoggedInNavItems = ({ user, logout }) => {
+const LoggedInNavItems = ({ prenom, logout }) => {
+  const router = useRouter()
+
   return (
     <>
-      <NavbarItem>
-        <span className='text-secondary'>
-          {user.displayName ? user.displayName : user.email} {/* Affichage de l'email ou nom d'utilisateur */}
+      <NavbarItem>  
+        <span className='font-bold text-secondary'>
+          {prenom || 'Prénom non disponible'}
         </span>
       </NavbarItem>
 
+      {/* Menu déroulant pour l'utilisateur */}
       <NavbarItem>
-        <Chip
-          color='secondary'
-          variant='solid'
-          className='px-3 cursor-pointer'
-          onClick={logout}
-        >
-          Déconnexion
-        </Chip>
-      </NavbarItem>
-      <NavbarItem>
-        <Link href='/dashboard'>
-          <Chip color='secondary' variant='solid' className='px-3'>
-            Tableau de bord
-          </Chip>
-        </Link>
+        <Dropdown>
+          <DropdownTrigger>
+            <Image src={User} width={30} height={30} alt='user' className='cursor-pointer' />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="User menu">
+            <DropdownItem onClick={() => router.push('/dashboard')}>
+              Tableau de bord
+            </DropdownItem>
+            <DropdownItem onClick={() => router.push('/dashboard/profil')}>
+              Profil
+            </DropdownItem>
+            <DropdownItem onClick={logout}>
+              Déconnexion
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </NavbarItem>
     </>
   )
 }
 
-// Fonction pour afficher les options lorsque l'utilisateur est déconnecté
 const LoggedOutNavItems = () => {
   return (
     <>
@@ -55,16 +63,50 @@ const LoggedOutNavItems = () => {
           </Chip>
         </Link>
       </NavbarItem>
-      
     </>
   )
 }
 
-function CustomNavbar () {
-  const { user, logout } = useAuth() // Récupérer l'utilisateur et la fonction logout depuis le contexte
+function CustomNavbar() {
+  const [prenom, setPrenom] = useState('')
+  const [user, setUser] = useState(null)
+  const pathname = usePathname()
+
+  const isDashboard = pathname.startsWith('/dashboard') // Vérifie si on est sur /dashboard
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
+      if (authUser) {
+        setUser(authUser)
+        const userDoc = await getDoc(doc(db, 'users', authUser.uid))
+        if (userDoc.exists()) {
+          setPrenom(userDoc.data().prenom)
+        }
+      } else {
+        setUser(null)
+        setPrenom('')
+      }
+    })
+
+    return () => unsubscribe()
+  }, [])
+
+  const logout = async () => {
+    await auth.signOut()
+    setUser(null)
+    setPrenom('')
+  }
+
+  // Ne pas afficher la Navbar si on est sur la page du dashboard
+  if (isDashboard) {
+    return null
+  }
 
   return (
-    <Navbar isBordered shouldHideOnScroll>
+    <Navbar 
+      isBordered 
+      shouldHideOnScroll
+    >
       <NavbarContent>
         <NavbarBrand>
           <Link href='/' className='cursor-pointer'>
@@ -74,8 +116,7 @@ function CustomNavbar () {
       </NavbarContent>
 
       <NavbarContent justify='end'>
-        {/* Vérifie si l'utilisateur est connecté et rend les éléments correspondants */}
-        {user ? <LoggedInNavItems user={user} logout={logout} /> : <LoggedOutNavItems />}
+        {user ? <LoggedInNavItems prenom={prenom} logout={logout} /> : <LoggedOutNavItems />}
       </NavbarContent>
     </Navbar>
   )
