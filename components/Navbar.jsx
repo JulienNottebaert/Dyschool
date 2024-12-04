@@ -1,25 +1,24 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Chip, Navbar, NavbarBrand, NavbarContent, NavbarItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@nextui-org/react'
+import { Chip, Navbar, NavbarBrand, NavbarContent, NavbarItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from '@nextui-org/react'
 import { auth, db } from '@/lib/firebase'
 import Logo from '@/public/asset/dyschool.png'
 import Image from 'next/image'
 import Link from 'next/link'
-import User from '@/public/asset/navbar/user.png'
 import { onAuthStateChanged } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { useRouter, usePathname } from 'next/navigation'
 
 // Fonction pour afficher les options lorsque l'utilisateur est connecté
-const LoggedInNavItems = ({ prenom, logout }) => {
+const LoggedInNavItems = ({ userData, logout }) => {
   const router = useRouter()
 
   return (
     <>
-      <NavbarItem>  
+      <NavbarItem>
         <span className='font-bold text-secondary'>
-          {prenom || 'Prénom non disponible'}
+          {userData?.prenom || 'Prénom non disponible'} {userData?.nom || 'Prénom non disponible'}
         </span>
       </NavbarItem>
 
@@ -27,9 +26,18 @@ const LoggedInNavItems = ({ prenom, logout }) => {
       <NavbarItem>
         <Dropdown>
           <DropdownTrigger>
-            <Image src={User} width={30} height={30} alt='user' className='cursor-pointer' />
+            <Avatar
+              className='cursor-pointer'
+              isBordered
+              src={
+                userData?.photoURL ||
+                'https://firebasestorage.googleapis.com/v0/b/dyschool-4ca88.firebasestorage.app/o/profil.png?alt=media&token=ee71c4c6-b87f-4e2d-88ee-efb2fec1f4b3'
+              }
+              alt={`${userData?.nom || 'Utilisateur'} ${userData?.prenom || ''}`}
+              size='md'
+            />
           </DropdownTrigger>
-          <DropdownMenu aria-label="User menu">
+          <DropdownMenu aria-label='User menu'>
             <DropdownItem onClick={() => router.push('/dashboard')}>
               Tableau de bord
             </DropdownItem>
@@ -67,8 +75,8 @@ const LoggedOutNavItems = () => {
   )
 }
 
-function CustomNavbar() {
-  const [prenom, setPrenom] = useState('')
+function CustomNavbar () {
+  const [userData, setUserData] = useState(null)
   const [user, setUser] = useState(null)
   const pathname = usePathname()
 
@@ -80,11 +88,11 @@ function CustomNavbar() {
         setUser(authUser)
         const userDoc = await getDoc(doc(db, 'users', authUser.uid))
         if (userDoc.exists()) {
-          setPrenom(userDoc.data().prenom)
+          setUserData(userDoc.data())
         }
       } else {
         setUser(null)
-        setPrenom('')
+        setUserData(null)
       }
     })
 
@@ -94,7 +102,7 @@ function CustomNavbar() {
   const logout = async () => {
     await auth.signOut()
     setUser(null)
-    setPrenom('')
+    setUserData(null)
   }
 
   // Ne pas afficher la Navbar si on est sur la page du dashboard
@@ -103,8 +111,8 @@ function CustomNavbar() {
   }
 
   return (
-    <Navbar 
-      isBordered 
+    <Navbar
+      isBordered
       shouldHideOnScroll
     >
       <NavbarContent>
@@ -116,7 +124,13 @@ function CustomNavbar() {
       </NavbarContent>
 
       <NavbarContent justify='end'>
-        {user ? <LoggedInNavItems prenom={prenom} logout={logout} /> : <LoggedOutNavItems />}
+        {user
+          ? (
+            <LoggedInNavItems userData={userData} logout={logout} />
+            )
+          : (
+            <LoggedOutNavItems />
+            )}
       </NavbarContent>
     </Navbar>
   )

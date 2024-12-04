@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Chip } from '@nextui-org/chip'
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Checkbox } from '@nextui-org/react'
 import Image from 'next/image'
@@ -9,12 +9,12 @@ import { useRouter } from 'next/navigation'
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { onAuthStateChanged } from 'firebase/auth'
-import UserPlaceholder from '@/public/asset/navbar/user.png'
 import Crayon from '@/public/asset/profile/outil-crayon.png'
 
 export default function Profil () {
   const [visible, setVisible] = useState(false)
   const [userData, setUserData] = useState({
+    email: '',
     nom: '',
     prenom: '',
     photoURL: '',
@@ -29,6 +29,7 @@ export default function Profil () {
     }
   })
   const [loading, setLoading] = useState(true)
+  const fileInputRef = useRef(null)
   const router = useRouter()
 
   const troubleKeys = [
@@ -52,6 +53,7 @@ export default function Profil () {
           if (userDoc.exists()) {
             const data = userDoc.data()
             setUserData({
+              email: user.email || '',
               nom: data.nom || '',
               prenom: data.prenom || '',
               photoURL: data.photoURL || '', // URL de la photo de profil
@@ -118,30 +120,42 @@ export default function Profil () {
       setUserData((prev) => ({ ...prev, photoURL }))
       await updateDoc(doc(db, 'users', user.uid), { photoURL })
     } catch (error) {
-      console.error("Erreur lors de l'upload :", error.message)
+      console.error('Erreur lors de l\'upload :', error.message)
     }
   }
+
+  const triggerFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click()
+    }
+  }
+
   if (loading) {
     return <p>Chargement...</p>
   }
 
   return (
     <div className='flex gap-8'>
-      <div className='bg-white flex flex-col gap-4 p-8 shadow-lg rounded-lg max-w-80 items-center'>
+      <div className='bg-white flex flex-col gap-4 p-8 shadow-lg rounded-lg w-80 items-center'>
         <div className='relative w-[150px] h-[150px]'>
-          {/* Image de profil avec rounded */}
-          <Image
-            src={userData.photoURL || UserPlaceholder}
-            alt='Photo profil utilisateur'
-            fill
-            style={{ objectFit: 'cover', borderRadius: '50%' }} // Applique le rounded directement à l'image
-            priority
-            className='z-0'
-          />
-          {/* Bouton du crayon */}
+          {/* Image de profil avec rounded et clic pour modifier */}
+          <div
+            className='w-full h-full cursor-pointer rounded-full overflow-hidden'
+            onClick={triggerFileInput}
+          >
+            <Image
+              src={userData.photoURL || 'https://firebasestorage.googleapis.com/v0/b/dyschool-4ca88.firebasestorage.app/o/profil.png?alt=media&token=ee71c4c6-b87f-4e2d-88ee-efb2fec1f4b3'}
+              alt='Photo profil utilisateur'
+              fill
+              style={{ objectFit: 'cover', borderRadius: '50%' }} // Assure l'arrondi
+              priority
+            />
+          </div>
+          {/* Bouton crayon */}
           <label
             htmlFor='profileImage'
-            className='absolute top-2 right-2 bg-secondary-100 p-2 rounded-full cursor-pointer flex items-center justify-center w-8 h-8 shadow-lg z-10'
+            className='absolute top-2 right-2 bg-secondary hover:bg-secondary-400 ease-in-out duration-300 p-2 rounded-full cursor-pointer flex items-center justify-center w-8 h-8 shadow-lg z-10'
+            onClick={triggerFileInput}
           >
             <Image
               src={Crayon}
@@ -149,9 +163,10 @@ export default function Profil () {
               className='w-full h-full object-contain'
             />
           </label>
+          {/* Input caché pour upload */}
           <input
             type='file'
-            id='profileImage'
+            ref={fileInputRef}
             accept='image/*'
             onChange={handleImageUpload}
             className='hidden'
@@ -163,20 +178,18 @@ export default function Profil () {
         <div className='flex gap-2 flex-wrap justify-center'>
           {troubleKeys.map((trouble) => (
             userData.troubles[trouble] && (
-              <Chip key={trouble} variant='flat' radius='md' color='primary'>
+              <Chip key={trouble} variant='flat' radius='md' color='primary' size='sm'>
                 {trouble.charAt(0).toUpperCase() + trouble.slice(1)}
               </Chip>
             )
           ))}
         </div>
 
+        <p className='w-80 px-8 text-center truncate'>{userData.email}</p>
+
         <Button size='md' radius='sm' color='secondary' onClick={openModal} className='w-32'>
           Modifier
         </Button>
-      </div>
-
-      <div className='bg-white shadow-lg rounded-lg px-8'>
-        <h1>Le reste</h1>
       </div>
 
       <Modal isOpen={visible} onClose={closeModal}>

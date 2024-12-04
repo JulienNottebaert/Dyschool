@@ -1,12 +1,12 @@
 'use client'
 
-import { Avatar } from '@nextui-org/react'
+import { Avatar, DropdownMenu, DropdownItem, Dropdown, DropdownTrigger } from '@nextui-org/react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { auth, db } from '@/lib/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, onSnapshot } from 'firebase/firestore'
 import Image from 'next/image'
 
 import Logo from '@/public/asset/dyschool.png'
@@ -16,7 +16,6 @@ import Logout from '@/public/asset/navbar/logout.png'
 import Jeux from '@/public/asset/navbar/jeux.png'
 
 export default function DashboardLayout ({ children }) {
-  const [user, setUser] = useState(null)
   const [userData, setUserData] = useState(null)
   const router = useRouter()
   const pathname = usePathname()
@@ -30,19 +29,19 @@ export default function DashboardLayout ({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setUser(user)
-
-        try {
-          const userDoc = await getDoc(doc(db, 'users', user.uid))
-          if (userDoc.exists()) {
-            setUserData(userDoc.data())
+    const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
+      if (authUser) {
+        // Écoute en temps réel des données utilisateur
+        const userRef = doc(db, 'users', authUser.uid)
+        const unsubscribeSnapshot = onSnapshot(userRef, (docSnapshot) => {
+          if (docSnapshot.exists()) {
+            setUserData(docSnapshot.data())
           }
-        } catch (error) {
-          console.error('Erreur lors de la récupération des données utilisateur :', error)
-        }
+        })
+
+        return () => unsubscribeSnapshot()
       } else {
+        setUserData(null)
         router.push('/connexion') // Rediriger vers la connexion si non connecté
       }
     })
@@ -104,13 +103,37 @@ export default function DashboardLayout ({ children }) {
             {userData
               ? (
                 <>
-                  <Avatar
-                    isBordered
-                    src={userData.photoURL || 'https://firebasestorage.googleapis.com/v0/b/dyschool-4ca88.firebasestorage.app/o/profil.png?alt=media&token=ee71c4c6-b87f-4e2d-88ee-efb2fec1f4b3'}
-                    alt={`${userData.nom} ${userData.prenom}`}
-                    size='md'
-                  />
                   <span className='font-medium text-gray-700'>{`${userData.nom} ${userData.prenom}`}</span>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Avatar
+                        className='mr-4 cursor-pointer'
+                        isBordered
+                        src={
+                        userData?.photoURL ||
+                        'https://firebasestorage.googleapis.com/v0/b/dyschool-4ca88.firebasestorage.app/o/profil.png?alt=media&token=ee71c4c6-b87f-4e2d-88ee-efb2fec1f4b3'
+                      }
+                        alt={`${userData?.nom || 'Utilisateur'} ${userData?.prenom || ''}`}
+                        size='md'
+                      />
+                    </DropdownTrigger>
+                    <DropdownMenu aria-label='User menu'>
+                      <DropdownItem onClick={() => router.push('/dashboard')}>
+                        Tableau de bord
+                      </DropdownItem>
+                      <DropdownItem onClick={() => router.push('/dashboard/profil')}>
+                        Profil
+                      </DropdownItem>
+                      <DropdownItem
+                        onClick={() => {
+                          auth.signOut()
+                          router.push('/connexion')
+                        }}
+                      >
+                        Déconnexion
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                 </>
                 )
               : (
