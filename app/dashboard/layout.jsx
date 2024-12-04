@@ -1,34 +1,47 @@
-// components/DashboardLayout.jsx
 'use client'
 
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Avatar} from "@nextui-org/react";
+import { Avatar } from '@nextui-org/react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { auth } from '@/lib/firebase'
+import { auth, db } from '@/lib/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
+import { doc, getDoc } from 'firebase/firestore'
 import Image from 'next/image'
+
 import Logo from '@/public/asset/dyschool.png'
-import User from '@/public/asset/navbar/user.png'
+import UserLogo from '@/public/asset/navbar/user.png'
 import Dashboard from '@/public/asset/navbar/dashboard.png'
 import Logout from '@/public/asset/navbar/logout.png'
+import Jeux from '@/public/asset/navbar/jeux.png'
 
-export default function DashboardLayout({ children }) {
+export default function DashboardLayout ({ children }) {
   const [user, setUser] = useState(null)
+  const [userData, setUserData] = useState(null)
   const router = useRouter()
   const pathname = usePathname()
 
   // Définir dynamiquement le titre de la section en fonction de la route
   const sectionTitle = () => {
-    if (pathname === '/dashboard') return 'Dashboard'
+    if (pathname === '/dashboard') return 'Tableau de bord'
     if (pathname === '/dashboard/profil') return 'Profil'
+    if (pathname === '/dashboard/jeux') return 'Jeux'
     return 'Section'
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUser(user)
+
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid))
+          if (userDoc.exists()) {
+            setUserData(userDoc.data())
+          }
+        } catch (error) {
+          console.error('Erreur lors de la récupération des données utilisateur :', error)
+        }
       } else {
         router.push('/connexion') // Rediriger vers la connexion si non connecté
       }
@@ -37,26 +50,35 @@ export default function DashboardLayout({ children }) {
     return () => unsubscribe()
   }, [router])
 
+  // Fonction utilitaire pour vérifier si un lien est actif
+  const isActiveLink = (link) => pathname === link
+
   return (
-    <div className="flex">
+    <div className='flex'>
       {/* Sidebar fixe */}
-      <aside className="w-64 bg-white h-screen p-4 fixed border">
+      <aside className='w-64 bg-white h-screen p-4 fixed border shadow'>
         <div className='flex items-center mb-8'>
           <Link href='/' className='cursor-pointer mx-auto'>
             <Image src={Logo} width={100} height={100} alt='Logo' />
           </Link>
         </div>
-        <nav className="flex flex-col space-y-4">
-          <Link href="/dashboard">
-            <span className="p-2 rounded cursor-pointer flex gap-3 items-center">
+        <nav className='flex flex-col space-y-4'>
+          <Link href='/dashboard'>
+            <span className={`p-2 rounded cursor-pointer flex gap-3 items-center ${isActiveLink('/dashboard') ? 'text-primary font-bold' : ''}`}>
               <Image src={Dashboard} width={20} height={20} alt='dashboard' />
               Dashboard
             </span>
           </Link>
-          <Link href="/dashboard/profil">
-            <span className="p-2 rounded cursor-pointer flex gap-3 items-center">
-              <Image src={User} width={20} height={20} alt='profil' />
+          <Link href='/dashboard/profil'>
+            <span className={`p-2 rounded cursor-pointer flex gap-3 items-center ${isActiveLink('/dashboard/profil') ? 'text-primary font-bold' : ''}`}>
+              <Image src={UserLogo} width={20} height={20} alt='profil' />
               Profil
+            </span>
+          </Link>
+          <Link href='/dashboard/jeux'>
+            <span className={`p-2 rounded cursor-pointer flex gap-3 items-center ${isActiveLink('/dashboard/jeux') ? 'text-primary font-bold' : ''}`}>
+              <Image src={Jeux} width={20} height={20} alt='jeux' />
+              Jeux
             </span>
           </Link>
           <button
@@ -64,30 +86,39 @@ export default function DashboardLayout({ children }) {
               auth.signOut()
               router.push('/connexion')
             }}
-            className="p-2 rounded text-left cursor-pointer"
+            className='p-2 rounded text-left cursor-pointer'
           >
-            <span className="rounded cursor-pointer flex gap-3 items-center">
+            <span className='rounded cursor-pointer flex gap-3 items-center'>
               <Image src={Logout} width={20} height={20} alt='logout' />
               Déconnexion
             </span>
           </button>
         </nav>
       </aside>
-      
+
       {/* Contenu principal */}
       <main className='ml-64 flex-grow'>
-        <Navbar isBordered isBlurred='false' className='bg-white'>
-          <NavbarContent>
-            <NavbarItem className="hidden lg:flex">
-              <h1 className='text-2xl font-bold'>{sectionTitle()}</h1>
-            </NavbarItem>
-            <NavbarItem className="hidden lg:flex">
-              <Avatar isBordered src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-            </NavbarItem>
-          </NavbarContent>
-        </Navbar>
-        
-        <div className="p-8">
+        <div className='flex items-center justify-between px-8 py-4 border bg-white shadow fixed top-0 left-64 right-0 h-20'>
+          <h3 className='font-bold text-primary'>{sectionTitle()}</h3>
+          <div className='flex items-center gap-3'>
+            {userData
+              ? (
+                <>
+                  <Avatar
+                    isBordered
+                    src={userData.photoURL || 'https://firebasestorage.googleapis.com/v0/b/dyschool-4ca88.firebasestorage.app/o/profil.png?alt=media&token=ee71c4c6-b87f-4e2d-88ee-efb2fec1f4b3'}
+                    alt={`${userData.nom} ${userData.prenom}`}
+                    size='md'
+                  />
+                  <span className='font-medium text-gray-700'>{`${userData.nom} ${userData.prenom}`}</span>
+                </>
+                )
+              : (
+                <span>Chargement...</span>
+                )}
+          </div>
+        </div>
+        <div className='p-8 mt-20 bg-gray-50'>
           {children}
         </div>
       </main>
