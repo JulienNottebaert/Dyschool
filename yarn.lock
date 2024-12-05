@@ -1014,7 +1014,7 @@
     "@react-types/datepicker" "3.7.4"
     "@react-types/shared" "3.23.1"
 
-"@nextui-org/divider@2.0.32":
+"@nextui-org/divider@2.0.32", "@nextui-org/divider@^2.0.32":
   version "2.0.32"
   resolved "https://registry.yarnpkg.com/@nextui-org/divider/-/divider-2.0.32.tgz#831a19f454e4dd259662134a066e6e6c25576f42"
   integrity sha512-2B2j3VmvVDFnMc9Uw7UWMkByA+osgnRmVwMZNZjl9g3oCycz3UDXotNJXjgsLocT8tGO8UwMcrdgo7QBZl52uw==

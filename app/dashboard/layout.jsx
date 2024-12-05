@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar, DropdownMenu, DropdownItem, Dropdown, DropdownTrigger } from '@nextui-org/react'
+import { Avatar, DropdownMenu, DropdownItem, Dropdown, DropdownTrigger, Divider } from '@nextui-org/react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { } from '@fortawesome/free-solid-svg-icons'
 
 // Regular icons
-import { faChessRook, faUser, faSun, faShareFromSquare } from '@fortawesome/free-regular-svg-icons'
+import { faChessRook, faUser, faSun, faShareFromSquare, faCopyright } from '@fortawesome/free-regular-svg-icons'
 import Logo from '@/public/asset/dyschool.png'
 
 export default function DashboardLayout ({ children }) {
@@ -70,19 +70,19 @@ export default function DashboardLayout ({ children }) {
           {/* Navigation */}
           <nav className='flex flex-col space-y-4'>
             <Link href='/dashboard'>
-              <span className={`p-2 rounded cursor-pointer flex gap-3 items-center ${isActiveLink('/dashboard') ? 'bg-secondary-50 font-bold' : ''}`}>
+              <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard') ? '!bg-secondary-50 font-bold' : ''}`}>
                 <FontAwesomeIcon icon={faSun} className='text-xl' />
                 Tableau de bord
               </span>
             </Link>
             <Link href='/dashboard/profil'>
-              <span className={`p-2 rounded cursor-pointer flex gap-3 items-center ${isActiveLink('/dashboard/profil') ? 'bg-secondary-50 font-bold' : ''}`}>
+              <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard/profil') ? '!bg-secondary-50 font-bold' : ''}`}>
                 <FontAwesomeIcon icon={faUser} className='text-xl' />
                 Profil
               </span>
             </Link>
             <Link href='/dashboard/jeux'>
-              <span className={`p-2 rounded cursor-pointer flex gap-3 items-center ${isActiveLink('/dashboard/jeux') ? 'bg-secondary-50 font-bold' : ''}`}>
+              <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard/jeux') ? '!bg-secondary-50 font-bold' : ''}`}>
                 <FontAwesomeIcon icon={faChessRook} className='text-xl' />
                 Jeux
               </span>
@@ -97,12 +97,16 @@ export default function DashboardLayout ({ children }) {
               auth.signOut()
               router.push('/connexion')
             }}
-            className='p-2 rounded text-left cursor-pointer w-full flex items-center gap-3 text-primary'
+            className='p-2 rounded text-left cursor-pointer w-full flex items-center gap-3 text-primary hover:bg-primary-50'
           >
             <FontAwesomeIcon icon={faShareFromSquare} className='text-xl' />
             Déconnexion
           </button>
+          <Divider className='my-2' />
         </div>
+        <p className='text-right text-xs text-gray-400'>
+          Dyschool <FontAwesomeIcon icon={faCopyright} /> 2024
+        </p>
       </aside>
 
       {/* Contenu principal */}
