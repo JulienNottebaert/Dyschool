@@ -8,12 +8,14 @@ import { auth, db } from '@/lib/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import { doc, onSnapshot } from 'firebase/firestore'
 import Image from 'next/image'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+// Solid icons
+import { } from '@fortawesome/free-solid-svg-icons'
+
+// Regular icons
+import { faChessRook, faUser, faSun, faShareFromSquare } from '@fortawesome/free-regular-svg-icons'
 import Logo from '@/public/asset/dyschool.png'
-import UserLogo from '@/public/asset/navbar/user.png'
-import Dashboard from '@/public/asset/navbar/dashboard.png'
-import Logout from '@/public/asset/navbar/logout.png'
-import Jeux from '@/public/asset/navbar/jeux.png'
 
 export default function DashboardLayout ({ children }) {
   const [userData, setUserData] = useState(null)
@@ -55,44 +57,52 @@ export default function DashboardLayout ({ children }) {
   return (
     <div className='flex'>
       {/* Sidebar fixe */}
-      <aside className='w-64 bg-white h-screen p-4 fixed border shadow'>
+      <aside className='w-64 bg-white h-screen p-4 fixed border shadow flex flex-col'>
+        {/* Logo */}
         <div className='flex items-center mb-8'>
           <Link href='/' className='cursor-pointer mx-auto'>
             <Image src={Logo} width={100} height={100} alt='Logo' />
           </Link>
         </div>
-        <nav className='flex flex-col space-y-4'>
-          <Link href='/dashboard'>
-            <span className={`p-2 rounded cursor-pointer flex gap-3 items-center ${isActiveLink('/dashboard') ? 'text-primary font-bold' : ''}`}>
-              <Image src={Dashboard} width={20} height={20} alt='dashboard' />
-              Dashboard
-            </span>
-          </Link>
-          <Link href='/dashboard/profil'>
-            <span className={`p-2 rounded cursor-pointer flex gap-3 items-center ${isActiveLink('/dashboard/profil') ? 'text-primary font-bold' : ''}`}>
-              <Image src={UserLogo} width={20} height={20} alt='profil' />
-              Profil
-            </span>
-          </Link>
-          <Link href='/dashboard/jeux'>
-            <span className={`p-2 rounded cursor-pointer flex gap-3 items-center ${isActiveLink('/dashboard/jeux') ? 'text-primary font-bold' : ''}`}>
-              <Image src={Jeux} width={20} height={20} alt='jeux' />
-              Jeux
-            </span>
-          </Link>
+
+        {/* Conteneur principal */}
+        <div className='flex-grow flex flex-col justify-between'>
+          {/* Navigation */}
+          <nav className='flex flex-col space-y-4'>
+            <Link href='/dashboard'>
+              <span className={`p-2 rounded cursor-pointer flex gap-3 items-center ${isActiveLink('/dashboard') ? 'bg-secondary-50 font-bold' : ''}`}>
+                <FontAwesomeIcon icon={faSun} className='text-xl' />
+                Tableau de bord
+              </span>
+            </Link>
+            <Link href='/dashboard/profil'>
+              <span className={`p-2 rounded cursor-pointer flex gap-3 items-center ${isActiveLink('/dashboard/profil') ? 'bg-secondary-50 font-bold' : ''}`}>
+                <FontAwesomeIcon icon={faUser} className='text-xl' />
+                Profil
+              </span>
+            </Link>
+            <Link href='/dashboard/jeux'>
+              <span className={`p-2 rounded cursor-pointer flex gap-3 items-center ${isActiveLink('/dashboard/jeux') ? 'bg-secondary-50 font-bold' : ''}`}>
+                <FontAwesomeIcon icon={faChessRook} className='text-xl' />
+                Jeux
+              </span>
+            </Link>
+          </nav>
+        </div>
+
+        {/* Bouton de déconnexion */}
+        <div className='mt-auto'>
           <button
             onClick={() => {
               auth.signOut()
               router.push('/connexion')
             }}
-            className='p-2 rounded text-left cursor-pointer'
+            className='p-2 rounded text-left cursor-pointer w-full flex items-center gap-3 text-primary'
           >
-            <span className='rounded cursor-pointer flex gap-3 items-center'>
-              <Image src={Logout} width={20} height={20} alt='logout' />
-              Déconnexion
-            </span>
+            <FontAwesomeIcon icon={faShareFromSquare} className='text-xl' />
+            Déconnexion
           </button>
-        </nav>
+        </div>
       </aside>
 
       {/* Contenu principal */}
