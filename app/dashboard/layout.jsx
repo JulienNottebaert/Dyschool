@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar, DropdownMenu, DropdownItem, Dropdown, DropdownTrigger, Divider } from '@nextui-org/react'
+import { Avatar, DropdownMenu, DropdownItem, Dropdown, DropdownTrigger, Divider, AvatarIcon } from '@nextui-org/react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -123,10 +123,8 @@ export default function DashboardLayout ({ children }) {
                       <Avatar
                         className='mr-4 cursor-pointer'
                         isBordered
-                        src={
-                        userData?.photoURL ||
-                        'https://firebasestorage.googleapis.com/v0/b/dyschool-4ca88.firebasestorage.app/o/profil.png?alt=media&token=ee71c4c6-b87f-4e2d-88ee-efb2fec1f4b3'
-                      }
+                        src={userData?.photoURL}
+                        icon={<AvatarIcon />}
                         alt={`${userData?.nom || 'Utilisateur'} ${userData?.prenom || ''}`}
                         size='md'
                       />
@@ -139,6 +137,7 @@ export default function DashboardLayout ({ children }) {
                         Profil
                       </DropdownItem>
                       <DropdownItem
+                        className='!text-primary'
                         onClick={() => {
                           auth.signOut()
                           router.push('/connexion')

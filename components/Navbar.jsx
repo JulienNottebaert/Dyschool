@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Chip, Navbar, NavbarBrand, NavbarContent, NavbarItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar } from '@nextui-org/react'
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, AvatarIcon, Button } from '@nextui-org/react'
 import { auth, db } from '@/lib/firebase'
 import Logo from '@/public/asset/dyschool.png'
 import Image from 'next/image'
@@ -10,7 +10,6 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { useRouter, usePathname } from 'next/navigation'
 
-// Fonction pour afficher les options lorsque l'utilisateur est connecté
 const LoggedInNavItems = ({ userData, logout }) => {
   const router = useRouter()
 
@@ -21,20 +20,15 @@ const LoggedInNavItems = ({ userData, logout }) => {
           {userData?.prenom || 'Prénom non disponible'} {userData?.nom || 'Prénom non disponible'}
         </span>
       </NavbarItem>
-
-      {/* Menu déroulant pour l'utilisateur */}
       <NavbarItem>
         <Dropdown>
           <DropdownTrigger>
             <Avatar
               className='cursor-pointer'
               isBordered
-              src={
-                userData?.photoURL ||
-                'https://firebasestorage.googleapis.com/v0/b/dyschool-4ca88.firebasestorage.app/o/profil.png?alt=media&token=ee71c4c6-b87f-4e2d-88ee-efb2fec1f4b3'
-              }
               alt={`${userData?.nom || 'Utilisateur'} ${userData?.prenom || ''}`}
-              size='md'
+              size='sm'
+              icon={<AvatarIcon />}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label='User menu'>
@@ -56,22 +50,29 @@ const LoggedInNavItems = ({ userData, logout }) => {
 
 const LoggedOutNavItems = () => {
   return (
-    <>
-      <NavbarItem className='hidden sm:flex'>
-        <Link href='/connexion' className='text-secondary'>
-          <Chip color='secondary' variant='bordered' className='px-3'>
+    <div className='flex items-center gap-4'>
+      <NavbarItem>
+        <Link href='/connexion'>
+          <Button
+            size='sm'
+            color='default'
+          >
             Connexion
-          </Chip>
+          </Button>
         </Link>
       </NavbarItem>
+
       <NavbarItem>
         <Link href='/inscription'>
-          <Chip color='secondary' variant='solid' className='px-3'>
-            S'inscrire
-          </Chip>
+          <Button
+            size='sm'
+            color='secondary'
+          >
+            Inscription
+          </Button>
         </Link>
       </NavbarItem>
-    </>
+    </div>
   )
 }
 
@@ -111,10 +112,7 @@ function CustomNavbar () {
   }
 
   return (
-    <Navbar
-      isBordered
-      shouldHideOnScroll
-    >
+    <Navbar isBordered shouldHideOnScroll>
       <NavbarContent>
         <NavbarBrand>
           <Link href='/' className='cursor-pointer'>
