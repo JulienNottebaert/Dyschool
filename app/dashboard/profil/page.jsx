@@ -147,7 +147,7 @@ export default function Profil () {
               src={userData.photoURL || 'https://firebasestorage.googleapis.com/v0/b/dyschool-4ca88.firebasestorage.app/o/profil.png?alt=media&token=ee71c4c6-b87f-4e2d-88ee-efb2fec1f4b3'}
               alt='Photo profil utilisateur'
               fill
-              style={{ objectFit: 'cover', borderRadius: '50%' }} // Assure l'arrondi
+              style={{ objectFit: 'contain', borderRadius: '50%' }} // Assure l'arrondi
               priority
             />
           </div>
