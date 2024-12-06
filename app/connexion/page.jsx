@@ -53,8 +53,8 @@ export default function ConnexionPage () {
   }
 
   return (
-    <div className='my-28 flex flex-col justify-center items-center text-center px-5'>
-      <Image src={LogoDyschool} alt='Logo' width={250} height={250} className='mb-16' />
+    <div className='mb-28 mt-10 flex flex-col justify-center items-center text-center px-5'>
+      <Image src={LogoDyschool} alt='Logo' width={250} height={250} className='mb-12' />
       <form onSubmit={handleSubmit} className='flex flex-col gap-6 max-w-xs w-full'>
         <h2 className='font-bold text-primary text-4xl mb-4'>Connexion</h2>
 

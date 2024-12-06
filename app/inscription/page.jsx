@@ -5,13 +5,13 @@ import { useRouter } from 'next/navigation' // Utilisation de useRouter
 import { auth, db } from '@/lib/firebase' // Assurez-vous que Firebase est bien configuré
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
-import { Input, Checkbox } from '@nextui-org/react'
+import { Input } from '@nextui-org/react'
 import Image from 'next/image'
 import LogoDyschool from '@/public/asset/dyschool.png'
 import { EyeFilledIcon } from './EyeFilledIcon'
 import { EyeSlashFilledIcon } from './EyeSlashFilledIcon'
-import Link
- from 'next/link'
+import Link from 'next/link'
+
 export default function InscriptionPage () {
   const [formData, setFormData] = useState({
     email: '',
@@ -26,27 +26,25 @@ export default function InscriptionPage () {
       dysorthographie: false,
       dysphasie: false,
       dyspraxie: false,
-      dyséxécutif: false,
-    },
+      dyséxécutif: false
+    }
   })
 
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const router = useRouter() // Initialiser useRouter pour la redirection
+  const [isEmailValid, setIsEmailValid] = useState(true) // État pour la validation de l'email
+  const router = useRouter()
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false)
 
-  // Vérification de l'état d'authentification au chargement de la page
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // Après une inscription réussie, rediriger vers /troubles
         router.push('/dashboard')
       }
     })
-
-    return () => unsubscribe() // Cleanup l'écouteur lors du démontage du composant
+    return () => unsubscribe()
   }, [router])
 
   const togglePasswordVisibility = () => setIsPasswordVisible(!isPasswordVisible)
@@ -58,6 +56,12 @@ export default function InscriptionPage () {
       ...formData,
       [name]: type === 'checkbox' ? checked : value
     })
+
+    // Validation d'email
+    if (name === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      setIsEmailValid(emailRegex.test(value))
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -65,35 +69,30 @@ export default function InscriptionPage () {
     setError('')
     setLoading(true)
 
+    if (!isEmailValid) {
+      setError('Veuillez entrer une adresse e-mail valide.')
+      setLoading(false)
+      return
+    }
+
     if (formData.password !== formData.confirmPassword) {
-      setError('Les mots de passe ne correspondent pas')
+      setError('Les mots de passe ne répondent pas aux critères.')
       setLoading(false)
       return
     }
 
     try {
-      // Inscription via Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password)
       const user = userCredential.user
 
-      // Enregistrer les informations supplémentaires dans Firestore
       await setDoc(doc(db, 'users', user.uid), {
         nom: formData.nom,
         prenom: formData.prenom,
         email: formData.email,
-        troubles: {
-          dyscalculie: false,
-          dysgraphie: false,
-          dyslexie: false,
-          dysorthographie: false,
-          dysphasie: false,
-          dyspraxie: false,
-          dyséxécutif: false,
-        },
+        troubles: formData.troubles
       })
 
-      // Rediriger immédiatement après l'inscription réussie
-      router.push('/dashboard') // Rediriger vers le tableau de bord
+      router.push('/dashboard')
     } catch (error) {
       setError('Erreur lors de l\'inscription : ' + error.message)
     } finally {
@@ -102,28 +101,31 @@ export default function InscriptionPage () {
   }
 
   return (
-    <div className='my-28 flex flex-col justify-center items-center text-center px-5' >
-      <Image src={LogoDyschool} alt='Logo' width={250} height={250} className='mb-16' />
+    <div className='mb-28 mt-10 flex flex-col justify-center items-center text-center px-5'>
+      <Image src={LogoDyschool} alt='Logo' width={250} height={250} className='mb-12' />
       <form onSubmit={handleSubmit} className='flex flex-col gap-6 max-w-2xl w-full'>
         <h2 className='font-bold text-primary text-4xl mb-4'>Inscription</h2>
 
-        {/* Afficher l'erreur en cas de problème */}
         {error && <p className='text-red-500'>{error}</p>}
 
-        {/* Champs du formulaire */}
-        <Input
-          type='email'
-          label='Email'
-          name='email'
-          value={formData.email}
-          onChange={handleChange}
-          isRequired
-          labelPlacement='inside'
-          className='w-full'
-          radius='sm'
-        />
+        <div className='flex flex-col gap-2'>
+          <Input
+            type='email'
+            label='Email'
+            name='email'
+            value={formData.email}
+            onChange={handleChange}
+            isRequired
+            labelPlacement='inside'
+            className='w-full'
+            radius='sm'
+          />
+          {!isEmailValid && (
+            <p className='text-red-400 text-xs text-left'>Veuillez entrer une adresse e-mail valide.</p>
+          )}
+        </div>
 
-      <div className='flex gap-4'>
+        <div className='flex gap-4'>
           <Input
             type='text'
             label='Nom'
@@ -135,7 +137,6 @@ export default function InscriptionPage () {
             className='max-w-xs m-auto'
             radius='sm'
           />
-
           <Input
             type='text'
             label='Prénom'
@@ -177,7 +178,6 @@ export default function InscriptionPage () {
               </button>
             }
           />
-
           <Input
             type={isConfirmPasswordVisible ? 'text' : 'password'}
             label='Confirmer le mot de passe'
@@ -207,17 +207,53 @@ export default function InscriptionPage () {
           />
         </div>
 
-        {/* Bouton de soumission */}
-        <div className='flex items-center justify-center mt-6'>
+        <div className='flex flex-col gap-2 text-left'>
+          <p
+            className={`text-xs ${
+              formData.password &&
+              formData.confirmPassword &&
+              formData.password === formData.confirmPassword
+                ? 'text-green-400'
+                : 'text-red-400'
+            }`}
+          >
+            Les mots de passe doivent être identiques.
+          </p>
+          <p
+            className={`text-xs ${
+              formData.password && formData.password.length >= 8
+                ? 'text-green-400'
+                : 'text-red-400'
+            }`}
+          >
+            Le mot de passe doit faire au moins 8 caractères.
+          </p>
+          <p
+            className={`text-xs ${
+              formData.password &&
+              /[A-Z]/.test(formData.password) &&
+              /\d/.test(formData.password) &&
+              /[\W_]/.test(formData.password)
+                ? 'text-green-400'
+                : 'text-red-400'
+            }`}
+          >
+            Le mot de passe doit contenir une majuscule, un chiffre et un caractère spécial.
+          </p>
+        </div>
+
+        <div className='flex items-center justify-center'>
           <button
             type='submit'
             className='bg-secondary hover:bg-secondary-600 text-white font-bold py-4 px-8 rounded-lg transition duration-200 uppercase max-w-xs w-full'
-            disabled={loading} // Désactiver le bouton pendant le chargement
+            disabled={loading}
           >
             {loading ? 'Inscription en cours...' : "S'inscrire"}
           </button>
         </div>
-        <Link href='/connexion' className='hover:underline text-primary-300'>Déjà inscrit ? Connecte toi</Link>
+        <Link href='/connexion' className='hover:underline text-primary-300'>
+          Déjà inscrit ? Connecte toi
+        </Link>
       </form>
     </div>
   )
