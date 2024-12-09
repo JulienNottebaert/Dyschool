@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { Chip } from '@nextui-org/chip'
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Checkbox } from '@nextui-org/react'
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Checkbox, Spinner, Skeleton } from '@nextui-org/react'
 import Image from 'next/image'
 import { auth, db, storage } from '@/lib/firebase'
 import { useRouter } from 'next/navigation'
@@ -29,6 +29,8 @@ export default function Profil () {
     }
   })
   const [loading, setLoading] = useState(true)
+  const [isUploading, setIsUploading] = useState(false) // État pour gérer le chargement
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
   const fileInputRef = useRef(null)
   const router = useRouter()
 
@@ -56,7 +58,7 @@ export default function Profil () {
               email: user.email || '',
               nom: data.nom || '',
               prenom: data.prenom || '',
-              photoURL: data.photoURL || '', // URL de la photo de profil
+              photoURL: data.photoURL || '',
               troubles: { ...userData.troubles, ...data.troubles }
             })
           }
@@ -88,7 +90,7 @@ export default function Profil () {
         await updateDoc(doc(db, 'users', user.uid), { troubles: userData.troubles })
         closeModal()
       } catch (error) {
-        console.error('Erreur lors de la mise à jour des troubles:', error)
+        console.error('Erreur lors de la mise à jour des troubles :', error)
       }
     }
   }
@@ -107,20 +109,19 @@ export default function Profil () {
     }
 
     const storageRef = ref(storage, `profilePictures/${user.uid}`)
+    setIsUploading(true) // Active le spinner
+    setIsImageLoaded(false) // L'image n'est pas encore chargée
 
     try {
-      // Upload du fichier
       await uploadBytes(storageRef, file)
-      console.log('Fichier uploadé avec succès.')
-
-      // Générer l'URL signée
       const photoURL = await getDownloadURL(storageRef)
-      console.log('URL générée :', photoURL)
 
-      setUserData((prev) => ({ ...prev, photoURL }))
-      await updateDoc(doc(db, 'users', user.uid), { photoURL })
+      setUserData((prev) => ({ ...prev, photoURL })) // Mise à jour de l'état local
+      await updateDoc(doc(db, 'users', user.uid), { photoURL }) // Mise à jour Firestore
     } catch (error) {
-      console.error('Erreur lors de l\'upload :', error.message)
+      console.error("Erreur lors de l'upload :", error.message)
+    } finally {
+      setIsUploading(false) // Désactive le spinner après l'upload
     }
   }
 
@@ -131,38 +132,60 @@ export default function Profil () {
   }
 
   if (loading) {
-    return <p>Chargement...</p>
+    return (
+      <div className='bg-white flex flex-col gap-4 p-8 shadow-lg rounded-lg w-80 items-center'>
+        <Skeleton className='w-[150px] h-[150px] rounded-full' />
+        <Skeleton className='w-40 h-6 rounded-md' />
+        <div className='flex gap-2 flex-wrap justify-center w-full'>
+          <Skeleton className='w-16 h-6 rounded-md' />
+          <Skeleton className='w-16 h-6 rounded-md' />
+          <Skeleton className='w-16 h-6 rounded-md' />
+        </div>
+        <Skeleton className='w-full h-6 rounded-md' />
+        <Skeleton className='w-32 h-10 rounded-md' />
+      </div>
+    )
   }
 
   return (
     <div className='flex gap-8'>
       <div className='bg-white flex flex-col gap-4 p-8 shadow-lg rounded-lg w-80 items-center'>
-        <div className='relative w-[150px] h-[150px]'>
-          {/* Image de profil avec rounded et clic pour modifier */}
+        <div className='relative w-[150px] h-[150px] group'>
+          {/* Spinner affiché pendant le chargement */}
+          {(isUploading || !isImageLoaded) && (
+            <div className='absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-80 rounded-full z-20'>
+              <Spinner color='secondary' size='lg' />
+            </div>
+          )}
+
+          {/* Image de profil */}
           <div
             className='w-full h-full cursor-pointer rounded-full overflow-hidden'
             onClick={triggerFileInput}
           >
             <Image
-              src={userData.photoURL || 'https://firebasestorage.googleapis.com/v0/b/dyschool-4ca88.firebasestorage.app/o/profil.png?alt=media&token=ee71c4c6-b87f-4e2d-88ee-efb2fec1f4b3'}
+              src={
+        userData.photoURL ||
+        'https://firebasestorage.googleapis.com/v0/b/dyschool-4ca88.firebasestorage.app/o/profil.png?alt=media&token=ee71c4c6-b87f-4e2d-88ee-efb2fec1f4b3'
+      }
               alt='Photo profil utilisateur'
               fill
-              style={{ objectFit: 'contain', borderRadius: '50%' }} // Assure l'arrondi
+              className='border-4 border-secondary group-hover:border-secondary-400 ease-in-out duration-300'
+              style={{ objectFit: 'contain', borderRadius: '50%' }}
+              onLoadingComplete={() => setIsImageLoaded(true)} // L'image est entièrement chargée
               priority
             />
           </div>
+
           {/* Bouton crayon */}
           <label
             htmlFor='profileImage'
-            className='absolute top-2 right-2 bg-secondary hover:bg-secondary-400 ease-in-out duration-300 p-2 rounded-full cursor-pointer flex items-center justify-center w-8 h-8 shadow-lg z-10'
+            className='absolute top-2 right-2 bg-secondary group-hover:bg-secondary-400 ease-in-out duration-300 p-2 rounded-full cursor-pointer flex items-center justify-center w-8 h-8 shadow-lg z-30'
             onClick={triggerFileInput}
           >
-            <Image
-              src={Crayon}
-              alt='Edit Icon'
-              className='w-full h-full object-contain'
-            />
+            <Image src={Crayon} alt='Edit Icon' className='w-full h-full object-contain' />
           </label>
+
           {/* Input caché pour upload */}
           <input
             type='file'
