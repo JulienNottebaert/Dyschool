@@ -11,24 +11,57 @@ import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Solid icons
-import { } from '@fortawesome/free-solid-svg-icons'
+import { faUser as faUserSolid, faSun as faSunSolid, faChessRook as faChessRookSolid } from '@fortawesome/free-solid-svg-icons'
+import { faUser as faUserRegular, faSun as faSunRegular, faChessRook as faChessRookRegular } from '@fortawesome/free-regular-svg-icons'
 
 // Regular icons
-import { faChessRook, faUser, faSun, faShareFromSquare, faCopyright } from '@fortawesome/free-regular-svg-icons'
+import { faShareFromSquare, faCopyright } from '@fortawesome/free-regular-svg-icons'
 import Logo from '@/public/asset/dyschool.png'
 
-export default function DashboardLayout ({ children }) {
+export default function DashboardLayout({ children }) {
   const [userData, setUserData] = useState(null)
   const router = useRouter()
   const pathname = usePathname()
 
   // Définir dynamiquement le titre de la section en fonction de la route
   const sectionTitle = () => {
-    if (pathname === '/dashboard') return 'Tableau de bord'
-    if (pathname === '/dashboard/profil') return 'Profil'
-    if (pathname === '/dashboard/jeux') return 'Jeux'
-    return 'Section'
-  }
+    if (pathname === '/dashboard') {
+      return (
+        <span>
+          <FontAwesomeIcon icon={faSunSolid} className="mr-4" />
+          Tableau de bord
+        </span>
+      );
+    }
+    if (pathname.startsWith('/dashboard/profil')) {
+      const subPath = pathname.split('/')[3]; // Récupère la partie après '/dashboard/profil'
+
+      // Associe les titres aux sous-routes
+      const titles = {
+        abonnements: 'Abonnements',
+        notifications: 'Notifications',
+        paiements: 'Paiements',
+        undefined : 'Informations personnelles'
+      };
+
+      // Retourne le titre correspondant ou "Informations personnelles" par défaut
+      return (
+        <span>
+          <FontAwesomeIcon icon={faUserSolid} className="mr-4" />
+          {'Profil - ' + titles[subPath] || 'Profil - Informations personnelles'}
+        </span>
+      );
+    }
+    if (pathname === '/dashboard/jeux') {
+      return (
+        <span>
+          <FontAwesomeIcon icon={faChessRookSolid} className="mr-4" />
+          Jeux
+        </span>
+      );
+    }
+    return 'Section';
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
@@ -52,7 +85,12 @@ export default function DashboardLayout ({ children }) {
   }, [router])
 
   // Fonction utilitaire pour vérifier si un lien est actif
-  const isActiveLink = (link) => pathname === link
+  const isActiveLink = (link) => {
+    if (link === '/dashboard') {
+      return pathname === '/dashboard'; // Exact match pour /dashboard
+    }
+    return pathname.startsWith(link); // startsWith pour les autres routes
+  };
 
   return (
     <div className='flex'>
@@ -71,19 +109,19 @@ export default function DashboardLayout ({ children }) {
           <nav className='flex flex-col space-y-4'>
             <Link href='/dashboard'>
               <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard') ? '!bg-secondary-50 font-bold' : ''}`}>
-                <FontAwesomeIcon icon={faSun} className='text-xl' />
+                <FontAwesomeIcon icon={faSunRegular} className='text-xl' />
                 Tableau de bord
               </span>
             </Link>
             <Link href='/dashboard/profil'>
               <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard/profil') ? '!bg-secondary-50 font-bold' : ''}`}>
-                <FontAwesomeIcon icon={faUser} className='text-xl' />
+                <FontAwesomeIcon icon={faUserRegular} className='text-xl' />
                 Profil
               </span>
             </Link>
             <Link href='/dashboard/jeux'>
               <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard/jeux') ? '!bg-secondary-50 font-bold' : ''}`}>
-                <FontAwesomeIcon icon={faChessRook} className='text-xl' />
+                <FontAwesomeIcon icon={faChessRookRegular} className='text-xl' />
                 Jeux
               </span>
             </Link>
@@ -111,13 +149,13 @@ export default function DashboardLayout ({ children }) {
 
       {/* Contenu principal */}
       <main className='ml-64 flex-grow'>
-        <div className='flex items-center justify-between px-8 py-4 border bg-white shadow fixed top-0 left-64 right-0 h-20'>
+        <div className='flex items-center justify-between px-8 py-4 border bg-white shadow fixed top-0 left-64 right-0 h-20 z-50'>
           <h3 className='font-bold text-primary'>{sectionTitle()}</h3>
           <div className='flex items-center gap-3'>
             {userData
               ? (
                 <>
-                  <span className='font-medium text-gray-700'>{`${userData.nom} ${userData.prenom}`}</span>
+                  <span className='text-secondary font-bold capitalize'>{`${userData.nom} ${userData.prenom}`}</span>
                   <Dropdown>
                     <DropdownTrigger>
                       <Avatar
