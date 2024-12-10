@@ -11,14 +11,12 @@ import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // Solid icons
-import { faUser as faUserSolid, faSun as faSunSolid, faChessRook as faChessRookSolid } from '@fortawesome/free-solid-svg-icons'
-import { faUser as faUserRegular, faSun as faSunRegular, faChessRook as faChessRookRegular } from '@fortawesome/free-regular-svg-icons'
-
+import { faUser as faUserSolid, faSun as faSunSolid, faChessRook as faChessRookSolid, faCreditCard as faCreditCardSolid } from '@fortawesome/free-solid-svg-icons'
 // Regular icons
-import { faShareFromSquare, faCopyright } from '@fortawesome/free-regular-svg-icons'
+import { faUser as faUserRegular, faSun as faSunRegular, faChessRook as faChessRookRegular, faCreditCard as faCreditCardRegular, faShareFromSquare, faCopyright } from '@fortawesome/free-regular-svg-icons'
 import Logo from '@/public/asset/dyschool.png'
 
-export default function DashboardLayout({ children }) {
+export default function DashboardLayout ({ children }) {
   const [userData, setUserData] = useState(null)
   const router = useRouter()
   const pathname = usePathname()
@@ -28,40 +26,48 @@ export default function DashboardLayout({ children }) {
     if (pathname === '/dashboard') {
       return (
         <span>
-          <FontAwesomeIcon icon={faSunSolid} className="mr-4" />
+          <FontAwesomeIcon icon={faSunSolid} className='mr-4' />
           Tableau de bord
         </span>
-      );
+      )
     }
     if (pathname.startsWith('/dashboard/profil')) {
-      const subPath = pathname.split('/')[3]; // Récupère la partie après '/dashboard/profil'
+      const subPath = pathname.split('/')[3] // Récupère la partie après '/dashboard/profil'
 
       // Associe les titres aux sous-routes
       const titles = {
         abonnements: 'Abonnements',
         notifications: 'Notifications',
         paiements: 'Paiements',
-        undefined : 'Informations personnelles'
-      };
+        undefined: 'Informations personnelles'
+      }
 
       // Retourne le titre correspondant ou "Informations personnelles" par défaut
       return (
         <span>
-          <FontAwesomeIcon icon={faUserSolid} className="mr-4" />
+          <FontAwesomeIcon icon={faUserSolid} className='mr-4' />
           {'Profil - ' + titles[subPath] || 'Profil - Informations personnelles'}
         </span>
-      );
+      )
     }
     if (pathname === '/dashboard/jeux') {
       return (
         <span>
-          <FontAwesomeIcon icon={faChessRookSolid} className="mr-4" />
+          <FontAwesomeIcon icon={faChessRookSolid} className='mr-4' />
           Jeux
         </span>
-      );
+      )
     }
-    return 'Section';
-  };
+    if (pathname === '/dashboard/abonnements') {
+      return (
+        <span>
+          <FontAwesomeIcon icon={faCreditCardSolid} className='mr-4' />
+          Abonnements
+        </span>
+      )
+    }
+    return 'Section'
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
@@ -87,10 +93,10 @@ export default function DashboardLayout({ children }) {
   // Fonction utilitaire pour vérifier si un lien est actif
   const isActiveLink = (link) => {
     if (link === '/dashboard') {
-      return pathname === '/dashboard'; // Exact match pour /dashboard
+      return pathname === '/dashboard' // Exact match pour /dashboard
     }
-    return pathname.startsWith(link); // startsWith pour les autres routes
-  };
+    return pathname.startsWith(link) // startsWith pour les autres routes
+  }
 
   return (
     <div className='flex'>
@@ -123,6 +129,12 @@ export default function DashboardLayout({ children }) {
               <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard/jeux') ? '!bg-secondary-50 font-bold' : ''}`}>
                 <FontAwesomeIcon icon={faChessRookRegular} className='text-xl' />
                 Jeux
+              </span>
+            </Link>
+            <Link href='/dashboard/abonnements'>
+              <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard/abonnements') ? '!bg-secondary-50 font-bold' : ''}`}>
+                <FontAwesomeIcon icon={faCreditCardRegular} className='text-xl' />
+                Abonnements
               </span>
             </Link>
           </nav>

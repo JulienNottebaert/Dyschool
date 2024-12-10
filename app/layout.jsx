@@ -1,5 +1,5 @@
 import './globals.css'
-import { AuthProvider } from './context/authContext' // Chemin relatif vers context/authContext
+import { Providers } from './providers' // Import du Providers modifié
 import CustomNavbar from '@/components/Navbar'
 import CustomFooter from '@/components/Footer'
 import '@fortawesome/fontawesome-svg-core/styles.css'
@@ -7,12 +7,28 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 export default function RootLayout ({ children }) {
   return (
     <html lang='fr'>
+      <head>
+        <script
+          async
+          src='https://www.googletagmanager.com/gtag/js?id=G-TFW4LB1VMH'
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-TFW4LB1VMH');
+            `
+          }}
+        />
+      </head>
       <body>
-        <AuthProvider>
+        <Providers>
           <CustomNavbar />
           {children}
           <CustomFooter />
-        </AuthProvider>
+        </Providers>
       </body>
     </html>
   )
