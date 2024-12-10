@@ -105,7 +105,7 @@ function Abonnements () {
             )}
       </div>
 
-      {/* <h1 className='mt-8'>Abonnement gratuit</h1>
+      <h1 className='mt-8 text-3xl'>Abonnement gratuit</h1>
       <Table aria-label='Example static collection table'>
         <TableHeader>
           <TableColumn>NAME</TableColumn>
@@ -134,7 +134,7 @@ function Abonnements () {
             <TableCell>Vacation</TableCell>
           </TableRow>
         </TableBody>
-      </Table> */}
+      </Table>
     </div>
   )
 }
