@@ -26,6 +26,7 @@
     "@nextui-org/react": "^2.2.10",
     "@nextui-org/scroll-shadow": "^2.1.16",
     "@nextui-org/skeleton": "^2.2.1",
+    "@nextui-org/table": "^2.2.4",
     "@nextui-org/tooltip": "^2.0.33",
     "@nextui-org/use-measure": "^2.0.1",
     "@react-aria/ssr": "^3.9.2",
