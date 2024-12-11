@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ProfilAbonnement() {
+function ProfilAbonnement () {
   return (
     <div>ProfilAbonnement</div>
   )

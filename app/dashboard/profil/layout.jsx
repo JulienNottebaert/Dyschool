@@ -17,7 +17,7 @@ function ProfilLayout ({ children }) {
         <NavbarContent justify='center' className='gap-6'>
           {[
             { href: '/dashboard/profil', label: 'Informations personnelles' },
-            { href: '/dashboard/profil/abonnements', label: 'Abonnements' },
+            { href: '/dashboard/profil/abonnement', label: 'Abonnement' },
             { href: '/dashboard/profil/paiements', label: 'Paiements' },
             { href: '/dashboard/profil/notifications', label: 'Notifications' }
           ].map(({ href, label }) => (
