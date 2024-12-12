@@ -19,6 +19,12 @@ export default function InscriptionPage () {
     confirmPassword: '',
     nom: '',
     prenom: '',
+    abonnement: {
+      type: 'gratuit', // Par défaut : abonnement gratuit
+      startDate: new Date().toISOString(), // Date de début
+      endDate: null, // Pas de date de fin pour l'abonnement gratuit
+      status: 'active' // Statut actif
+    },
     troubles: {
       dyscalculie: false,
       dysgraphie: false,
@@ -82,19 +88,22 @@ export default function InscriptionPage () {
     }
 
     try {
+      // Création de l'utilisateur
       const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password)
       const user = userCredential.user
 
+      // Sauvegarde des données dans Firestore
       await setDoc(doc(db, 'users', user.uid), {
         nom: formData.nom,
         prenom: formData.prenom,
         email: formData.email,
+        abonnement: formData.abonnement, // Enregistrement de l'abonnement par défaut
         troubles: formData.troubles
       })
 
-      router.push('/dashboard')
+      router.push('/dashboard') // Redirection après inscription
     } catch (error) {
-      setError('Erreur lors de l\'inscription : ' + error.message)
+      setError("Erreur lors de l'inscription : " + error.message)
     } finally {
       setLoading(false)
     }

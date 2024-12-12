@@ -37,7 +37,7 @@ export default function DashboardLayout ({ children }) {
       // Associe les titres aux sous-routes
       const titles = {
         abonnement: 'Abonnement',
-        notifications: 'Notifications',
+        preferences: 'Préférences',
         paiements: 'Paiements',
         undefined: 'Informations personnelles'
       }
