@@ -1,5 +1,4 @@
 import Stripe from 'stripe'
-import { buffer } from 'micro'
 import { db } from '@/lib/firebase' // Import Firestore
 import { doc, updateDoc } from 'firebase/firestore'
 
@@ -9,6 +8,15 @@ export const config = {
   api: {
     bodyParser: false // Désactiver le body parser pour gérer les requêtes brutes
   }
+}
+
+// Fonction pour lire le corps brut de la requête
+async function readRawBody (req) {
+  const chunks = []
+  for await (const chunk of req) {
+    chunks.push(chunk)
+  }
+  return Buffer.concat(chunks)
 }
 
 export default async function handler (req, res) {
@@ -22,7 +30,7 @@ export default async function handler (req, res) {
 
   try {
     // Lecture et vérification de la signature Stripe
-    const rawBody = await buffer(req)
+    const rawBody = await readRawBody(req) // Remplace `buffer` par `readRawBody`
     event = stripe.webhooks.constructEvent(
       rawBody,
       sig,
