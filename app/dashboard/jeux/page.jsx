@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Jeux() {
+function PageJeux () {
   return (
-    <div>Page des jeux</div>
+    <div>PageJeux</div>
   )
 }
 
-export default Jeux
+export default PageJeux

@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation' // Utilisation de useRouter
-import { auth, db } from '@/lib/firebase' // Assurez-vous que Firebase est bien configuré
-import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
-import { doc, setDoc } from 'firebase/firestore'
+import { auth } from '@/lib/firebase' // Assurez-vous que Firebase est bien configuré
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
 import { Input } from '@nextui-org/react'
 import Image from 'next/image'
 import LogoDyschool from '@/public/asset/dyschool.png'
@@ -88,21 +87,41 @@ export default function InscriptionPage () {
     }
 
     try {
-      // Création de l'utilisateur
-      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password)
-      const user = userCredential.user
-
-      // Sauvegarde des données dans Firestore
-      await setDoc(doc(db, 'users', user.uid), {
-        nom: formData.nom,
-        prenom: formData.prenom,
-        email: formData.email,
-        abonnement: formData.abonnement, // Enregistrement de l'abonnement par défaut
-        troubles: formData.troubles
+      console.log('Envoi des données d’inscription au serveur...')
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'register',
+          email: formData.email,
+          password: formData.password,
+          nom: formData.nom,
+          prenom: formData.prenom,
+          troubles: formData.troubles,
+          abonnement: {
+            type: 'gratuit', // Type d'abonnement par défaut
+            startDate: new Date().toISOString(),
+            endDate: null,
+            status: 'active'
+          }
+        })
       })
 
-      router.push('/dashboard') // Redirection après inscription
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Une erreur est survenue lors de l’inscription.')
+      }
+
+      console.log('Inscription réussie :', data)
+
+      // Connectez manuellement l'utilisateur après l'inscription
+      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password)
+      console.log('Utilisateur connecté :', userCredential.user)
+
+      router.push('/dashboard') // Redirection vers le tableau de bord
     } catch (error) {
+      console.error('Erreur lors de l’inscription :', error.message)
       setError("Erreur lors de l'inscription : " + error.message)
     } finally {
       setLoading(false)

@@ -45,13 +45,13 @@ const LoggedInNavItems = ({ userData, logout }) => {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label='User menu'>
-            <DropdownItem onClick={() => router.push('/dashboard')}>
+            <DropdownItem onPress={() => router.push('/dashboard')}>
               Tableau de bord
             </DropdownItem>
-            <DropdownItem onClick={() => router.push('/dashboard/profil')}>
+            <DropdownItem onPress={() => router.push('/dashboard/profil')}>
               Profil
             </DropdownItem>
-            <DropdownItem onClick={logout}>
+            <DropdownItem onPress={logout}>
               Déconnexion
             </DropdownItem>
           </DropdownMenu>
