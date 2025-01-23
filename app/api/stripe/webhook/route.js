@@ -3,35 +3,17 @@ import { NextResponse } from 'next/server'
 import { db } from '@/lib/firebase' // Firebase Firestore
 import { doc, updateDoc } from 'firebase/firestore'
 
-// Initialisation de Stripe avec la version de l'API
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY, {
   apiVersion: '2022-11-15'
 })
 
-// Désactiver l'analyse automatique du corps de la requête
-export const config = {
-  api: {
-    bodyParser: false
-  }
-}
-
-// Middleware pour lire le corps brut de la requête
-async function readRawBody (req) {
-  const chunks = []
-  for await (const chunk of req.body) {
-    chunks.push(chunk)
-  }
-  return Buffer.concat(chunks)
-}
-
-// Fonction POST pour gérer les webhooks Stripe
-export async function POST (req) {
-  const sig = req.headers.get('stripe-signature') // Récupérer la signature Stripe
+export async function POST (request) {
+  const sig = request.headers.get('stripe-signature') // Récupérer la signature Stripe
   let event
 
   try {
     console.log('Vérification de la signature Stripe...')
-    const rawBody = await readRawBody(req) // Lire le raw body en tant que Buffer
+    const rawBody = await request.text() // Lire le corps brut de la requête
 
     // Construire l'événement Stripe
     event = stripe.webhooks.constructEvent(
