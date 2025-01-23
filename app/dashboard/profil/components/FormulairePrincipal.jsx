@@ -17,14 +17,19 @@ export default function FormulairePrincipal ({ userData, setUserData }) {
     setLoading(true) // Active l'état de chargement
 
     try {
+      // Vérifiez et normalisez les données
+      const userDataToUpdate = {
+        nom: userData.nom || '',
+        prenom: userData.prenom || '',
+        age: userData.age || null, // Si `age` est undefined, remplacez-le par `null`
+        email: userData.email || '',
+        troubles: userData.troubles || {}
+      }
+
+      console.log('Données avant mise à jour :', userDataToUpdate)
+
       // Mise à jour dans Firestore
-      await updateDoc(doc(db, 'users', user.uid), {
-        nom: userData.nom,
-        prenom: userData.prenom,
-        age: userData.age,
-        email: userData.email,
-        troubles: userData.troubles
-      })
+      await updateDoc(doc(db, 'users', user.uid), userDataToUpdate)
 
       // Recharge les données utilisateur après mise à jour
       const userDoc = await getDoc(doc(db, 'users', user.uid))
