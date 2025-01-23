@@ -1,19 +1,19 @@
 import Stripe from 'stripe'
-import { NextResponse } from 'next/server'
 import { db } from '@/lib/firebase' // Firebase Firestore
-import { doc, updateDoc } from 'firebase/firestore'
+import { doc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore'
+import { NextResponse } from 'next/server'
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY, {
   apiVersion: '2022-11-15'
 })
 
-export async function POST (request) {
-  const sig = request.headers.get('stripe-signature') // Récupérer la signature Stripe
+export async function POST (req) {
+  const sig = req.headers.get('stripe-signature') // Récupérer la signature Stripe
   let event
 
   try {
     console.log('Vérification de la signature Stripe...')
-    const rawBody = await request.text() // Lire le corps brut de la requête
+    const rawBody = await req.text() // Lire le corps brut de la requête
 
     // Construire l'événement Stripe
     event = stripe.webhooks.constructEvent(
@@ -48,9 +48,7 @@ export async function POST (request) {
         }
 
         // Récupérer les détails de l'abonnement
-        const subscription = await stripe.subscriptions.retrieve(
-          session.subscription
-        )
+        const subscription = await stripe.subscriptions.retrieve(session.subscription)
 
         // Mettre à jour Firestore avec les informations de l'abonnement
         const userRef = doc(db, 'users', userId)
@@ -73,11 +71,20 @@ export async function POST (request) {
         console.log('customer.subscription.updated reçu')
         const subscription = event.data.object
 
-        const userId = subscription.metadata?.userId
-        if (!userId) {
-          console.error('UserID manquant dans les métadonnées')
-          return NextResponse.json({ error: 'UserID manquant' }, { status: 400 })
+        // Récupérer l'utilisateur depuis Firestore en utilisant stripeCustomerId
+        const stripeCustomerId = subscription.customer
+        const userQuery = query(
+          collection(db, 'users'),
+          where('stripeCustomerId', '==', stripeCustomerId)
+        )
+        const userSnapshot = await getDocs(userQuery)
+
+        if (userSnapshot.empty) {
+          console.error('Aucun utilisateur correspondant trouvé pour Stripe Customer ID')
+          return NextResponse.json({ error: 'Utilisateur introuvable' }, { status: 400 })
         }
+
+        const userId = userSnapshot.docs[0].id
 
         // Mettre à jour l'utilisateur dans Firestore
         const userRef = doc(db, 'users', userId)
@@ -94,11 +101,20 @@ export async function POST (request) {
         console.log('customer.subscription.deleted reçu')
         const subscription = event.data.object
 
-        const userId = subscription.metadata?.userId
-        if (!userId) {
-          console.error('UserID manquant dans les métadonnées')
-          return NextResponse.json({ error: 'UserID manquant' }, { status: 400 })
+        // Récupérer l'utilisateur depuis Firestore en utilisant stripeCustomerId
+        const stripeCustomerId = subscription.customer
+        const userQuery = query(
+          collection(db, 'users'),
+          where('stripeCustomerId', '==', stripeCustomerId)
+        )
+        const userSnapshot = await getDocs(userQuery)
+
+        if (userSnapshot.empty) {
+          console.error('Aucun utilisateur correspondant trouvé pour Stripe Customer ID')
+          return NextResponse.json({ error: 'Utilisateur introuvable' }, { status: 400 })
         }
+
+        const userId = userSnapshot.docs[0].id
 
         // Mettre à jour Firestore pour annuler l'abonnement
         const userRef = doc(db, 'users', userId)
