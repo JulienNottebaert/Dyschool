@@ -56,7 +56,8 @@ export async function POST (req) {
         dyslexie: troubles?.dyslexie ?? false,
         dysorthographie: troubles?.dysorthographie ?? false,
         dysphasie: troubles?.dysphasie ?? false,
-        troubleAttention: troubles?.troubleAttention ?? false
+        dyspraxie: troubles?.dyspraxie ?? false,
+        dyséxécutif: troubles?.dyséxécutif ?? false
       }
 
       // Étape 5 : Ajouter l'utilisateur dans Firestore avec l'abonnement gratuit

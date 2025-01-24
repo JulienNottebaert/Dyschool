@@ -4,22 +4,11 @@ import Image from 'next/image'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { auth, storage, db } from '@/lib/firebase'
 import Crayon from '@/public/asset/profile/outil-crayon.png'
-import { Chip } from '@nextui-org/chip'
 import { updateDoc, doc } from 'firebase/firestore'
 
 export default function InformationsPrincipales ({ userData, setUserData }) {
   const [isUploading, setIsUploading] = useState(false)
   const fileInputRef = useRef(null)
-
-  const troubleKeys = [
-    'dyscalculie',
-    'dysgraphie',
-    'dyslexie',
-    'dysorthographie',
-    'dysphasie',
-    'dyspraxie',
-    'dyséxécutif'
-  ]
 
   const triggerFileInput = () => {
     if (fileInputRef.current) {
@@ -59,7 +48,7 @@ export default function InformationsPrincipales ({ userData, setUserData }) {
   }
 
   return (
-    <div className='bg-white flex flex-col gap-4 p-8 shadow-lg rounded-lg items-center justify-center'>
+    <div className='bg-white flex flex-col gap-2 p-8 shadow-md rounded-lg items-center justify-center col-span-1'>
       <div className='relative w-[150px] h-[150px] group'>
         {isUploading && (
           <div className='absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-80 rounded-full z-20'>
@@ -96,21 +85,10 @@ export default function InformationsPrincipales ({ userData, setUserData }) {
           className='hidden'
         />
       </div>
-      <h3 className='text-center text-secondary'>
+      <h3 className='text-center text-primary font-medium'>
         {userData.nom} {userData.prenom}
       </h3>
-      <p className='w-80 px-8 text-center truncate text-sm'>{userData.age || 'Âge non renseigné'}</p>
-      <div className='flex gap-2 flex-wrap justify-center'>
-        {troubleKeys.map(
-          (trouble) =>
-            userData.troubles[trouble] && (
-              <Chip key={trouble} variant='flat' radius='md' color='primary' size='sm'>
-                {trouble.charAt(0).toUpperCase() + trouble.slice(1)}
-              </Chip>
-            )
-        )}
-      </div>
-      <p className='w-80 px-8 text-center text-secondary truncate'>{userData.email}</p>
+      <p className='w-80 px-8 text-center text-gray-400 truncate text-sm'>{userData.email}</p>
     </div>
   )
 }

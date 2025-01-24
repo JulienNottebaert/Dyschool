@@ -21,9 +21,10 @@ export default function FormulairePrincipal ({ userData, setUserData }) {
       const userDataToUpdate = {
         nom: userData.nom || '',
         prenom: userData.prenom || '',
-        age: userData.age || null, // Si `age` est undefined, remplacez-le par `null`
+        age: userData.age || '', // Si `age` est undefined, remplacez-le par `null`
         email: userData.email || '',
-        troubles: userData.troubles || {}
+        troubles: userData.troubles || {},
+        abonnement: userData.abonnement || {}
       }
 
       console.log('Données avant mise à jour :', userDataToUpdate)
@@ -41,7 +42,8 @@ export default function FormulairePrincipal ({ userData, setUserData }) {
           prenom: data.prenom,
           age: data.age,
           photoURL: data.photoURL,
-          troubles: { ...data.troubles }
+          troubles: { ...data.troubles },
+          abonnement: { ...data.abonnement }
         })
       }
 
@@ -70,7 +72,7 @@ export default function FormulairePrincipal ({ userData, setUserData }) {
   }
 
   return (
-    <div className='bg-white flex flex-col gap-4 p-8 shadow-lg rounded-lg col-span-2 items-center'>
+    <div className='bg-white flex flex-col justify-center gap-4 p-8 shadow-md rounded-lg col-span-2 items-center'>
       <div className='flex gap-4 w-full'>
         <Input
           label='Nom'
@@ -97,14 +99,6 @@ export default function FormulairePrincipal ({ userData, setUserData }) {
           isDisabled={!editing}
         />
       </div>
-      <Input
-        label='Email'
-        name='email'
-        placeholder={userData.email || 'Adresse email'}
-        value={userData.email}
-        onChange={handleChange}
-        isDisabled={!editing}
-      />
       <div className='flex flex-wrap gap-4 justify-center'>
         {Object.keys(userData.troubles).map((trouble) => (
           <Checkbox
