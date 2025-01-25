@@ -186,6 +186,9 @@ export default function DashboardLayout ({ children }) {
                       <DropdownItem onClick={() => router.push('/dashboard/profil')}>
                         Profil
                       </DropdownItem>
+                      <DropdownItem onClick={() => router.push('/dashboard/abonnements')}>
+                        Abonnements
+                      </DropdownItem>
                       <DropdownItem
                         className='!text-primary'
                         onClick={() => {

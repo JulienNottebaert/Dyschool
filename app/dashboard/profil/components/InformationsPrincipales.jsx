@@ -13,7 +13,6 @@ export default function InformationsPrincipales ({ userData, setUserData }) {
   const [isUploading, setIsUploading] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false) // État pour la suppression
   const [isModalOpen, setIsModalOpen] = useState(false) // État pour le modal de validation
-  const [email, setEmail] = useState(userData.email || '') // État pour l'email
   const [password, setPassword] = useState('') // État pour le mot de passe
   const fileInputRef = useRef(null)
 
@@ -68,7 +67,7 @@ export default function InformationsPrincipales ({ userData, setUserData }) {
 
     try {
       // Étape 1 : Réauthentifier l'utilisateur
-      const credential = EmailAuthProvider.credential(email, password)
+      const credential = EmailAuthProvider.credential(userData.email, password)
       await reauthenticateWithCredential(user, credential)
 
       // Étape 2 : Supprimer les données utilisateur dans Firestore
@@ -170,7 +169,7 @@ export default function InformationsPrincipales ({ userData, setUserData }) {
             <Input
               label='Email'
               type='email'
-              value={email}
+              value={userData.email}
               disabled // L'email est pré-rempli et non modifiable
             />
             <Input
