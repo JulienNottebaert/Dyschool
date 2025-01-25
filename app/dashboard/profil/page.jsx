@@ -4,10 +4,13 @@ import { useState, useEffect } from 'react'
 import { auth, db } from '@/lib/firebase'
 import { useRouter } from 'next/navigation'
 import { doc, getDoc } from 'firebase/firestore'
+import { Skeleton } from '@nextui-org/react'
+
 import TypeAbonnement from './components/TypeAbonnement'
 import InformationsPrincipales from './components/InformationsPrincipales'
 import FormulairePrincipal from './components/FormulairePrincipal'
-import { Skeleton } from '@nextui-org/react'
+import Notifications from './components/Notifications'
+import Options from './components/Options'
 
 export default function Profil () {
   const [userData, setUserData] = useState({
@@ -32,7 +35,8 @@ export default function Profil () {
       status: '',
       stripeSubscriptionId: '',
       type: ''
-    }
+    },
+    tempsJournalier: 0
   })
   const [loading, setLoading] = useState(true) // Gestion globale du chargement
   const router = useRouter()
@@ -53,7 +57,8 @@ export default function Profil () {
               stripeCustomerId: data.stripeCustomerId,
               photoURL: data.photoURL,
               troubles: { ...data.troubles },
-              abonnement: { ...data.abonnement }
+              abonnement: { ...data.abonnement },
+              tempsJournalier: data.tempsJournalier
             })
           }
         } catch (error) {
@@ -72,9 +77,9 @@ export default function Profil () {
   // Afficher les Skeletons tant que les données sont en cours de chargement
   if (loading) {
     return (
-      <div className='grid grid-cols-3 gap-8'>
+      <div className='grid grid-cols-8 gap-8'>
         {/* Skeleton pour InformationsPrincipales */}
-        <div className='bg-white flex flex-col gap-4 p-8 shadow-lg rounded-lg w-full items-center'>
+        <div className='bg-white flex flex-col gap-4 p-8 shadow-lg rounded-lg w-full items-center col-span-2'>
           <Skeleton className='w-[150px] h-[150px] rounded-full' />
           <Skeleton className='w-40 h-6 rounded-md' />
           <Skeleton className='w-24 h-6 rounded-md' />
@@ -87,7 +92,7 @@ export default function Profil () {
         </div>
 
         {/* Skeleton pour FormulairePrincipal */}
-        <div className='bg-white flex flex-col gap-4 p-8 shadow-lg rounded-lg col-span-2 items-center'>
+        <div className='bg-white flex flex-col gap-4 p-8 shadow-lg rounded-lg col-span-6 items-center'>
           <div className='flex gap-4 w-full'>
             <Skeleton className='w-full h-12 rounded-md' />
             <Skeleton className='w-full h-12 rounded-md' />
@@ -103,7 +108,21 @@ export default function Profil () {
         </div>
 
         {/* Skeleton pour TypeAbonnement */}
-        <div className='bg-white shadow-lg p-8 rounded-lg w-[500px] h-64'>
+        <div className='bg-white shadow-lg p-8 rounded-lg h-64 col-span-3'>
+          <Skeleton className='h-12 w-1/2 mx-auto' />
+          <Skeleton className='h-8 w-1/2 mx-auto mt-4' />
+          <Skeleton className='h-8 w-1/3 mx-auto mt-2' />
+        </div>
+
+        {/* Skeleton pour Notifications */}
+        <div className='bg-white shadow-lg p-8 rounded-lg h-64 col-span-2'>
+          <Skeleton className='h-12 w-1/2 mx-auto' />
+          <Skeleton className='h-8 w-1/2 mx-auto mt-4' />
+          <Skeleton className='h-8 w-1/3 mx-auto mt-2' />
+        </div>
+
+        {/* Skeleton pour TypeAbonnement */}
+        <div className='bg-white shadow-lg p-8 rounded-lg h-64 col-span-3'>
           <Skeleton className='h-12 w-1/2 mx-auto' />
           <Skeleton className='h-8 w-1/2 mx-auto mt-4' />
           <Skeleton className='h-8 w-1/3 mx-auto mt-2' />
@@ -114,10 +133,12 @@ export default function Profil () {
 
   // Afficher le contenu une fois les données chargées
   return (
-    <div className='grid grid-cols-3 gap-8'>
+    <div className='grid grid-cols-10 gap-6'>
       <InformationsPrincipales userData={userData} setUserData={setUserData} />
       <FormulairePrincipal userData={userData} setUserData={setUserData} />
       <TypeAbonnement userData={userData} />
+      <Options userData={userData} />
+      <Notifications userData={userData} />
     </div>
   )
 }

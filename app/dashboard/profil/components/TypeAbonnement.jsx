@@ -1,6 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { faWallet } from '@fortawesome/free-solid-svg-icons'
+import { faStar } from '@fortawesome/free-regular-svg-icons'
 import Link from 'next/link'
 
 function TypeAbonnement ({ userData }) {
@@ -15,39 +16,46 @@ function TypeAbonnement ({ userData }) {
   const { type, endDate } = userData.abonnement // Déstructuration pour plus de clarté
 
   return (
-    <div className='bg-white shadow-lg p-8 rounded-md max-w-md mx-auto text-center col-span-1'>
-      <h1 className='text-2xl font-semibold'>Mon abonnement</h1>
+    <div className='bg-white shadow-lg p-8 rounded-md text-center col-span-4 items-center justify-center'>
+      <h1 className='text-xl font-semibold text-secondary'>Mon abonnement <FontAwesomeIcon icon={faWallet} className='ml-2 text-lg' /></h1>
       <p className='text-sm text-gray-500 mt-2'>
         Gérer votre type d'abonnement et résilier à tout moment
       </p>
 
-      <h3 className='text-primary font-medium mt-4 flex items-center justify-center'>
-        <FontAwesomeIcon icon={faStar} className='mr-2 text-sm' />
-        Membre {type}
-      </h3>
-
       {/* Affichage conditionnel selon le type d'abonnement */}
       {type === 'Gratuit'
         ? (
-          <p className='text-gray-600 mt-2 text-sm'>
-            Pas d'abonnement en cours <br />
-            <Link
-              className='text-secondary font-semibold cursor-pointer underline hover:no-underline' href='/dashboard/abonnements'
-            >
-              s'abonner
-            </Link>
-          </p>
+          <>
+            <h3 className='text-primary font-medium my-6 flex items-center justify-center text-lg'>
+              Membre {type}
+            </h3>
+            <p className='text-gray-500 mt-2 text-sm'>
+              Pas d'abonnement en cours <br />
+              <Link
+                className='text-secondary font-semibold cursor-pointer underline hover:no-underline' href='/dashboard/abonnements'
+              >
+                s'abonner
+              </Link>
+            </p>
+          </>
           )
         : (
           <p className='text-gray-600 mt-2 text-sm'>
             {type === 'Max' || type === 'Premium'
               ? (
                 <>
-                  Votre abonnement est valide jusqu'au{' '} <br />
-                  <span className='font-medium'>{formatDate(endDate)}</span>,{' '}
-                  <span className='text-secondary font-semibold cursor-pointer underline hover:no-underline'>
-                    résilier
-                  </span>
+                  <h3 className='text-primary font-medium my-6 flex items-center justify-center text-lg'>
+                    <FontAwesomeIcon icon={faStar} className='mr-2 text-sm' />
+                    Membre {type}
+                    <FontAwesomeIcon icon={faStar} className='ml-2 text-sm' />
+                  </h3>
+                  <p className='text-gray-500 text-sm'>
+                    Votre abonnement est valide jusqu'au{' '}
+                    <span className='font-medium'>{formatDate(endDate)}</span>{' '} <br /><br />
+                    <span className='text-secondary font-semibold cursor-pointer underline hover:no-underline'>
+                      Changer d'offre
+                    </span>
+                  </p>
                 </>
                 )
               : (

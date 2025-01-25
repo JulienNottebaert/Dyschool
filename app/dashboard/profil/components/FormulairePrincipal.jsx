@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { Input, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Checkbox, Spinner } from '@nextui-org/react'
 import { auth, db } from '@/lib/firebase'
 import { doc, updateDoc, getDoc } from 'firebase/firestore'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 
 export default function FormulairePrincipal ({ userData, setUserData }) {
   const [editing, setEditing] = useState(false) // Mode édition
@@ -72,83 +74,91 @@ export default function FormulairePrincipal ({ userData, setUserData }) {
   }
 
   return (
-    <div className='bg-white flex flex-col justify-center gap-4 p-8 shadow-md rounded-lg col-span-2 items-center'>
-      <div className='flex gap-4 w-full'>
-        <Input
-          label='Nom'
-          name='nom'
-          placeholder={userData.nom || 'Nom'}
-          value={userData.nom}
-          onChange={handleChange}
-          isDisabled={!editing}
-        />
-        <Input
-          label='Prénom'
-          name='prenom'
-          placeholder={userData.prenom || 'Prénom'}
-          value={userData.prenom}
-          onChange={handleChange}
-          isDisabled={!editing}
-        />
-        <Input
-          label='Âge'
-          name='age'
-          placeholder={userData.age || 'Âge'}
-          value={userData.age}
-          onChange={handleChange}
-          isDisabled={!editing}
-        />
-      </div>
-      <div className='flex flex-wrap gap-4 justify-center'>
-        {Object.keys(userData.troubles).map((trouble) => (
-          <Checkbox
-            key={trouble}
-            isSelected={userData.troubles[trouble]}
-            onChange={() => handleTroubleChange(trouble)}
+    <div className='bg-white p-8 shadow-md rounded-lg col-span-7'>
+      <h1 className='text-xl font-semibold text-left text-secondary mb-4'>Informations principales<FontAwesomeIcon icon={faCircleInfo} className='ml-2 text-lg' /></h1>
+      <div className='flex flex-col gap-4'>
+
+        <div className='flex gap-4 w-full justify-center items-center'>
+          <Input
+            label='Nom'
+            name='nom'
+            placeholder={userData.nom || 'Nom'}
+            value={userData.nom}
+            onChange={handleChange}
             isDisabled={!editing}
-          >
-            {trouble.charAt(0).toUpperCase() + trouble.slice(1)}
-          </Checkbox>
-        ))}
-      </div>
-      {!editing ? (
-        <Button color='secondary' className='mt-4' onPress={() => setEditing(true)}>
-          Modifier
-        </Button>
-      ) : (
-        <div className='flex gap-4'>
-          <Button
-            color='default'
-            className='mt-4'
-            onPress={() => setEditing(false)}
-            isDisabled={loading} // Empêche l'annulation pendant le chargement
-          >
-            Annuler
-          </Button>
-          <Button
-            color='secondary'
-            className='mt-4'
-            onPress={() => setConfirmVisible(true)}
-            isDisabled={loading} // Empêche l'enregistrement pendant le chargement
-          >
-            {loading ? <Spinner size='sm' /> : 'Enregistrer'}
-          </Button>
+          />
+          <Input
+            label='Prénom'
+            name='prenom'
+            placeholder={userData.prenom || 'Prénom'}
+            value={userData.prenom}
+            onChange={handleChange}
+            isDisabled={!editing}
+          />
+          <Input
+            label='Âge'
+            name='age'
+            placeholder={userData.age || 'Âge'}
+            value={userData.age}
+            onChange={handleChange}
+            isDisabled={!editing}
+          />
         </div>
-      )}
-      <Modal isOpen={confirmVisible} onClose={() => setConfirmVisible(false)}>
-        <ModalContent>
-          <ModalHeader>Confirmation</ModalHeader>
-          <ModalBody>
-            Êtes-vous sûr de vouloir enregistrer les modifications ?
-          </ModalBody>
-          <ModalFooter>
-            <Button onPress={() => setConfirmVisible(false)}>Annuler</Button>
-            <Button onPress={handleSave} isDisabled={loading}>
-              {loading ? <Spinner size='sm' /> : 'Confirmer'}
+        <div className='flex flex-wrap gap-4 justify-center'>
+          {Object.keys(userData.troubles).map((trouble) => (
+            <Checkbox
+              key={trouble}
+              isSelected={userData.troubles[trouble]}
+              onChange={() => handleTroubleChange(trouble)}
+              isDisabled={!editing}
+            >
+              {trouble.charAt(0).toUpperCase() + trouble.slice(1)}
+            </Checkbox>
+          ))}
+        </div>
+        {!editing
+          ? (
+            <Button color='secondary' className='mt-4 mx-auto' size='sm' onPress={() => setEditing(true)}>
+              Modifier
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+            )
+          : (
+            <div className='flex gap-4 justify-center'>
+              <Button
+                size='sm'
+                color='default'
+                className='mt-4'
+                onPress={() => setEditing(false)}
+                isDisabled={loading}
+              >
+                Annuler
+              </Button>
+              <Button
+                size='sm'
+                color='secondary'
+                className='mt-4'
+                onPress={() => setConfirmVisible(true)}
+                isDisabled={loading}
+              >
+                {loading ? <Spinner size='sm' /> : 'Enregistrer'}
+              </Button>
+            </div>
+            )}
+        <Modal isOpen={confirmVisible} onClose={() => setConfirmVisible(false)}>
+          <ModalContent>
+            <ModalHeader>Confirmation</ModalHeader>
+            <ModalBody>
+              Êtes-vous sûr de vouloir enregistrer les modifications ?
+            </ModalBody>
+            <ModalFooter>
+              <Button size='sm' onPress={() => setConfirmVisible(false)}>Annuler</Button>
+              <Button size='sm' onPress={handleSave} color='secondary' isDisabled={loading}>
+                {loading ? <Spinner size='sm' /> : 'Confirmer'}
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </div>
     </div>
   )
 }
