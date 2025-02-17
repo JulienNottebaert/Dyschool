@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import Accueil from '@/public/asset/home/accuel.png'
 import Link from 'next/link'
-import { Chip } from '@nextui-org/chip'
 import styles from './homePage.module.css'
+import { Button } from '@nextui-org/button'
 
 export default function HomePage () { // Accepter les données en prop
   return (
@@ -14,12 +14,11 @@ export default function HomePage () { // Accepter les données en prop
           troubles dys de manière ludique
         </p>
         <div className='flex flex-col lg:flex-row gap-4'>
-          <Link href='/inscription'>  {/* Correction du lien */}
-            <Chip size='lg' color='secondary' variant='solid' className='px-4'>S'inscrire</Chip>
+          <Link href='/abonnements'>  {/* Correction du lien */}
+            <Button size='lg' color='secondary' variant='ghost' className='px-4'>En savoir plus</Button>
           </Link>
-          <Link href='#decouvrir' className='text-secondary'>  {/* Correction du lien */}
-            <Chip size='lg' color='secondary' variant='bordered' className='px-6 flex flex-row'>Découvrir Dyschool
-            </Chip>
+          <Link href='/inscription'>  {/* Correction du lien */}
+            <Button size='lg' color='secondary' variant='solid' className='px-4'>S'inscrire</Button>
           </Link>
         </div>
       </div>

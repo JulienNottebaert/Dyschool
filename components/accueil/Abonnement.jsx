@@ -1,53 +1,109 @@
-import styles from './abonnement.module.css'
-import { TiArrowRightThick } from 'react-icons/ti'
-
+import { Divider } from '@nextui-org/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons'
 export default function Abonnement () {
   return (
-    <div className={styles.containerAbo}>
-      <h2 className='text-secondary-500 px-6 text-center'>Choisir son abonnement</h2>
+    <div>
+      <h2 className='text-primary px-6 text-center'>Choisir son abonnement</h2>
       <h3 className='text-gray-600 px-6 text-center normal-case'>Découvre nos offres adaptés pour tous les troubles DYS!</h3>
-      <div className={styles.containerCard}>
+      <div className='flex items-center justify-center gap-20 mt-20'>
 
-        <div className={styles.card}>
-          <h2 className='text-primary-500'>Gratuit</h2>
-          <p className='flex items-center gap-3'><TiArrowRightThick className='text-secondary text-2xl' />1 jeu par trouble
-          </p>
-          <p className='flex items-center gap-3'><TiArrowRightThick className='text-secondary text-2xl' />Personnalisation du personnage
-          </p>
-          <p className='flex items-center gap-3'><TiArrowRightThick className='text-secondary text-2xl' />Suivi de la progression
-          </p>
-          <div>
-            <h2 className='text-primary-500'>0€ <span className='text-gray-300 text-lg'>/mois</span></h2>
-            <button className={styles.buttonChoisir}>Choisir</button>
+        {/* Premium Subscription Card */}
+        <div className='bg-white drop-shadow-lg rounded-lg w-[350px]'>
+          <div className='px-8 pt-8'>
+            <h3 className='font-bold text-white bg-gray-500 w-fit px-2 py-1 rounded-md'>Gratuit</h3>
           </div>
+          <div className='px-8 flex items-end'>
+            <h1 className=''>0€</h1>
+            <p className='mb-4 ml-1'>/mois</p>
+          </div>
+          <p className='px-8 my-4 text-sm '>Pour découvrir Dyschool</p>
+          <Divider className='w-full bg-gray-500' />
+          <h4 className='px-8 mt-4 font-bold uppercase '>Options</h4>
+          <ul className='px-8 pt-4 pb-8 flex flex-col gap-3'>
+            <li className='flex'>
+              <FontAwesomeIcon icon={faCircleCheck} className='text-green-600 mr-2' size='xl' /> Accès à 1 jeu par troubles
+            </li>
+            <li className='flex'>
+              <FontAwesomeIcon icon={faCircleXmark} className='text-red-600 mr-2' size='xl' /> Suivi de la progression
+            </li>
+            <li className='flex'>
+              <FontAwesomeIcon icon={faCircleXmark} className='text-red-600 mr-2' size='xl' /> Options modifiables en fonction du trouble
+            </li>
+            <li className='flex'>
+              <FontAwesomeIcon icon={faCircleXmark} className='text-red-600 mr-2' size='xl' /> Personnalisation du personnage
+            </li>
+            <li className='flex'>
+              <FontAwesomeIcon icon={faCircleXmark} className='text-red-600 mr-2' size='xl' /> Personnalisation de la tenue
+            </li>
+          </ul>
         </div>
 
-        <div className={styles.card}>
-          <h2 className='text-primary-500'>Mensuel</h2>
-          <p className='flex items-center gap-3'><TiArrowRightThick className='text-secondary text-2xl' />+40 jeux disponibles
-          </p>
-          <p className='flex items-center gap-3'><TiArrowRightThick className='text-secondary text-2xl' />Personnalisation du personnage
-          </p>
-          <p className='flex items-center gap-3'><TiArrowRightThick className='text-secondary text-2xl' />Suivi de la progression
-          </p>
-          <div>
-            <h2 className='text-primary-500'>9€ <span className='text-gray-300 text-lg'>/mois</span></h2>
-            <button className={styles.buttonChoisir}>Choisir</button>
+        {/* Premium Subscription Card */}
+        <div className='bg-white drop-shadow-lg rounded-lg w-[350px]'>
+          <div className='px-8 pt-8'>
+            <h3 className='font-bold text-white bg-secondary w-fit px-2 py-1 rounded-md'>Premium</h3>
           </div>
+          <div className='px-8 flex items-end'>
+            <h1 className=''>9€</h1>
+            <p className='mb-4 ml-1'>/mois</p>
+          </div>
+          <p className='px-8 my-4 text-sm '>Pour une utilisation avancée</p>
+          <Divider className='w-full bg-secondary' />
+          <h4 className='px-8 mt-4 font-bold uppercase '>Options</h4>
+          <ul className='px-8 pt-4 pb-8 flex flex-col gap-3'>
+            <li className='flex'>
+              <FontAwesomeIcon icon={faCircleCheck} className='text-green-600 mr-2' size='xl' /> Accès à tous les jeux
+            </li>
+            <li className='flex'>
+              <FontAwesomeIcon icon={faCircleCheck} className='text-green-600 mr-2' size='xl' /> Suivi de la progression
+            </li>
+            <li className='flex'>
+              <FontAwesomeIcon icon={faCircleCheck} className='text-green-600 mr-2' size='xl' /> Options modifiables en fonction du trouble
+            </li>
+            <li className='flex'>
+              <FontAwesomeIcon icon={faCircleCheck} className='text-green-600 mr-2' size='xl' /> Personnalisation du personnage
+            </li>
+            <li className='flex'>
+              <FontAwesomeIcon icon={faCircleCheck} className='text-green-600 mr-2' size='xl' /> Personnalisation de la tenue
+            </li>
+          </ul>
         </div>
 
-        <div className={styles.card}>
-          <h2 className='text-primary-500'>Annuel</h2>
-          <p className='flex items-center gap-3'><TiArrowRightThick className='text-secondary text-2xl' />+40 jeux disponibles
-          </p>
-          <p className='flex items-center gap-3'><TiArrowRightThick className='text-secondary text-2xl' />Personnalisation du personnage
-          </p>
-          <p className='flex items-center gap-3'><TiArrowRightThick className='text-secondary text-2xl' />Suivi de la progression
-          </p>
+        {/* Max Subscription Card */}
+        <div className='bg-secondary drop-shadow-lg rounded-lg w-[350px]'>
           <div>
-            <h2 className='text-primary-500'>90€ <span className='text-gray-300 text-lg'>/an</span></h2>
-            <button className={styles.buttonChoisir}>Choisir</button>
+            <div className='absolute -top-5 left-1/2 transform -translate-x-1/2 bg-primary text-white px-3 py-2 rounded-md drop-shadow-md uppercase font-bold'>
+              2 mois offerts
+            </div>
           </div>
+          <div className='px-8 pt-8'>
+            <h3 className='font-bold text-white bg-secondary-400 w-fit px-2 py-1 rounded-md'>Max</h3>
+          </div>
+          <div className='px-8 flex items-end text-white'>
+            <h1 className=''>90€</h1>
+            <p className='mb-4 ml-1 text-white'>/an</p>
+          </div>
+          <p className='px-8 my-4 text-sm text-white'>Pour une utilisation avancée</p>
+          <Divider className='w-full bg-gray-200' />
+          <h4 className='px-8 mt-4 font-bold uppercase text-white'>Options</h4>
+          <ul className='px-8 pt-4 pb-8 flex flex-col gap-3'>
+            <li className='flex text-white'>
+              <FontAwesomeIcon icon={faCircleCheck} className='text-green-400 mr-2' size='xl' /> Accès à tous les jeux
+            </li>
+            <li className='flex text-white'>
+              <FontAwesomeIcon icon={faCircleCheck} className='text-green-400 mr-2' size='xl' /> Suivi de la progression
+            </li>
+            <li className='flex text-white'>
+              <FontAwesomeIcon icon={faCircleCheck} className='text-green-400 mr-2' size='xl' /> Options modifiables en fonction du trouble
+            </li>
+            <li className='flex text-white'>
+              <FontAwesomeIcon icon={faCircleCheck} className='text-green-400 mr-2' size='xl' /> Personnalisation du personnage
+            </li>
+            <li className='flex text-white'>
+              <FontAwesomeIcon icon={faCircleCheck} className='text-green-400 mr-2' size='xl' /> Personnalisation de la tenue
+            </li>
+          </ul>
         </div>
       </div>
     </div>
