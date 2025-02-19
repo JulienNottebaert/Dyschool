@@ -8,6 +8,7 @@ export default function RootLayout ({ children }) {
   return (
     <html lang='fr'>
       <head>
+        <meta name='viewport' content='viewport-fit=cover' />
         <script
           async
           src='https://www.googletagmanager.com/gtag/js?id=G-TFW4LB1VMH'

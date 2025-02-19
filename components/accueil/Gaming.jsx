@@ -1,6 +1,6 @@
 export default function Gaming () {
   return (
-    <div className='flex flex-row p-5 my-36 gap-20'>
+    <div className='flex flex-col p-5 my-36 gap-20 md:flex-row'>
       <div className='flex flex-col gap-10'>
         <div>
           <h3 className='text-secondary'>Nos jeux</h3>

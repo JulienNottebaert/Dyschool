@@ -10,7 +10,7 @@ export default function Apercu () {
         <p className='text-secondary-500'>Aperçu</p>
         <h2 className='text-primary'>Pourquoi choisir Dyschool ?</h2>
       </div>
-      <div className='flex flew-row items-center justify-center gap-10 my-14 p-5'>
+      <div className='flex flew-row flex-wrap items-center justify-center gap-10 my-14 p-5'>
 
         <div className='size-80 bg-white flex flex-col items-center justify-center text-center gap-5 rounded-2xl p-5 shadow-md'>
           <Image src={Game} className='bg-secondary w-20 p-4 rounded-xl' />

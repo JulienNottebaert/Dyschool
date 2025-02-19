@@ -6,10 +6,10 @@ export default function Abonnement () {
     <div>
       <h2 className='text-primary px-6 text-center'>Choisir son abonnement</h2>
       <h3 className='text-gray-600 px-6 text-center normal-case'>Découvre nos offres adaptés pour tous les troubles DYS!</h3>
-      <div className='flex items-center justify-center gap-20 mt-20'>
+      <div className='flex flex-wrap items-center justify-center gap-20 mt-20'>
 
         {/* Premium Subscription Card */}
-        <div className='bg-white drop-shadow-lg rounded-lg w-[350px]'>
+        <div className='bg-white drop-shadow-lg rounded-lg max-w-[350px] mx-8'>
           <div className='px-8 pt-8'>
             <h3 className='font-bold text-white bg-gray-500 w-fit px-2 py-1 rounded-md'>Gratuit</h3>
           </div>
@@ -40,7 +40,7 @@ export default function Abonnement () {
         </div>
 
         {/* Premium Subscription Card */}
-        <div className='bg-white drop-shadow-lg rounded-lg w-[350px]'>
+        <div className='bg-white drop-shadow-lg rounded-lg max-w-[350px] mx-8'>
           <div className='px-8 pt-8'>
             <h3 className='font-bold text-white bg-secondary w-fit px-2 py-1 rounded-md'>Premium</h3>
           </div>
@@ -71,7 +71,7 @@ export default function Abonnement () {
         </div>
 
         {/* Max Subscription Card */}
-        <div className='bg-secondary drop-shadow-lg rounded-lg w-[350px]'>
+        <div className='bg-secondary drop-shadow-lg rounded-lg max-w-[350px] mx-8'>
           <div>
             <div className='absolute -top-5 left-1/2 transform -translate-x-1/2 bg-primary text-white px-3 py-2 rounded-md drop-shadow-md uppercase font-bold'>
               2 mois offerts
