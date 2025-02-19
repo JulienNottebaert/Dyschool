@@ -212,7 +212,7 @@ export default function DashboardLayout ({ children }) {
                 )}
           </div>
         </div>
-        <div className='p-8 mt-20 bg-gray-50'>
+        <div className='p-8 mt-20 bg-gray-50 h-full'>
           {children}
         </div>
       </main>

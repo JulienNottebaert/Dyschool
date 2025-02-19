@@ -2,7 +2,9 @@ import React from 'react'
 
 function PageJeux () {
   return (
-    <div>PageJeux</div>
+    <div>
+      <h1 className='text-center'>Arrive bientôt !</h1>
+    </div>
   )
 }
 
