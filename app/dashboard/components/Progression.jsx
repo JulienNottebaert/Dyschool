@@ -1,10 +1,14 @@
 import React from 'react'
 import { Progress } from '@nextui-org/react'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBullseye } from '@fortawesome/free-solid-svg-icons'
+
 function Progression () {
   return (
     <div className='bg-white shadow-lg p-8 col-span-3 row-span-4 rounded-md flex flex-col justify-between px-10'>
-      <h3 className='text-secondary'>Objectis Mensuels</h3>
+      <h3 className='text-secondary'>Objectis Mensuels           <FontAwesomeIcon icon={faBullseye} className='ml-2' />
+      </h3>
       <Progress
         className='max-w-md'
         color='primary'

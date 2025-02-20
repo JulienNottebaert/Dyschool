@@ -19,17 +19,20 @@ function Profil ({ data }) {
         </Link>
       </div>
       <div className='flex p-6 gap-6'>
-        <div className='relative size-32'>
-          <Image
-            src={
+        <div className='flex flex-col text-center'>
+          <div className='relative size-32'>
+            <Image
+              src={
               data.photoURL ||
               'https://firebasestorage.googleapis.com/v0/b/dyschool-4ca88.firebasestorage.app/o/profil.png?alt=media&token=ee71c4c6-b87f-4e2d-88ee-efb2fec1f4b3'
             }
-            alt='Photo profil utilisateur'
-            fill
-            className='border-4 border-secondary rounded-[50%]'
-            style={{ objectFit: 'cover' }}
-          />
+              alt='Photo profil utilisateur'
+              fill
+              className='border-4 border-secondary rounded-[50%]'
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
+          <h3 className='text-primary mt-2 font-bold'>Niveau 62</h3>
         </div>
         <div className='flex flex-col justify-evenly py-3'>
           <h3>{data.nom} {data.prenom}</h3>
