@@ -10,9 +10,8 @@ function Progression () {
       <h3 className='text-secondary'>Objectis Mensuels           <FontAwesomeIcon icon={faBullseye} className='ml-2' />
       </h3>
       <Progress
-        className='max-w-md'
-        color='primary'
-        label='Experience'
+        color='success'
+        label='Expériences'
         valueLabel='10000'
         maxValue={10000}
         showValueLabel
@@ -21,36 +20,43 @@ function Progression () {
       />
 
       <Progress
-        className='max-w-md'
-        color='success'
+        classNames={{
+          base: 'max-w-md',
+          indicator: "bg-gradient-radial from-[#cd7f32] to-[#8b5a2b]",
+        }}
         valueLabel='100'
         label='Hérissons de bronze'
         maxValue={100}
         showValueLabel
         size='sm'
-        value={34}
+        value={85}
       />
 
       <Progress
-        className='max-w-md'
-        color='danger'
+        classNames={{
+          base: 'max-w-md',
+          indicator: "bg-gradient-to-r from-[#e0e0e0] via-[#c0c0c0] to-[#a8a8a8]",
+        }}
         valueLabel='30'
         label="Hérissons d'argent"
         maxValue={30}
         showValueLabel
         size='sm'
-        value={9}
+        value={18}
       />
 
       <Progress
-        className='max-w-md'
-        color='secondary'
+        classNames={{
+          base: 'max-w-md',
+          indicator: "bg-gradient-to-r from-[#ffd700] to-[#ffcc00]",
+
+        }}
         valueLabel='10'
         label="Hérissons d'or"
         maxValue={10}
         showValueLabel
         size='sm'
-        value={2}
+        value={4}
       />
     </div>
   )

@@ -8,9 +8,9 @@ function CompletionMensuelle () {
         <CircularProgress
           classNames={{
             svg: 'w-20 h-20 drop-shadow-md',
-            indicator: 'stroke-success',
-            track: 'stroke-success/10',
-            value: 'text-md font-semibold text-success'
+            indicator: 'stroke-danger',
+            track: 'stroke-danger/10',
+            value: 'text-md font-semibold text-danger'
           }}
           showValueLabel
           strokeWidth={4}

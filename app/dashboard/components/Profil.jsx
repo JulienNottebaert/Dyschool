@@ -1,15 +1,11 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faWallet } from '@fortawesome/free-solid-svg-icons'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Chip } from '@nextui-org/chip'
+import { Chip, Progress } from '@nextui-org/react'
 
 function Profil ({ data }) {
-  const troublesActifs = Object.entries(data.troubles)
-    .filter(([_, value]) => value) // On garde seulement les troubles qui sont `true`
-    .map(([key]) => key)
-
   return (
     <div className='bg-white shadow-lg col-span-3 row-span-4 rounded-md flex flex-col'>
       <div className='bg-secondary flex justify-between text-white w-full rounded-md py-4 px-6'>
@@ -20,7 +16,7 @@ function Profil ({ data }) {
       </div>
       <div className='flex px-6 pt-6 pb-2 gap-3'>
         <div className='flex flex-col items-center'>
-          <div className='relative size-16'>
+          <div className='relative size-20'>
             <Image
               src={
               data.photoURL ||
@@ -34,27 +30,24 @@ function Profil ({ data }) {
           </div>
           <h4 className='text-primary mt-2 font-bold text-lg'>Niveau 62</h4>
         </div>
-        <div className='flex flex-col'>
+        <div className='flex flex-col mt-4'>
           <h3 className='text-lg truncate max-w-[150px] w-full overflow-hidden'>{data.nom} <br /> {data.prenom}</h3>
         </div>
       </div>
-      <div className='px-6 pb-6'>
-
-        {troublesActifs.length > 0
-          ? (
-            <div className='text-gray-50 flex flex-wrap gap-1'>
-              {troublesActifs.map((trouble, index) => (
-                <Chip key={index} variant='flat' color='primary' size='sm'>{trouble}</Chip>
-              ))}
-            </div>
-            )
-          : (
-            <p className='text-gray-500 text-sm'>Aucun trouble renseigné</p>
-            )}
-
-      </div>
-      <div className='px-6 pb-6'>
-        <h4 className='mb-2 text-md'><FontAwesomeIcon icon={faWallet} className='text-primary mr-2' /> Mon abonnement :  <span className='text-primary'>{data.abonnement.type}</span> </h4>
+      <Progress
+        className='max-w-md px-6'
+        color='primary'
+        valueLabel='63'
+        label="Prochain niveau"
+        maxValue={30}
+        showValueLabel
+        size='sm'
+        value={26}
+      />
+      <p className='px-6 text-xs pt-2'>Expériences manquantes : 230</p>
+      <div className='px-6 flex flex-wrap gap-2 pt-2'>
+        <Chip variant='flat' color='primary' size='sm'>Roi du Simon</Chip>
+        <Chip variant='flat' color='primary' size='sm'>Fou du Puissance 4</Chip>
       </div>
     </div>
   )
