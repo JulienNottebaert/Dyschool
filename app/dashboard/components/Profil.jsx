@@ -18,9 +18,9 @@ function Profil ({ data }) {
           <FontAwesomeIcon icon={faEdit} className='text-md ml-4 bg-white bg-opacity-25 p-2 rounded-lg' />
         </Link>
       </div>
-      <div className='flex p-6 gap-6'>
-        <div className='flex flex-col text-center'>
-          <div className='relative size-32'>
+      <div className='flex px-6 pt-6 pb-2 gap-3'>
+        <div className='flex flex-col items-center'>
+          <div className='relative size-16'>
             <Image
               src={
               data.photoURL ||
@@ -28,19 +28,17 @@ function Profil ({ data }) {
             }
               alt='Photo profil utilisateur'
               fill
-              className='border-4 border-secondary rounded-[50%]'
+              className='border-3 border-secondary rounded-[50%]'
               style={{ objectFit: 'cover' }}
             />
           </div>
-          <h3 className='text-primary mt-2 font-bold'>Niveau 62</h3>
+          <h4 className='text-primary mt-2 font-bold text-lg'>Niveau 62</h4>
         </div>
-        <div className='flex flex-col justify-evenly py-3'>
-          <h3>{data.nom} {data.prenom}</h3>
-          <h4 className='text-gray-500'>{data.email}</h4>
+        <div className='flex flex-col'>
+          <h3 className='text-lg truncate max-w-[150px] w-full overflow-hidden'>{data.nom} <br /> {data.prenom}</h3>
         </div>
       </div>
       <div className='px-6 pb-6'>
-        <h4 className='mb-2'>Troubles :</h4>
 
         {troublesActifs.length > 0
           ? (
@@ -51,13 +49,12 @@ function Profil ({ data }) {
             </div>
             )
           : (
-            <p className='text-gray-500'>Aucun trouble renseigné</p>
+            <p className='text-gray-500 text-sm'>Aucun trouble renseigné</p>
             )}
 
       </div>
       <div className='px-6 pb-6'>
-        <h4 className='mb-2'>Mon abonnement :</h4>
-        <p className='text-md'><FontAwesomeIcon icon={faWallet} className='text-primary mr-2' /> {data.abonnement.type}</p>
+        <h4 className='mb-2 text-md'><FontAwesomeIcon icon={faWallet} className='text-primary mr-2' /> Mon abonnement :  <span className='text-primary'>{data.abonnement.type}</span> </h4>
       </div>
     </div>
   )

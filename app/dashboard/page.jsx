@@ -135,7 +135,7 @@ export default function Dashboard () {
 
   // Afficher le contenu une fois les données chargées
   return (
-    <div className='grid grid-cols-12 gap-6 grid-rows-8'>
+    <div className='grid xl:grid-cols-12 gap-6 xl:grid-rows-8 xl:h-[83vh] '>
       <Welcoming data={userData} />
       <Profil data={userData} />
       <CompletionJournaliere data={userData} />
