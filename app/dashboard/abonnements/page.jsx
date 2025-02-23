@@ -79,7 +79,7 @@ function Abonnements () {
   }
 
   return (
-    <div className='flex items-center justify-center gap-12 mt-12'>
+    <div className='flex items-center justify-center gap-20 mt-12'>
       {/* Premium Subscription Card */}
       <div className='bg-white drop-shadow-lg rounded-lg w-[350px]'>
         <div className='px-8 pt-8'>

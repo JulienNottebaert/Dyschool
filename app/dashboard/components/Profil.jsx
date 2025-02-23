@@ -38,7 +38,7 @@ function Profil ({ data }) {
         className='max-w-md px-6'
         color='primary'
         valueLabel='63'
-        label="Prochain niveau"
+        label='Prochain niveau'
         maxValue={30}
         showValueLabel
         size='sm'

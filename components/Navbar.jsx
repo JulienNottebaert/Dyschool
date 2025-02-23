@@ -28,7 +28,7 @@ const LoggedInNavItems = ({ userData, logout }) => {
   return (
     <>
       <NavbarItem>
-        <span className='font-bold text-secondary'>
+        <span className='font-bold text-secondary sm:block hidden'>
           {userData?.prenom || 'Prénom non disponible'} {userData?.nom || 'Nom non disponible'}
         </span>
       </NavbarItem>
@@ -48,10 +48,16 @@ const LoggedInNavItems = ({ userData, logout }) => {
             <DropdownItem onPress={() => router.push('/dashboard')}>
               Tableau de bord
             </DropdownItem>
-            <DropdownItem onPress={() => router.push('/dashboard/profil')}>
-              Profil
+            <DropdownItem onPress={() => router.push('/')}>
+              Accueil
             </DropdownItem>
-            <DropdownItem onPress={logout}>
+            <DropdownItem onPress={() => router.push('/abonnements')}>
+              Abonnements
+            </DropdownItem>
+            <DropdownItem onPress={() => router.push('/blog')}>
+              Blog
+            </DropdownItem>
+            <DropdownItem onPress={logout} className='text-primary'>
               Déconnexion
             </DropdownItem>
           </DropdownMenu>
@@ -126,12 +132,29 @@ function CustomNavbar () {
 
   return (
     <Navbar isBordered shouldHideOnScroll>
-      <NavbarContent>
+      <NavbarContent justify='start'>
         <NavbarBrand>
           <Link href='/' className='cursor-pointer'>
             <Image src={Logo} width={100} height={100} alt='Logo' />
           </Link>
         </NavbarBrand>
+      </NavbarContent>
+      <NavbarContent className='hidden sm:flex gap-8' justify='center'>
+        <NavbarItem>
+          <Link color='foreground' href='/'>
+            Accueil
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color='foreground' href='/abonnements'>
+            Abonnements
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color='foreground' href='/blog'>
+            Blog
+          </Link>
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent justify='end'>

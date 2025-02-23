@@ -8,7 +8,7 @@ export default function Apercu () {
     <div className='bg-secondary-50 bg-opacity-50 w-full'>
       <div className='text-center mt-10'>
         <p className='text-secondary-500'>Aperçu</p>
-        <h2 className='text-primary'>Pourquoi choisir Dyschool ?</h2>
+        <h2 className='text-primary px-5'>Pourquoi choisir Dyschool ?</h2>
       </div>
       <div className='flex flew-row flex-wrap items-center justify-center gap-10 my-14 p-5'>
 

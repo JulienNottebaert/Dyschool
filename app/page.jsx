@@ -1,8 +1,8 @@
 import HomePage from '@/components/accueil/HomePage'
 import Apercu from '@/components/accueil/Apercu'
 import Gaming from '@/components/accueil/Gaming'
-import Abonnement from '@/components/accueil/Abonnement'
 import Partenaires from '@/components/accueil/Partenaires'
+import Blog from '@/components/accueil/BlogAccueil'
 
 export default function Home () {
   return (
@@ -10,7 +10,9 @@ export default function Home () {
       <HomePage />
       <Apercu />
       <Gaming />
-      <Abonnement />
+      <div className='bg-primary-50 bg-opacity-50 w-full'>
+        <Blog />
+      </div>
       <Partenaires />
     </main>
   )

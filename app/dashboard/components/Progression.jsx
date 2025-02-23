@@ -21,8 +21,7 @@ function Progression () {
 
       <Progress
         classNames={{
-          base: 'max-w-md',
-          indicator: "bg-gradient-radial from-[#cd7f32] to-[#8b5a2b]",
+          indicator: 'bg-gradient-radial from-[#cd7f32] to-[#8b5a2b]'
         }}
         valueLabel='100'
         label='Hérissons de bronze'
@@ -34,8 +33,7 @@ function Progression () {
 
       <Progress
         classNames={{
-          base: 'max-w-md',
-          indicator: "bg-gradient-to-r from-[#e0e0e0] via-[#c0c0c0] to-[#a8a8a8]",
+          indicator: 'bg-gradient-to-r from-[#e0e0e0] via-[#c0c0c0] to-[#a8a8a8]'
         }}
         valueLabel='30'
         label="Hérissons d'argent"
@@ -47,8 +45,7 @@ function Progression () {
 
       <Progress
         classNames={{
-          base: 'max-w-md',
-          indicator: "bg-gradient-to-r from-[#ffd700] to-[#ffcc00]",
+          indicator: 'bg-gradient-to-r from-[#ffd700] to-[#ffcc00]'
 
         }}
         valueLabel='10'

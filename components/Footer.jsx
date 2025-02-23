@@ -13,7 +13,7 @@ export default function Footer() {
   }
 
   return (
-    <div className='flex justify-center mb-2'>
+    <div className='flex justify-center mb-2 mt-20'>
       <p className='text-sm'>Dyschool ©2024</p>
     </div>
   )

@@ -22,7 +22,7 @@ export default function HomePage () { // Accepter les données en prop
           </Link>
         </div>
       </div>
-      <div className='w-9/12'>
+      <div className='w-9/12 px-5'>
         <Image src={Accueil} alt="Image d'accueil Dyschool" className={styles.anim} layout='responsive' width={800} height={600} />  {/* Optimisation de l'image */}
       </div>
     </div>
