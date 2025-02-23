@@ -1,10 +1,14 @@
+'use client'
+
 import Image from 'next/image'
 import Accueil from '@/public/asset/home/accuel.png'
-import Link from 'next/link'
 import styles from './homePage.module.css'
 import { Button } from '@nextui-org/button'
+import { useRouter } from 'next/navigation'
 
 export default function HomePage () { // Accepter les données en prop
+  const router = useRouter()
+
   return (
     <div className='container mx-auto flex flex-col lg:flex-row justify-center items-center gap-10 pt-20 mb-20'>
       <div className='flex flex-col justify-between gap-10 px-4'>
@@ -14,12 +18,24 @@ export default function HomePage () { // Accepter les données en prop
           troubles dys de manière ludique
         </p>
         <div className='flex flex-col lg:flex-row gap-4'>
-          <Link href='/abonnements'>  {/* Correction du lien */}
-            <Button size='lg' color='secondary' variant='ghost' className='px-4'>En savoir plus</Button>
-          </Link>
-          <Link href='/inscription'>  {/* Correction du lien */}
-            <Button size='lg' color='secondary' variant='solid' className='px-4'>S'inscrire</Button>
-          </Link>
+          <Button
+            size='lg'
+            color='secondary'
+            variant='ghost'
+            className='px-4'
+            onPress={() => router.push('/abonnements')}
+          >
+            En savoir plus
+          </Button>
+          <Button
+            size='lg'
+            color='secondary'
+            variant='solid'
+            className='px-4'
+            onPress={() => router.push('/inscription')}
+          >
+            S'inscrire
+          </Button>
         </div>
       </div>
       <div className='w-9/12 px-5'>

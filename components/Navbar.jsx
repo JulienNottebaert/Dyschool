@@ -67,32 +67,35 @@ const LoggedInNavItems = ({ userData, logout }) => {
   )
 }
 
-const LoggedOutNavItems = () => (
-  <div className='flex items-center gap-4'>
-    <NavbarItem>
-      <Link href='/connexion'>
+const LoggedOutNavItems = () => {
+  const router = useRouter()
+
+  return (
+    <div className='flex items-center gap-4'>
+      <NavbarItem>
         <Button
           size='sm'
           color='default'
+          className='pointer-events-auto'
+          onPress={() => router.push('/connexion')}
         >
           Connexion
         </Button>
-      </Link>
-    </NavbarItem>
+      </NavbarItem>
 
-    <NavbarItem>
-      <Link href='/inscription'>
+      <NavbarItem>
         <Button
           size='sm'
           color='secondary'
+          className='pointer-events-auto'
+          onPress={() => router.push('/inscription')}
         >
           Inscription
         </Button>
-      </Link>
-    </NavbarItem>
-  </div>
-)
-
+      </NavbarItem>
+    </div>
+  )
+}
 function CustomNavbar () {
   const [userData, setUserData] = useState(null)
   const [user, setUser] = useState(null)

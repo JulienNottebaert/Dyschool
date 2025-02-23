@@ -1,12 +1,15 @@
+'use client'
 import { Button, Divider } from '@nextui-org/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+
 export default function Abonnement () {
+  const router = useRouter()
   return (
     <div>
       <h2 className='text-primary px-6 text-center mt-6'>Choisir son abonnement</h2>
-      <div className='flex flex-wrap items-center justify-center gap-16 mt-8'>
+      <div className='flex flex-wrap items-center justify-center gap-16 mt-8 px-5'>
 
         {/* Premium Subscription Card */}
         <div className='bg-white drop-shadow-lg rounded-lg max-w-[350px]'>
@@ -106,9 +109,11 @@ export default function Abonnement () {
           </ul>
         </div>
       </div>
-      <Link href='/inscription'>
-        <Button className='block mx-auto mt-10' color='primary' variant='shadow' size='lg'>S'inscrire</Button>
-      </Link>
+      <Button
+        onPress={() => router.push('/inscription')}
+        className='block mx-auto mt-10' color='primary' variant='shadow' size='lg'
+      >S'inscrire
+      </Button>
     </div>
   )
 }
