@@ -7,7 +7,26 @@ const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY)
 
 export async function POST (req) {
   const body = await req.json()
-  const { type, email, password, nom, prenom, troubles } = body
+  const {
+    type,
+    email,
+    password,
+    nom,
+    prenom,
+    troubles,
+    titres,
+    gold,
+    silver,
+    bronze,
+    experiences,
+    niveau,
+    controleParental,
+    jeuxAdaptes,
+    notifOffres,
+    notifNewsletters,
+    notifArticle,
+    typographie
+  } = body
 
   try {
     if (type === 'register') {
@@ -75,6 +94,18 @@ export async function POST (req) {
           endDate: new Date(freeSubscription.current_period_end * 1000).toISOString(),
           status: freeSubscription.status // Statut de l'abonnement (ex: active)
         },
+        titres: titres || [], // Liste des titres (par défaut vide)
+        gold: gold || 0, // Points gold
+        silver: silver || 0, // Points silver
+        bronze: bronze || 0, // Points bronze
+        experiences: experiences || 0, // Expérience utilisateur
+        niveau: niveau || 0, // Niveau de progression
+        controleParental: controleParental ?? false, // Activation du contrôle parental
+        jeuxAdaptes: jeuxAdaptes ?? false, // Option pour jeux adaptés
+        notifOffres: notifOffres ?? false, // Notifications des offres
+        notifNewsletters: notifNewsletters ?? false, // Notifications des newsletters
+        notifArticle: notifArticle ?? false, // Notifications des nouveaux articles
+        typographie: typographie || '', // Typographie préférée
         createdAt: new Date().toISOString() // Date de création
       })
       console.log('Informations utilisateur ajoutées dans Firestore avec succès.')

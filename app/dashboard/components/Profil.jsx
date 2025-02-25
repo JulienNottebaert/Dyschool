@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Chip, Progress } from '@nextui-org/react'
 
 function Profil ({ data }) {
+  const lvlUp = data.niveau + 1
   return (
     <div className='bg-white shadow-lg col-span-3 row-span-4 rounded-md flex flex-col'>
       <div className='bg-secondary flex justify-between text-white w-full rounded-md py-4 px-6'>
@@ -28,7 +29,7 @@ function Profil ({ data }) {
               style={{ objectFit: 'cover' }}
             />
           </div>
-          <h4 className='text-primary mt-2 font-bold text-lg'>Niveau 62</h4>
+          <h4 className='text-primary mt-2 font-bold text-lg'>Niveau {data.niveau}</h4>
         </div>
         <div className='flex flex-col mt-4'>
           <h3 className='text-lg truncate max-w-[150px] w-full overflow-hidden'>{data.nom} <br /> {data.prenom}</h3>
@@ -37,7 +38,7 @@ function Profil ({ data }) {
       <Progress
         className='max-w-md px-6'
         color='primary'
-        valueLabel='63'
+        valueLabel={lvlUp}
         label='Prochain niveau'
         maxValue={30}
         showValueLabel

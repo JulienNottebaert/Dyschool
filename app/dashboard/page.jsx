@@ -21,6 +21,7 @@ export default function Dashboard () {
     prenom: '',
     age: '',
     photoURL: '',
+    typographie: 'poppins', // Valeur par défaut
     troubles: {
       dyscalculie: false,
       dysgraphie: false,
@@ -30,7 +31,6 @@ export default function Dashboard () {
       dyspraxie: false,
       dyséxécutif: false
     },
-    stripeCustomerId: '',
     abonnement: {
       endDate: '',
       startDate: '',
@@ -38,8 +38,21 @@ export default function Dashboard () {
       stripeSubscriptionId: '',
       type: ''
     },
+    stripeCustomerId: '',
+    titres: [], // Liste des titres débloqués
+    gold: 0,
+    silver: 0,
+    bronze: 0,
+    experiences: 0,
+    niveau: 0,
+    controleParental: false,
+    jeuxAdaptes: false,
+    notifOffres: false,
+    notifNewsletters: false,
+    notifArticle: false,
     tempsJournalier: 0
   })
+
   const [loading, setLoading] = useState(true) // Gestion globale du chargement
   const router = useRouter()
 
@@ -51,16 +64,30 @@ export default function Dashboard () {
           const userDoc = await getDoc(doc(db, 'users', user.uid))
           if (userDoc.exists()) {
             const data = userDoc.data()
+            console.log('Données récupérées depuis Firestore :', data)
+
             setUserData({
-              email: user.email,
-              nom: data.nom,
-              prenom: data.prenom,
-              age: data.age,
-              stripeCustomerId: data.stripeCustomerId,
-              photoURL: data.photoURL,
+              email: user.email || '',
+              nom: data.nom || '',
+              prenom: data.prenom || '',
+              age: data.age || '',
+              photoURL: data.photoURL || '',
+              typographie: data.typographie || 'poppins',
               troubles: { ...data.troubles },
               abonnement: { ...data.abonnement },
-              tempsJournalier: data.tempsJournalier
+              stripeCustomerId: data.stripeCustomerId || '',
+              titres: data.titres || [],
+              gold: data.gold || 0,
+              silver: data.silver || 0,
+              bronze: data.bronze || 0,
+              experiences: data.experiences || 0,
+              niveau: data.niveau || 0,
+              controleParental: data.controleParental ?? false,
+              jeuxAdaptes: data.jeuxAdaptes ?? false,
+              notifOffres: data.notifOffres ?? false,
+              notifNewsletters: data.notifNewsletters ?? false,
+              notifArticle: data.notifArticle ?? false,
+              tempsJournalier: data.tempsJournalier || 0
             })
           }
         } catch (error) {
@@ -80,7 +107,7 @@ export default function Dashboard () {
   if (loading) {
     return (
       <div className='grid grid-cols-8 gap-8'>
-        {/* Skeleton pour InformationsPrincipales */}
+        {/* Skeleton pour Welcoming */}
         <div className='bg-white flex flex-col gap-4 p-8 shadow-lg rounded-lg w-full items-center col-span-2'>
           <Skeleton className='w-[150px] h-[150px] rounded-full' />
           <Skeleton className='w-40 h-6 rounded-md' />
@@ -93,7 +120,7 @@ export default function Dashboard () {
           <Skeleton className='w-full h-6 rounded-md' />
         </div>
 
-        {/* Skeleton pour FormulairePrincipal */}
+        {/* Skeleton pour Progression */}
         <div className='bg-white flex flex-col gap-4 p-8 shadow-lg rounded-lg col-span-6 items-center'>
           <div className='flex gap-4 w-full'>
             <Skeleton className='w-full h-12 rounded-md' />
@@ -109,21 +136,7 @@ export default function Dashboard () {
           <Skeleton className='w-32 h-12 rounded-md mt-4 mx-auto' />
         </div>
 
-        {/* Skeleton pour TypeAbonnement */}
-        <div className='bg-white shadow-lg p-8 rounded-lg h-64 col-span-3'>
-          <Skeleton className='h-12 w-1/2 mx-auto' />
-          <Skeleton className='h-8 w-1/2 mx-auto mt-4' />
-          <Skeleton className='h-8 w-1/3 mx-auto mt-2' />
-        </div>
-
-        {/* Skeleton pour Notifications */}
-        <div className='bg-white shadow-lg p-8 rounded-lg h-64 col-span-2'>
-          <Skeleton className='h-12 w-1/2 mx-auto' />
-          <Skeleton className='h-8 w-1/2 mx-auto mt-4' />
-          <Skeleton className='h-8 w-1/3 mx-auto mt-2' />
-        </div>
-
-        {/* Skeleton pour TypeAbonnement */}
+        {/* Skeleton pour JeuxFavoris */}
         <div className='bg-white shadow-lg p-8 rounded-lg h-64 col-span-3'>
           <Skeleton className='h-12 w-1/2 mx-auto' />
           <Skeleton className='h-8 w-1/2 mx-auto mt-4' />

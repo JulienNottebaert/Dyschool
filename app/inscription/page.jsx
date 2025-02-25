@@ -32,7 +32,19 @@ export default function InscriptionPage () {
       dysphasie: false,
       dyspraxie: false,
       dyséxécutif: false
-    }
+    },
+    titres: [], // Liste vide
+    gold: 0, // Int
+    silver: 0, // Int
+    bronze: 0, // Int
+    experiences: 0, // Int
+    niveau: 0, // Int
+    controleParental: true, // Boolean
+    jeuxAdaptes: true, // Boolean
+    notifOffres: true, // Boolean
+    notifNewsletters: true, // Boolean
+    notifArticle: true, // Boolean
+    typographie: 'poppins' // String
   })
 
   const [error, setError] = useState('')
@@ -103,7 +115,19 @@ export default function InscriptionPage () {
             startDate: new Date().toISOString(),
             endDate: null,
             status: 'active'
-          }
+          },
+          titres: formData.titres, // Liste de titres
+          gold: formData.gold, // Points gold
+          silver: formData.silver, // Points silver
+          bronze: formData.bronze, // Points bronze
+          experiences: formData.experiences, // Expérience de l'utilisateur
+          niveau: formData.niveau, // Niveau actuel de l'utilisateur
+          controleParental: formData.controleParental, // Activation du contrôle parental
+          jeuxAdaptes: formData.jeuxAdaptes, // Option pour jeux adaptés
+          notifOffres: formData.notifOffres, // Notification des offres
+          notifNewsletters: formData.notifNewsletters, // Notification des newsletters
+          notifArticle: formData.notifArticle, // Notification des nouveaux articles
+          typographie: formData.typographie // Typographie choisie par l'utilisateur
         })
       })
 

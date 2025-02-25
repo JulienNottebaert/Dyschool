@@ -19,6 +19,7 @@ export default function Profil () {
     prenom: '',
     age: '',
     photoURL: '',
+    typographie: 'poppins', // Valeur par défaut
     troubles: {
       dyscalculie: false,
       dysgraphie: false,
@@ -28,7 +29,6 @@ export default function Profil () {
       dyspraxie: false,
       dyséxécutif: false
     },
-    stripeCustomerId: '',
     abonnement: {
       endDate: '',
       startDate: '',
@@ -36,7 +36,18 @@ export default function Profil () {
       stripeSubscriptionId: '',
       type: ''
     },
-    tempsJournalier: 0
+    stripeCustomerId: '',
+    titres: [], // Liste des titres débloqués
+    gold: 0,
+    silver: 0,
+    bronze: 0,
+    experiences: 0,
+    niveau: 0,
+    controleParental: false,
+    jeuxAdaptes: false,
+    notifOffres: false,
+    notifNewsletters: false,
+    notifArticle: false
   })
   const [loading, setLoading] = useState(true) // Gestion globale du chargement
   const router = useRouter()
@@ -50,15 +61,26 @@ export default function Profil () {
           if (userDoc.exists()) {
             const data = userDoc.data()
             setUserData({
-              email: user.email,
-              nom: data.nom,
-              prenom: data.prenom,
-              age: data.age,
-              stripeCustomerId: data.stripeCustomerId,
-              photoURL: data.photoURL,
+              email: user.email || '',
+              nom: data.nom || '',
+              prenom: data.prenom || '',
+              age: data.age || '',
+              photoURL: data.photoURL || '',
+              typographie: data.typographie || 'poppins',
               troubles: { ...data.troubles },
               abonnement: { ...data.abonnement },
-              tempsJournalier: data.tempsJournalier
+              stripeCustomerId: data.stripeCustomerId || '',
+              titres: data.titres || [],
+              gold: data.gold || 0,
+              silver: data.silver || 0,
+              bronze: data.bronze || 0,
+              experiences: data.experiences || 0,
+              niveau: data.niveau || 0,
+              controleParental: data.controleParental ?? false,
+              jeuxAdaptes: data.jeuxAdaptes ?? false,
+              notifOffres: data.notifOffres ?? false,
+              notifNewsletters: data.notifNewsletters ?? false,
+              notifArticle: data.notifArticle ?? false
             })
           }
         } catch (error) {
@@ -137,8 +159,8 @@ export default function Profil () {
       <InformationsPrincipales userData={userData} setUserData={setUserData} />
       <FormulairePrincipal userData={userData} setUserData={setUserData} />
       <TypeAbonnement userData={userData} />
-      <Options userData={userData} />
-      <Notifications userData={userData} />
+      <Options userData={userData} setUserData={setUserData} />
+      <Notifications userData={userData} setUserData={setUserData} />
     </div>
   )
 }

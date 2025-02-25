@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar, DropdownMenu, DropdownItem, Dropdown, DropdownTrigger, Divider, AvatarIcon } from '@nextui-org/react'
+import { Avatar, DropdownMenu, DropdownItem, Dropdown, DropdownTrigger, Divider, AvatarIcon, Chip } from '@nextui-org/react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -125,10 +125,11 @@ export default function DashboardLayout ({ children }) {
                 Profil
               </span>
             </Link>
-            <Link href='/dashboard/jeux'>
-              <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard/jeux') ? '!bg-secondary-50 font-bold' : ''}`}>
+            <Link href='/dashboard/jeux' className='pointer-events-none'>
+              <span className='p-2 rounded text-secondary flex gap-3 items-center opacity-50 cursor-not-allowed'>
                 <FontAwesomeIcon icon={faChessRookRegular} className='text-xl' />
                 Jeux
+                <Chip variant='flat' color='secondary' size='sm'>Bientôt disponible</Chip>
               </span>
             </Link>
             <Link href='/dashboard/abonnements'>
