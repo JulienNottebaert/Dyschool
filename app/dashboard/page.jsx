@@ -21,7 +21,7 @@ export default function Dashboard () {
     prenom: '',
     age: '',
     photoURL: '',
-    typographie: 'poppins', // Valeur par défaut
+    typographie: 'poppins',
     troubles: {
       dyscalculie: false,
       dysgraphie: false,
@@ -39,7 +39,7 @@ export default function Dashboard () {
       type: ''
     },
     stripeCustomerId: '',
-    titres: [], // Liste des titres débloqués
+    titres: [],
     gold: 0,
     silver: 0,
     bronze: 0,
@@ -53,57 +53,69 @@ export default function Dashboard () {
     tempsJournalier: 0
   })
 
-  const [loading, setLoading] = useState(true) // Gestion globale du chargement
+  const [loading, setLoading] = useState(true)
   const router = useRouter()
 
   useEffect(() => {
     const fetchUserData = async () => {
       const user = auth.currentUser
-      if (user) {
-        try {
-          const userDoc = await getDoc(doc(db, 'users', user.uid))
-          if (userDoc.exists()) {
-            const data = userDoc.data()
-            console.log('Données récupérées depuis Firestore :', data)
-
-            setUserData({
-              email: user.email || '',
-              nom: data.nom || '',
-              prenom: data.prenom || '',
-              age: data.age || '',
-              photoURL: data.photoURL || '',
-              typographie: data.typographie || 'poppins',
-              troubles: { ...data.troubles },
-              abonnement: { ...data.abonnement },
-              stripeCustomerId: data.stripeCustomerId || '',
-              titres: data.titres || [],
-              gold: data.gold || 0,
-              silver: data.silver || 0,
-              bronze: data.bronze || 0,
-              experiences: data.experiences || 0,
-              niveau: data.niveau || 0,
-              controleParental: data.controleParental ?? false,
-              jeuxAdaptes: data.jeuxAdaptes ?? false,
-              notifOffres: data.notifOffres ?? false,
-              notifNewsletters: data.notifNewsletters ?? false,
-              notifArticle: data.notifArticle ?? false,
-              tempsJournalier: data.tempsJournalier || 0
-            })
-          }
-        } catch (error) {
-          console.error('Erreur lors de la récupération des données utilisateur :', error)
-        } finally {
-          setLoading(false) // Arrête le chargement une fois les données récupérées
-        }
-      } else {
+      if (!user) {
         router.push('/connexion')
+        return
+      }
+
+      try {
+        const userRef = doc(db, 'users', user.uid)
+        const userSnap = await getDoc(userRef)
+
+        const medalsRef = doc(db, `users/${user.uid}/medals/counts`)
+        const medalsSnap = await getDoc(medalsRef)
+
+        if (userSnap.exists()) {
+          const data = userSnap.data()
+
+          setUserData((prevState) => ({
+            ...prevState,
+            email: user.email || '',
+            nom: data.nom || '',
+            prenom: data.prenom || '',
+            age: data.age || '',
+            photoURL: data.photoURL || '',
+            typographie: data.typographie || 'poppins',
+            troubles: { ...data.troubles },
+            abonnement: { ...data.abonnement },
+            stripeCustomerId: data.stripeCustomerId || '',
+            titres: data.titres || [],
+            experiences: data.experiences || 0,
+            niveau: data.niveau || 0,
+            controleParental: data.controleParental ?? false,
+            jeuxAdaptes: data.jeuxAdaptes ?? false,
+            notifOffres: data.notifOffres ?? false,
+            notifNewsletters: data.notifNewsletters ?? false,
+            notifArticle: data.notifArticle ?? false,
+            tempsJournalier: data.tempsJournalier || 0
+          }))
+        }
+
+        if (medalsSnap.exists()) {
+          const medalsData = medalsSnap.data()
+          setUserData((prevState) => ({
+            ...prevState,
+            gold: medalsData.gold || 0,
+            silver: medalsData.silver || 0,
+            bronze: medalsData.bronze || 0
+          }))
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des données utilisateur :', error)
+      } finally {
+        setLoading(false)
       }
     }
 
     fetchUserData()
   }, [router])
 
-  // Afficher les Skeletons tant que les données sont en cours de chargement
   if (loading) {
     return (
       <div className='grid grid-cols-8 gap-8'>
@@ -146,7 +158,6 @@ export default function Dashboard () {
     )
   }
 
-  // Afficher le contenu une fois les données chargées
   return (
     <div className='grid xl:grid-cols-12 gap-6 xl:grid-rows-8 xl:h-[83vh] max-w-[1980]'>
       <Welcoming data={userData} />

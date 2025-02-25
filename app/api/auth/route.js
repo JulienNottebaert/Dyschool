@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth, db } from '@/lib/firebase'
-import { doc, setDoc } from 'firebase/firestore'
+import { doc, setDoc, collection } from 'firebase/firestore'
 import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY)
@@ -15,9 +15,6 @@ export async function POST (req) {
     prenom,
     troubles,
     titres,
-    gold,
-    silver,
-    bronze,
     experiences,
     niveau,
     controleParental,
@@ -51,7 +48,7 @@ export async function POST (req) {
       // Étape 3 : Ajouter un abonnement gratuit via Stripe
       const freePlanProductId = 'prod_RNvsNfEbHJIryG' // Remplacez par l'ID produit Stripe du plan gratuit
       const freePlanPrices = await stripe.prices.list({ product: freePlanProductId })
-      const freePlanPriceId = freePlanPrices.data[0]?.id // Récupère le premier prix disponible
+      const freePlanPriceId = freePlanPrices.data[0]?.id
 
       if (!freePlanPriceId) {
         throw new Error('Aucun prix trouvé pour le plan gratuit')
@@ -85,30 +82,37 @@ export async function POST (req) {
         nom,
         prenom,
         email,
-        stripeCustomerId: stripeCustomer.id, // ID Stripe du client
-        troubles: normalizedTroubles, // Troubles normalisés
+        stripeCustomerId: stripeCustomer.id,
+        troubles: normalizedTroubles,
         abonnement: {
-          stripeSubscriptionId: freeSubscription.id, // ID abonnement Stripe
+          stripeSubscriptionId: freeSubscription.id,
           type: 'Gratuit',
           startDate: new Date(freeSubscription.start_date * 1000).toISOString(),
           endDate: new Date(freeSubscription.current_period_end * 1000).toISOString(),
-          status: freeSubscription.status // Statut de l'abonnement (ex: active)
+          status: freeSubscription.status
         },
-        titres: titres || [], // Liste des titres (par défaut vide)
-        gold: gold || 0, // Points gold
-        silver: silver || 0, // Points silver
-        bronze: bronze || 0, // Points bronze
-        experiences: experiences || 0, // Expérience utilisateur
-        niveau: niveau || 0, // Niveau de progression
-        controleParental: controleParental ?? false, // Activation du contrôle parental
-        jeuxAdaptes: jeuxAdaptes ?? false, // Option pour jeux adaptés
-        notifOffres: notifOffres ?? false, // Notifications des offres
-        notifNewsletters: notifNewsletters ?? false, // Notifications des newsletters
-        notifArticle: notifArticle ?? false, // Notifications des nouveaux articles
-        typographie: typographie || '', // Typographie préférée
-        createdAt: new Date().toISOString() // Date de création
+        titres: titres || [],
+        experiences: experiences || 0,
+        niveau: niveau || 0,
+        controleParental: controleParental ?? false,
+        jeuxAdaptes: jeuxAdaptes ?? false,
+        notifOffres: notifOffres ?? false,
+        notifNewsletters: notifNewsletters ?? false,
+        notifArticle: notifArticle ?? false,
+        typographie: typographie || 'poppins',
+        createdAt: new Date().toISOString()
       })
       console.log('Informations utilisateur ajoutées dans Firestore avec succès.')
+
+      // Étape 6 : Créer la sous-collection `medals` et y ajouter `counts`
+      console.log('Ajout des médailles dans Firestore...')
+      const medalsRef = doc(collection(db, `users/${user.uid}/medals`), 'counts')
+      await setDoc(medalsRef, {
+        bronze: 0,
+        silver: 0,
+        gold: 0
+      })
+      console.log('Médailles ajoutées avec succès !')
 
       // Retourner une réponse réussie
       return new Response(
@@ -134,7 +138,6 @@ export async function POST (req) {
         { status: 200 }
       )
     } else {
-      // Type non supporté
       console.log('Type de requête non supporté.')
       return new Response(
         JSON.stringify({
