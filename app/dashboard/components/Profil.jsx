@@ -21,7 +21,7 @@ function Profil ({ data }) {
             <Image
               src={
               data.photoURL ||
-              'https://firebasestorage.googleapis.com/v0/b/dyschool-4ca88.firebasestorage.app/o/profil.png?alt=media&token=ee71c4c6-b87f-4e2d-88ee-efb2fec1f4b3'
+              '/asset/utilisateur.png'
             }
               alt='Photo profil utilisateur'
               fill
