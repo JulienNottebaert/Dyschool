@@ -188,7 +188,7 @@ export default function DashboardLayout ({ children }) {
 
       {/* Contenu principal */}
       <div className='flex-1 flex flex-col h-screen ml-20'>
-        <div className='flex items-center justify-between px-2 sm:px-4 lg:px-8 py-4 border bg-white shadow h-20 z-40'>
+        <div className='flex items-center justify-between px-4 lg:px-8 py-4 border bg-white shadow h-20 z-40'>
           <div className='flex items-center gap-2 lg:gap-4'>
             <FontAwesomeIcon
               icon={sectionIcon()}
