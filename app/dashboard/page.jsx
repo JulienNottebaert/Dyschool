@@ -159,14 +159,47 @@ export default function Dashboard () {
   }
 
   return (
-    <div className='grid xl:grid-cols-12 gap-6 xl:grid-rows-8 xl:h-[83vh] max-w-[1980]'>
-      <Welcoming data={userData} />
-      <Profil data={userData} />
-      <CompletionJournaliere data={userData} />
-      <CompletionHebdomadaire data={userData} />
-      <CompletionMensuelle data={userData} />
-      <Progression data={userData} />
-      <JeuxFavoris data={userData} />
+    <div className='grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-4 md:gap-6 min-h-[calc(100vh-80px)] content-start'>
+      {/* Première ligne */}
+      <div className='col-span-1 md:col-span-5 lg:col-span-8 h-full'>
+        <div className='h-full'>
+          <Welcoming data={userData} />
+        </div>
+      </div>
+      <div className='col-span-1 md:col-span-3 lg:col-span-4 h-full'>
+        <div className='h-full'>
+          <Profil data={userData} />
+        </div>
+      </div>
+
+      {/* Deuxième ligne */}
+      <div className='col-span-1 md:col-span-2 lg:col-span-3 h-full'>
+        <div className='h-full'>
+          <CompletionJournaliere data={userData} />
+        </div>
+      </div>
+      <div className='col-span-1 md:col-span-3 lg:col-span-3 h-full'>
+        <div className='h-full'>
+          <CompletionHebdomadaire data={userData} />
+        </div>
+      </div>
+      <div className='col-span-1 md:col-span-3 lg:col-span-3 h-full'>
+        <div className='h-full'>
+          <CompletionMensuelle data={userData} />
+        </div>
+      </div>
+      <div className='col-span-1 md:col-span-3 lg:col-span-3 h-full'>
+        <div className='h-full'>
+          <Progression data={userData} />
+        </div>
+      </div>
+
+      {/* Troisième ligne */}
+      <div className='col-span-1 md:col-span-5 lg:col-span-8 h-full'>
+        <div className='h-full'>
+          <JeuxFavoris data={userData} />
+        </div>
+      </div>
     </div>
   )
 }

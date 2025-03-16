@@ -8,23 +8,39 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons'
 
 function JeuxFavoris () {
   return (
-    <div className='bg-white shadow-lg p-6 col-span-9 row-span-3 rounded-md px-10'>
-      <h3 className='text-secondary'>Jeux favoris <FontAwesomeIcon icon={faHeart} className='ml-2' />
+    <div className='bg-white shadow-lg p-4 md:p-6 lg:p-8 rounded-md h-full'>
+      <h3 className='text-secondary text-sm md:text-base'>
+        Jeux favoris <FontAwesomeIcon icon={faHeart} className='ml-2' />
       </h3>
-      <div className='flex flex-wrap h-fit mt-5 justify-between w-full'>
+      <div className='flex flex-wrap gap-4 md:gap-6 mt-4 md:mt-6 justify-center md:justify-between'>
         <div className='flex flex-col justify-center'>
-          <Image src={Jeu1} className='w-52 h-28 opacity-30 hover:opacity-100 duration-100 cursor-pointer' style={{ objectFit: 'cover' }} alt='Jeux 1' />
-          <h4 className='text-center mt-2 text-md'>Jeu de mémoire</h4>
+          <Image
+            src={Jeu1}
+            className='w-36 h-20 md:w-44 md:h-24 lg:w-52 lg:h-28 opacity-30 hover:opacity-100 duration-100 cursor-pointer'
+            style={{ objectFit: 'cover' }}
+            alt='Jeux 1'
+          />
+          <h4 className='text-center mt-2 text-xs md:text-sm'>Jeu de mémoire</h4>
         </div>
 
         <div className='flex flex-col justify-center'>
-          <Image src={Jeu2} className='w-52 h-28 opacity-30 hover:opacity-100 duration-100 cursor-pointer' style={{ objectFit: 'cover' }} alt='Jeux 1' />
-          <h4 className='text-center mt-2 text-md'>Puissance 4</h4>
+          <Image
+            src={Jeu2}
+            className='w-36 h-20 md:w-44 md:h-24 lg:w-52 lg:h-28 opacity-30 hover:opacity-100 duration-100 cursor-pointer'
+            style={{ objectFit: 'cover' }}
+            alt='Jeux 2'
+          />
+          <h4 className='text-center mt-2 text-xs md:text-sm'>Puissance 4</h4>
         </div>
 
         <div className='flex flex-col justify-center'>
-          <Image src={Jeu3} className='w-52 h-28 opacity-30 hover:opacity-100 duration-100 cursor-pointer' style={{ objectFit: 'cover' }} alt='Jeux 1' />
-          <h4 className='text-center mt-2 text-md'>Simon</h4>
+          <Image
+            src={Jeu3}
+            className='w-36 h-20 md:w-44 md:h-24 lg:w-52 lg:h-28 opacity-30 hover:opacity-100 duration-100 cursor-pointer'
+            style={{ objectFit: 'cover' }}
+            alt='Jeux 3'
+          />
+          <h4 className='text-center mt-2 text-xs md:text-sm'>Simon</h4>
         </div>
       </div>
     </div>

@@ -9,18 +9,22 @@ function Welcoming ({ data }) {
   const formattedDate = new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' }).format(today)
 
   return (
-    <div className='bg-white shadow-lg p-8 col-span-9 row-span-3 rounded-md flex justify-between px-10 relative'>
-      <div className='flex flex-col justify-between'>
-        <p className='bg-secondary text-white py-2 px-4 w-fit rounded-lg'>
-          <FontAwesomeIcon icon={faCalendar} className='text-md mr-2' />
+    <div className='bg-white shadow-lg p-4 md:p-6 lg:p-8 rounded-md flex flex-col md:flex-row justify-between h-full relative'>
+      <div className='flex flex-col justify-between z-10'>
+        <p className='bg-secondary text-white py-2 px-4 w-fit rounded-lg text-xs md:text-sm'>
+          <FontAwesomeIcon icon={faCalendar} className='mr-2' />
           {formattedDate}
         </p>
-        <div>
-          <h2 className='text-primary truncate max-w-md w-full overflow-hidden'>Salut {data.prenom} !</h2>
-          <p>Prêt à t'entraîner sur Dyschool ?</p>
+        <div className='mt-4 md:mt-0'>
+          <h2 className='text-primary text-lg md:text-xl lg:text-2xl font-bold truncate max-w-[200px] md:max-w-md'>Salut {data.prenom} !</h2>
+          <p className='text-sm md:text-base mt-2'>Prêt à t'entraîner sur Dyschool ?</p>
         </div>
       </div>
-      <Image className='absolute right-8 top-8' src={Enfants} width={350} alt="Illustration d'enfants" />
+      <Image
+        className='absolute right-4 top-4 md:right-8 md:top-8 w-[200px] md:w-[250px] lg:w-[350px] opacity-50 md:opacity-100'
+        src={Enfants}
+        alt="Illustration d'enfants"
+      />
     </div>
   )
 }
