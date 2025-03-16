@@ -68,7 +68,6 @@
     "tailwindcss": "^3.3.0"
   },
   "resolutions": {
-    "@react-aria/interactions": "3.24.1",
-    "@react-aria/slider": "3.7.16"
+    "@react-aria/utils": "<v3.25.1"
   }
 }

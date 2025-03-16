@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Button, Divider } from '@heroui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck } from '@fortawesome/free-regular-svg-icons'
 import { loadStripe } from '@stripe/stripe-js'
@@ -11,7 +10,7 @@ import { useRouter } from 'next/navigation'
 function Abonnements () {
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
   const [userId, setUserId] = useState(null)
-  const [loadingSubscription, setLoadingSubscription] = useState(null) // Track subscription type being loaded
+  const [loadingSubscription, setLoadingSubscription] = useState(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -91,18 +90,15 @@ function Abonnements () {
         </div>
         <p className='px-4 md:px-6 lg:px-8 my-4 text-xs md:text-sm text-gray-600'>Pour une utilisation avancée</p>
         <div className='px-4 md:px-6 lg:px-8 mb-4'>
-          <Button
-            color='secondary'
-            fullWidth
-            size='sm'
-            className='text-xs md:text-sm'
+          <button
+            className='w-full bg-secondary text-white py-2 px-4 rounded-md text-xs md:text-sm font-medium hover:bg-secondary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
             onClick={() => handleSubscription('Premium')}
             disabled={loadingSubscription === 'Premium'}
           >
             {loadingSubscription === 'Premium' ? 'Chargement...' : 'Sélectionner'}
-          </Button>
+          </button>
         </div>
-        <Divider className='w-full bg-secondary' />
+        <hr className='w-full border-t border-secondary' />
         <h4 className='px-4 md:px-6 lg:px-8 mt-4 font-bold uppercase text-xs md:text-sm'>Options</h4>
         <ul className='px-4 md:px-6 lg:px-8 pt-4 pb-6 md:pb-8 flex flex-col gap-2 md:gap-3'>
           <li className='flex items-center text-xs md:text-sm'>
@@ -137,17 +133,15 @@ function Abonnements () {
         </div>
         <p className='px-4 md:px-6 lg:px-8 my-4 text-xs md:text-sm text-white/90'>Pour une utilisation avancée</p>
         <div className='px-4 md:px-6 lg:px-8 mb-4'>
-          <Button
-            className='bg-secondary-400 text-white text-xs md:text-sm'
-            fullWidth
-            size='sm'
+          <button
+            className='w-full bg-secondary-400 text-white py-2 px-4 rounded-md text-xs md:text-sm font-medium hover:bg-secondary-400/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
             onClick={() => handleSubscription('Max')}
             disabled={loadingSubscription === 'Max'}
           >
             {loadingSubscription === 'Max' ? 'Chargement...' : 'Sélectionner'}
-          </Button>
+          </button>
         </div>
-        <Divider className='w-full bg-gray-200' />
+        <hr className='w-full border-t border-gray-200' />
         <h4 className='px-4 md:px-6 lg:px-8 mt-4 font-bold uppercase text-white text-xs md:text-sm'>Options</h4>
         <ul className='px-4 md:px-6 lg:px-8 pt-4 pb-6 md:pb-8 flex flex-col gap-2 md:gap-3'>
           <li className='flex items-center text-white text-xs md:text-sm'>

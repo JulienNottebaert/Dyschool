@@ -2203,7 +2203,18 @@
     "@react-types/shared" "^3.28.0"
     "@swc/helpers" "^0.5.0"
 
-"@react-aria/interactions@3.24.0", "@react-aria/interactions@3.24.1", "@react-aria/interactions@^3.21.3", "@react-aria/interactions@^3.23.0", "@react-aria/interactions@^3.24.0", "@react-aria/interactions@^3.24.1":
+"@react-aria/interactions@3.24.0":
+  version "3.24.0"
+  resolved "https://registry.yarnpkg.com/@react-aria/interactions/-/interactions-3.24.0.tgz#5502ff5049578a6ae8cdbc3d96d64fb6ceeef362"
+  integrity sha512-6Zdhp1pswyPgbwEWzvXARdKAWPjP7mACczoIUvlEQiMsX04fuizBiBLAA+W/5mPe17pbJYHA/rxZF5Y5m+M0Ng==
+  dependencies:
+    "@react-aria/ssr" "^3.9.7"
+    "@react-aria/utils" "^3.28.0"
+    "@react-stately/flags" "^3.1.0"
+    "@react-types/shared" "^3.28.0"
+    "@swc/helpers" "^0.5.0"
+
+"@react-aria/interactions@^3.21.3", "@react-aria/interactions@^3.23.0", "@react-aria/interactions@^3.24.0", "@react-aria/interactions@^3.24.1":
   version "3.24.1"
   resolved "https://registry.yarnpkg.com/@react-aria/interactions/-/interactions-3.24.1.tgz#fd8ce88a699d07f56afe0d8083bbd19810311be5"
   integrity sha512-OWEcIC6UQfWq4Td5Ptuh4PZQ4LHLJr/JL2jGYvuNL6EgL3bWvzPrRYIF/R64YbfVxIC7FeZpPSkS07sZ93/NoA==
@@ -2472,9 +2483,9 @@
     "@react-types/shared" "^3.28.0"
     "@swc/helpers" "^0.5.0"
 
-"@react-aria/ssr@3.9.7", "@react-aria/ssr@^3.9.2", "@react-aria/ssr@^3.9.7":
+"@react-aria/ssr@3.9.7", "@react-aria/ssr@^3.9.2", "@react-aria/ssr@^3.9.5", "@react-aria/ssr@^3.9.7":
   version "3.9.7"
-  resolved "https://registry.npmjs.org/@react-aria/ssr/-/ssr-3.9.7.tgz"
+  resolved "https://registry.yarnpkg.com/@react-aria/ssr/-/ssr-3.9.7.tgz#d89d129f7bbc5148657e6c952ac31c9353183770"
   integrity sha512-GQygZaGlmYjmYM+tiNBA5C6acmiDWF52Nqd40bBp0Znk4M4hP+LTmI0lpI1BuKMw45T8RIhrAsICIfKwZvi2Gg==
   dependencies:
     "@swc/helpers" "^0.5.0"
@@ -2604,27 +2615,14 @@
     "@react-types/tooltip" "^3.4.15"
     "@swc/helpers" "^0.5.0"
 
-"@react-aria/utils@3.28.0":
-  version "3.28.0"
-  resolved "https://registry.npmjs.org/@react-aria/utils/-/utils-3.28.0.tgz"
-  integrity sha512-FfpvpADk61OvEnFe37k6jF1zr5gtafIPN9ccJRnPCTqrzuExag01mGi+wX/hWyFK0zAe1OjWf1zFOX3FsFvikg==
+"@react-aria/utils@3.28.0", "@react-aria/utils@<v3.25.1", "@react-aria/utils@^3.27.0", "@react-aria/utils@^3.28.0", "@react-aria/utils@^3.28.1":
+  version "3.25.0"
+  resolved "https://registry.yarnpkg.com/@react-aria/utils/-/utils-3.25.0.tgz#0be898a10233c8673825f84da160cd2a520c402e"
+  integrity sha512-DO0gx0OhEmdw+lUlcwQfuulk1ul82NhStYfgt3SDuf5yYchC/3YvIOrPLjh05NmMxc9jQxDPeuyujMI5plfAvQ==
   dependencies:
-    "@react-aria/ssr" "^3.9.7"
-    "@react-stately/flags" "^3.1.0"
-    "@react-stately/utils" "^3.10.5"
-    "@react-types/shared" "^3.28.0"
-    "@swc/helpers" "^0.5.0"
-    clsx "^2.0.0"
-
-"@react-aria/utils@^3.27.0", "@react-aria/utils@^3.28.0", "@react-aria/utils@^3.28.1":
-  version "3.28.1"
-  resolved "https://registry.npmjs.org/@react-aria/utils/-/utils-3.28.1.tgz"
-  integrity sha512-mnHFF4YOVu9BRFQ1SZSKfPhg3z+lBRYoW5mLcYTQihbKhz48+I1sqRkP7ahMITr8ANH3nb34YaMME4XWmK2Mgg==
-  dependencies:
-    "@react-aria/ssr" "^3.9.7"
-    "@react-stately/flags" "^3.1.0"
-    "@react-stately/utils" "^3.10.5"
-    "@react-types/shared" "^3.28.0"
+    "@react-aria/ssr" "^3.9.5"
+    "@react-stately/utils" "^3.10.2"
+    "@react-types/shared" "^3.24.0"
     "@swc/helpers" "^0.5.0"
     clsx "^2.0.0"
 
@@ -2880,9 +2878,9 @@
     "@react-types/shared" "^3.28.0"
     "@swc/helpers" "^0.5.0"
 
-"@react-stately/utils@3.10.5", "@react-stately/utils@^3.10.5":
+"@react-stately/utils@3.10.5", "@react-stately/utils@^3.10.2", "@react-stately/utils@^3.10.5":
   version "3.10.5"
-  resolved "https://registry.npmjs.org/@react-stately/utils/-/utils-3.10.5.tgz"
+  resolved "https://registry.yarnpkg.com/@react-stately/utils/-/utils-3.10.5.tgz#47bb91cd5afd1bafe39353614e5e281b818ebccc"
   integrity sha512-iMQSGcpaecghDIh3mZEpZfoFH3ExBwTtuBEcvZ2XnGzCgQjeYXcMdIUwAfVQLXFTdHUHGF6Gu6/dFrYsCzySBQ==
   dependencies:
     "@swc/helpers" "^0.5.0"
@@ -3029,9 +3027,9 @@
   dependencies:
     "@react-types/shared" "^3.28.0"
 
-"@react-types/shared@3.28.0", "@react-types/shared@^3.27.0", "@react-types/shared@^3.28.0":
+"@react-types/shared@3.28.0", "@react-types/shared@^3.24.0", "@react-types/shared@^3.27.0", "@react-types/shared@^3.28.0":
   version "3.28.0"
-  resolved "https://registry.npmjs.org/@react-types/shared/-/shared-3.28.0.tgz"
+  resolved "https://registry.yarnpkg.com/@react-types/shared/-/shared-3.28.0.tgz#7b4b5485b758228bdbe31ecae66ed07a29e2be4d"
   integrity sha512-9oMEYIDc3sk0G5rysnYvdNrkSg7B04yTKl50HHSZVbokeHpnU0yRmsDaWb9B/5RprcKj8XszEk5guBO8Sa/Q+Q==
 
 "@react-types/slider@^3.7.9":
