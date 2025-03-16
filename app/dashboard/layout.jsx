@@ -11,62 +11,46 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
 import Logo from '@/public/asset/dyschool.png'
 // Solid icons
-import { faUser as faUserSolid, faSun as faSunSolid, faChessRook as faChessRookSolid, faCreditCard as faCreditCardSolid, faBars as faBarsSolid } from '@fortawesome/free-solid-svg-icons'
+import { faUser as faUserSolid, faChessRook as faChessRookSolid, faCreditCard as faCreditCardSolid, faBars as faBarsSolid, faChartLine as faChartLineSolid, faPencil as faPencilSolid, faGamepad as faGamepadSolid, faNewspaper as faNewspaperSolid } from '@fortawesome/free-solid-svg-icons'
 // Regular icons
-import { faUser as faUserRegular, faSun as faSunRegular, faChessRook as faChessRookRegular, faCreditCard as faCreditCardRegular, faShareFromSquare, faCopyright } from '@fortawesome/free-regular-svg-icons'
+import { faUser as faUserRegular, faChessRook as faChessRookRegular, faCreditCard as faCreditCardRegular, faShareFromSquare, faCopyright } from '@fortawesome/free-regular-svg-icons'
 
 export default function DashboardLayout ({ children }) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [userData, setUserData] = useState(null)
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
 
-  // Définir dynamiquement le titre de la section en fonction de la route
+  const titlesMap = {
+    profil: 'Profil',
+    abonnements: 'Abonnements',
+    exercices: 'Exercices',
+    jeux: 'Jeux',
+    articles: 'Articles',
+    '': 'Tableau de bord'
+  }
+
   const sectionTitle = () => {
-    if (pathname === '/dashboard') {
-      return (
-        <span>
-          <FontAwesomeIcon icon={faSunSolid} className='mr-4' />
-          Tableau de bord
-        </span>
-      )
-    }
-    if (pathname.startsWith('/dashboard/profil')) {
-      const subPath = pathname.split('/')[3] // Récupère la partie après '/dashboard/profil'
+    const path = pathname.split('/')[2] || ''
+    return titlesMap[path] || 'Tableau de bord'
+  }
 
-      // Associe les titres aux sous-routes
-      const titles = {
-        abonnement: 'Abonnement',
-        preferences: 'Préférences',
-        paiements: 'Paiements',
-        undefined: 'Informations personnelles'
-      }
-
-      // Retourne le titre correspondant ou "Informations personnelles" par défaut
-      return (
-        <span>
-          <FontAwesomeIcon icon={faUserSolid} className='mr-4' />
-          {'Profil - ' + titles[subPath] || 'Profil - Informations personnelles'}
-        </span>
-      )
+  const sectionIcon = () => {
+    const path = pathname.split('/')[2] || ''
+    switch (path) {
+      case 'profil':
+        return faUserSolid
+      case 'abonnements':
+        return faCreditCardSolid
+      case 'exercices':
+        return faPencilSolid
+      case 'jeux':
+        return faGamepadSolid
+      case 'articles':
+        return faNewspaperSolid
+      default:
+        return faChartLineSolid // Pour le tableau de bord
     }
-    if (pathname === '/dashboard/jeux') {
-      return (
-        <span>
-          <FontAwesomeIcon icon={faChessRookSolid} className='mr-4' />
-          Jeux
-        </span>
-      )
-    }
-    if (pathname === '/dashboard/abonnements') {
-      return (
-        <span>
-          <FontAwesomeIcon icon={faCreditCardSolid} className='mr-4' />
-          Abonnements
-        </span>
-      )
-    }
-    return 'Section'
   }
 
   useEffect(() => {
@@ -103,13 +87,13 @@ export default function DashboardLayout ({ children }) {
   }
 
   return (
-    <div className='flex'>
+    <div className='flex h-screen overflow-hidden'>
       {/* Sidebar */}
       {!isSidebarOpen
         ? (
-          <aside className='bg-white h-screen p-4 fixed border shadow flex flex-col w-20'>
+          <aside className='bg-white h-screen p-4 fixed border shadow flex flex-col w-20 top-0 left-0 z-50 overflow-y-auto'>
             <div className='flex items-center'>
-              <button onClick={toggleSidebar} className='text-secondary hover:bg-gray-100 p-2 rounded mx-auto'>
+              <button onClick={toggleSidebar} className='text-secondary hover:bg-gray-100 p-2 rounded mx-auto mb-3'>
                 <FontAwesomeIcon icon={faBarsSolid} className='text-xl' />
               </button>
             </div>
@@ -117,7 +101,7 @@ export default function DashboardLayout ({ children }) {
             <nav className='flex flex-col space-y-4'>
               <Link href='/dashboard'>
                 <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 justify-center items-center ${isActiveLink('/dashboard') ? '!bg-secondary-50 font-bold' : ''}`}>
-                  <FontAwesomeIcon icon={faSunRegular} className='text-xl' />
+                  <FontAwesomeIcon icon={faChartLineSolid} className='text-xl' />
                 </span>
               </Link>
               <Link href='/dashboard/profil'>
@@ -154,9 +138,9 @@ export default function DashboardLayout ({ children }) {
           </aside>
           )
         : (
-          <aside className='bg-white h-screen p-4 fixed border shadow flex flex-col w-64'>
-            <div className='flex items-center justify-between'>
-              <Image src={Logo} alt='Dyschool' width={72} height={72} />
+          <aside className='bg-white h-screen p-4 fixed border shadow flex flex-col w-64 top-0 left-0 z-50 overflow-y-auto'>
+            <div className='flex items-center justify-between mb-3'>
+              <Image src={Logo} alt='Dyschool' width={80} height={80} />
               <button onClick={toggleSidebar} className='text-secondary hover:bg-gray-100 p-2 rounded'>
                 <FontAwesomeIcon icon={faBarsSolid} className='text-xl' />
               </button>
@@ -165,7 +149,7 @@ export default function DashboardLayout ({ children }) {
             <nav className='flex flex-col space-y-4'>
               <Link href='/dashboard'>
                 <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard') ? '!bg-secondary-50 font-bold' : ''}`}>
-                  <FontAwesomeIcon icon={faSunRegular} className='text-xl' />
+                  <FontAwesomeIcon icon={faChartLineSolid} className='text-xl' />
                   Tableau de bord
                 </span>
               </Link>
@@ -210,28 +194,34 @@ export default function DashboardLayout ({ children }) {
           )}
 
       {/* Contenu principal */}
-      <main className={`flex-grow ${isSidebarOpen ? 'ml-64' : 'ml-20'}`}>
-        <div className={`flex items-center justify-between px-8 py-4 border bg-white shadow fixed top-0 right-0 h-20 z-40 ${isSidebarOpen ? 'left-64' : 'left-20'}`}>
-          <div className='flex items-center gap-4'>
-            <h3 className='font-bold text-primary'>{sectionTitle()}</h3>
+      <div className={`flex-1 flex flex-col h-screen ${!isSidebarOpen ? 'ml-20' : 'ml-64'}`}>
+        <div className='flex items-center justify-between px-2 sm:px-4 lg:px-8 py-4 border bg-white shadow h-20 z-40'>
+          <div className='flex items-center gap-2 lg:gap-4'>
+            <FontAwesomeIcon
+              icon={sectionIcon()}
+              className={`text-primary text-lg sm:text-xl ${isSidebarOpen ? 'block sm:hidden' : 'hidden'}`}
+            />
+            <h3 className={`font-bold text-primary text-sm sm:text-base lg:text-lg ${isSidebarOpen ? 'hidden sm:block' : 'block'}`}>
+              {sectionTitle()}
+            </h3>
           </div>
-          <div className='flex items-center gap-3'>
+          <div className='flex items-center gap-2 md:gap-3'>
             {userData
               ? (
                 <>
-                  <span className='text-secondary font-bold capitalize'>{`${userData.nom} ${userData.prenom}`}</span>
+                  <span className='text-secondary font-bold capitalize hidden md:block'>{`${userData.nom} ${userData.prenom}`}</span>
                   <Dropdown>
                     <DropdownTrigger>
                       <Avatar
-                        className='mr-4 cursor-pointer'
                         isBordered
                         src={userData?.photoURL}
                         icon={<AvatarIcon />}
                         alt={`${userData?.nom || 'Utilisateur'} ${userData?.prenom || ''}`}
-                        size='md'
+                        size='sm'
+                        className='cursor-pointer md:mr-4'
                       />
                     </DropdownTrigger>
-                    <DropdownMenu aria-label='User menu'>
+                    <DropdownMenu aria-label='User menu' className='text-xs md:text-sm'>
                       <DropdownItem onClick={() => router.push('/dashboard')}>
                         Tableau de bord
                       </DropdownItem>
@@ -255,19 +245,19 @@ export default function DashboardLayout ({ children }) {
                 </>
                 )
               : (
-                <div className='flex items-center gap-3'>
+                <div className='flex items-center gap-2 md:gap-3'>
                   {/* Skeleton pour le nom et prénom */}
-                  <div className='w-24 h-6 bg-gray-300 rounded-md animate-pulse' />
+                  <div className='w-24 h-6 bg-gray-300 rounded-md animate-pulse hidden md:block' />
                   {/* Skeleton pour l'avatar */}
-                  <div className='w-10 h-10 bg-gray-300 rounded-full animate-pulse' />
+                  <div className='w-8 h-8 md:w-10 md:h-10 bg-gray-300 rounded-full animate-pulse' />
                 </div>
                 )}
           </div>
         </div>
-        <div className='p-8 mt-20 bg-gray-50 h-full'>
+        <div className='flex-1 p-4 md:p-8 bg-gray-50 overflow-y-auto'>
           {children}
         </div>
-      </main>
+      </div>
     </div>
   )
 }

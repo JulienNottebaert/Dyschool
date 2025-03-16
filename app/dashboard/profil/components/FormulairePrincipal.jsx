@@ -74,11 +74,13 @@ export default function FormulairePrincipal ({ userData, setUserData }) {
   }
 
   return (
-    <div className='bg-white p-8 shadow-md rounded-lg col-span-7'>
-      <h1 className='text-xl font-semibold text-left text-secondary mb-4'>Informations principales<FontAwesomeIcon icon={faCircleInfo} className='ml-2 text-lg' /></h1>
+    <div className='bg-white p-4 md:p-6 lg:p-8 shadow-md rounded-lg w-full h-full'>
+      <h1 className='text-lg md:text-xl font-semibold text-left text-secondary mb-4'>
+        Informations principales
+        <FontAwesomeIcon icon={faCircleInfo} className='ml-2 text-base md:text-lg' />
+      </h1>
       <div className='flex flex-col gap-4'>
-
-        <div className='flex gap-4 w-full justify-center items-center'>
+        <div className='flex flex-col md:flex-row gap-4 w-full justify-center items-center'>
           <Input
             label='Nom'
             name='nom'
@@ -86,6 +88,8 @@ export default function FormulairePrincipal ({ userData, setUserData }) {
             value={userData.nom}
             onChange={handleChange}
             isDisabled={!editing}
+            className='w-full text-sm md:text-base'
+            size='sm'
           />
           <Input
             label='Prénom'
@@ -94,6 +98,8 @@ export default function FormulairePrincipal ({ userData, setUserData }) {
             value={userData.prenom}
             onChange={handleChange}
             isDisabled={!editing}
+            className='w-full text-sm md:text-base'
+            size='sm'
           />
           <Input
             label='Âge'
@@ -102,15 +108,18 @@ export default function FormulairePrincipal ({ userData, setUserData }) {
             value={userData.age}
             onChange={handleChange}
             isDisabled={!editing}
+            className='w-full text-sm md:text-base'
+            size='sm'
           />
         </div>
-        <div className='flex flex-wrap gap-4 justify-center'>
+        <div className='flex flex-wrap gap-2 md:gap-4 justify-center'>
           {Object.keys(userData.troubles).map((trouble) => (
             <Checkbox
               key={trouble}
               isSelected={userData.troubles[trouble]}
               onChange={() => handleTroubleChange(trouble)}
               isDisabled={!editing}
+              className='text-xs md:text-sm'
             >
               {trouble.charAt(0).toUpperCase() + trouble.slice(1)}
             </Checkbox>
@@ -118,41 +127,71 @@ export default function FormulairePrincipal ({ userData, setUserData }) {
         </div>
         {!editing
           ? (
-            <Button color='secondary' className='mt-4 mx-auto' size='sm' onPress={() => setEditing(true)}>
+            <Button
+              color='secondary'
+              variant='ghost'
+              onPress={() => setEditing(true)}
+              className='mx-auto mt-4 text-xs md:text-sm'
+              size='sm'
+            >
               Modifier
             </Button>
             )
           : (
-            <div className='flex gap-4 justify-center'>
+            <div className='flex gap-2 justify-center mt-4'>
               <Button
-                size='sm'
                 color='default'
-                className='mt-4'
-                onPress={() => setEditing(false)}
-                isDisabled={loading}
+                variant='flat'
+                onPress={() => {
+                  setEditing(false)
+                  setConfirmVisible(false)
+                }}
+                className='text-xs md:text-sm'
+                size='sm'
               >
                 Annuler
               </Button>
               <Button
-                size='sm'
                 color='secondary'
-                className='mt-4'
                 onPress={() => setConfirmVisible(true)}
-                isDisabled={loading}
+                className='text-xs md:text-sm'
+                size='sm'
               >
-                {loading ? <Spinner size='sm' /> : 'Enregistrer'}
+                Enregistrer
               </Button>
             </div>
             )}
-        <Modal isOpen={confirmVisible} onClose={() => setConfirmVisible(false)}>
+
+        {/* Modal de confirmation */}
+        <Modal
+          isOpen={confirmVisible}
+          onClose={() => setConfirmVisible(false)}
+          className='max-w-[90%] md:max-w-md mx-auto'
+        >
           <ModalContent>
-            <ModalHeader>Confirmation</ModalHeader>
+            <ModalHeader className='text-base md:text-lg'>Confirmer les modifications</ModalHeader>
             <ModalBody>
-              Êtes-vous sûr de vouloir enregistrer les modifications ?
+              <p className='text-sm md:text-base'>
+                Êtes-vous sûr de vouloir enregistrer ces modifications ?
+              </p>
             </ModalBody>
             <ModalFooter>
-              <Button size='sm' onPress={() => setConfirmVisible(false)}>Annuler</Button>
-              <Button size='sm' onPress={handleSave} color='secondary' isDisabled={loading}>
+              <Button
+                variant='flat'
+                color='default'
+                onPress={() => setConfirmVisible(false)}
+                className='text-xs md:text-sm'
+                size='sm'
+              >
+                Annuler
+              </Button>
+              <Button
+                color='secondary'
+                onPress={handleSave}
+                isDisabled={loading}
+                className='text-xs md:text-sm'
+                size='sm'
+              >
                 {loading ? <Spinner size='sm' /> : 'Confirmer'}
               </Button>
             </ModalFooter>

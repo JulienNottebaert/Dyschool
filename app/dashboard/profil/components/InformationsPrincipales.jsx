@@ -98,9 +98,9 @@ export default function InformationsPrincipales ({ userData, setUserData }) {
   }
 
   return (
-    <div className='bg-white flex flex-col gap-2 p-8 shadow-md rounded-lg items-center justify-center col-span-3'>
+    <div className='bg-white flex flex-col gap-2 p-4 md:p-6 lg:p-8 shadow-md rounded-lg items-center justify-center w-full h-full'>
       {/* Section Image de profil */}
-      <div className='relative w-[150px] h-[150px] group'>
+      <div className='relative w-[120px] md:w-[150px] h-[120px] md:h-[150px] group'>
         {isUploading && (
           <div className='absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-80 rounded-full z-20'>
             <Spinner color='secondary' size='lg' />
@@ -111,10 +111,7 @@ export default function InformationsPrincipales ({ userData, setUserData }) {
           onClick={triggerFileInput}
         >
           <Image
-            src={
-              userData.photoURL ||
-              '/asset/utilisateur.png'
-            }
+            src={userData.photoURL || '/asset/utilisateur.png'}
             alt='Photo profil utilisateur'
             fill
             className='border-4 border-secondary group-hover:border-secondary-400 group-hover:opacity-70 group-hover:bg-white ease-in-out duration-300'
@@ -123,7 +120,7 @@ export default function InformationsPrincipales ({ userData, setUserData }) {
         </div>
         <label
           htmlFor='profileImage'
-          className='absolute top-2 right-2 bg-secondary group-hover:bg-secondary-400 ease-in-out duration-300 p-2 rounded-full cursor-pointer flex items-center justify-center w-8 h-8 shadow-lg z-30'
+          className='absolute top-2 right-2 bg-secondary group-hover:bg-secondary-400 ease-in-out duration-300 p-1.5 md:p-2 rounded-full cursor-pointer flex items-center justify-center w-6 h-6 md:w-8 md:h-8 shadow-lg z-30'
           onClick={triggerFileInput}
         >
           <Image src={Crayon} alt='Edit Icon' className='w-full h-full object-contain' />
@@ -138,10 +135,12 @@ export default function InformationsPrincipales ({ userData, setUserData }) {
       </div>
 
       {/* Informations utilisateur */}
-      <h3 className='text-center text-primary text-xl font-semibold'>
+      <h3 className='text-center text-primary text-lg md:text-xl font-semibold'>
         {userData.nom} {userData.prenom}
       </h3>
-      <p className='w-80 px-8 text-center text-gray-400 truncate text-sm'>{userData.email}</p>
+      <p className='w-full md:w-80 px-4 md:px-8 text-center text-gray-400 truncate text-sm'>
+        {userData.email}
+      </p>
 
       {/* Bouton pour supprimer le compte */}
       <Button
@@ -149,20 +148,24 @@ export default function InformationsPrincipales ({ userData, setUserData }) {
         size='sm'
         startContent={isDeleting ? <Spinner size='sm' /> : ''}
         variant='ghost'
-        className='mt-2'
-        onPress={() => setIsModalOpen(true)} // Ouvrir le modal
+        className='mt-2 text-xs md:text-sm'
+        onPress={() => setIsModalOpen(true)}
         isDisabled={isDeleting}
       >
-        <FontAwesomeIcon icon={faUserMinus} className='text-sm' />
+        <FontAwesomeIcon icon={faUserMinus} className='text-xs md:text-sm' />
         {isDeleting ? ' Suppression...' : ' Supprimer le compte'}
       </Button>
 
       {/* Modal pour réauthentification et suppression */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        className='max-w-[90%] md:max-w-md mx-auto'
+      >
         <ModalContent>
-          <ModalHeader>Confirmation de suppression</ModalHeader>
+          <ModalHeader className='text-base md:text-lg'>Confirmation de suppression</ModalHeader>
           <ModalBody>
-            <p>
+            <p className='text-sm md:text-base'>
               Pour des raisons de sécurité, veuillez entrer votre mot de passe
               pour confirmer la suppression de votre compte.
             </p>
@@ -170,27 +173,31 @@ export default function InformationsPrincipales ({ userData, setUserData }) {
               label='Email'
               type='email'
               value={userData.email}
-              disabled // L'email est pré-rempli et non modifiable
+              disabled
+              className='text-sm md:text-base'
             />
             <Input
               label='Mot de passe'
               type='password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className='text-sm md:text-base'
             />
           </ModalBody>
           <ModalFooter>
             <Button
               variant='flat'
               color='default'
-              onPress={() => setIsModalOpen(false)} // Fermer le modal
+              onPress={() => setIsModalOpen(false)}
+              className='text-xs md:text-sm'
             >
               Annuler
             </Button>
             <Button
               color='danger'
-              onPress={handleDeleteAccount} // Lancer la suppression
+              onPress={handleDeleteAccount}
               isDisabled={isDeleting || !password}
+              className='text-xs md:text-sm'
             >
               {isDeleting ? <Spinner size='sm' /> : 'Confirmer'}
             </Button>

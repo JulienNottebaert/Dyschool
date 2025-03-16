@@ -16,9 +16,12 @@ function TypeAbonnement ({ userData }) {
   const { type, endDate } = userData.abonnement // Déstructuration pour plus de clarté
 
   return (
-    <div className='bg-white shadow-lg p-8 rounded-md text-center col-span-4 items-center justify-center'>
-      <h1 className='text-xl font-semibold text-secondary'>Mon abonnement <FontAwesomeIcon icon={faWallet} className='ml-2 text-lg' /></h1>
-      <p className='text-sm text-gray-500 mt-2'>
+    <div className='bg-white shadow-lg p-4 md:p-6 lg:p-8 rounded-md text-center w-full h-full'>
+      <h1 className='text-lg md:text-xl font-semibold text-secondary'>
+        Mon abonnement
+        <FontAwesomeIcon icon={faWallet} className='ml-2 text-base md:text-lg' />
+      </h1>
+      <p className='text-xs md:text-sm text-gray-500 mt-2'>
         Gérer votre type d'abonnement et résilier à tout moment
       </p>
 
@@ -26,13 +29,14 @@ function TypeAbonnement ({ userData }) {
       {type === 'Gratuit'
         ? (
           <>
-            <h3 className='text-primary font-medium my-6 flex items-center justify-center text-lg'>
+            <h3 className='text-primary font-medium my-4 md:my-6 flex items-center justify-center text-base md:text-lg'>
               Membre {type}
             </h3>
-            <p className='text-gray-500 mt-2 text-sm'>
+            <p className='text-gray-500 mt-2 text-xs md:text-sm'>
               Pas d'abonnement en cours <br />
               <Link
-                className='text-secondary font-semibold cursor-pointer underline hover:no-underline' href='/dashboard/abonnements'
+                className='text-secondary font-semibold cursor-pointer underline hover:no-underline'
+                href='/dashboard/abonnements'
               >
                 s'abonner
               </Link>
@@ -40,16 +44,16 @@ function TypeAbonnement ({ userData }) {
           </>
           )
         : (
-          <p className='text-gray-600 mt-2 text-sm'>
+          <p className='text-gray-600 mt-2 text-xs md:text-sm'>
             {type === 'Max' || type === 'Premium'
               ? (
                 <>
-                  <h3 className='text-primary font-medium my-6 flex items-center justify-center text-lg'>
-                    <FontAwesomeIcon icon={faStar} className='mr-2 text-sm' />
+                  <h3 className='text-primary font-medium my-4 md:my-6 flex items-center justify-center text-base md:text-lg'>
+                    <FontAwesomeIcon icon={faStar} className='mr-2 text-xs md:text-sm' />
                     Membre {type}
-                    <FontAwesomeIcon icon={faStar} className='ml-2 text-sm' />
+                    <FontAwesomeIcon icon={faStar} className='ml-2 text-xs md:text-sm' />
                   </h3>
-                  <p className='text-gray-500 text-sm'>
+                  <p className='text-gray-500 text-xs md:text-sm'>
                     Votre abonnement est valide jusqu'au{' '}
                     <span className='font-medium'>{formatDate(endDate)}</span>{' '} <br /><br />
                     <span className='text-secondary font-semibold cursor-pointer underline hover:no-underline'>
