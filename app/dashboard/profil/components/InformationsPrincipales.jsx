@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Spinner, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Input } from '@nextui-org/react'
+import { Spinner, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Input } from '@heroui/react'
 import Image from 'next/image'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { auth, storage, db } from '@/lib/firebase'

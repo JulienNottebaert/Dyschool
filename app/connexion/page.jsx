@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 import { useRouter } from 'next/navigation' // Pour rediriger après connexion
 import { auth } from '@/lib/firebase' // Assurez-vous que Firebase est bien configuré
-import { Input } from '@nextui-org/react'
+import { Input } from '@heroui/react'
 import { EyeFilledIcon } from './EyeFilledIcon'
 import { EyeSlashFilledIcon } from './EyeSlashFilledIcon'
 import Link from 'next/link'

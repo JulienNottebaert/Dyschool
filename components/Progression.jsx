@@ -1,5 +1,5 @@
 import React from 'react'
-import { Progress } from '@nextui-org/react'
+import { Progress } from '@heroui/react'
 
 function Progression ({ userData }) {
   return (

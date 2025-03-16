@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation' // Utilisation de useRouter
 import { auth } from '@/lib/firebase' // Assurez-vous que Firebase est bien configuré
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
-import { Input } from '@nextui-org/react'
+import { Input } from '@heroui/react'
 import Image from 'next/image'
 import LogoDyschool from '@/public/asset/dyschool.png'
 import { EyeFilledIcon } from './EyeFilledIcon'
@@ -262,5 +262,5 @@ export default function InscriptionPage () {
         </Link>
       </form>
     </div>
-  )
+  );
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { VisuallyHidden } from '@react-aria/visually-hidden'
-import { useSwitch } from '@nextui-org/react'
+import { useSwitch } from '@heroui/react'
 import { useTheme } from 'next-themes'
 import { useIsSSR } from '@react-aria/ssr'
 import clsx from 'clsx'

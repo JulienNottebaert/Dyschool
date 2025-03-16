@@ -1,5 +1,5 @@
 'use client'
-import { Button, Divider } from '@nextui-org/react'
+import { Button, Divider } from '@heroui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-regular-svg-icons'
 import { useRouter } from 'next/navigation'

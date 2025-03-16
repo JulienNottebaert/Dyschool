@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Input, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Checkbox, Spinner } from '@nextui-org/react'
+import { Input, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Checkbox, Spinner } from '@heroui/react'
 import { auth, db } from '@/lib/firebase'
 import { doc, updateDoc, getDoc } from 'firebase/firestore'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

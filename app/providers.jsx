@@ -1,6 +1,6 @@
 'use client'
 import { useEffect } from 'react'
-import { NextUIProvider } from '@nextui-org/react'
+import { HeroUIProvider } from '@heroui/react'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import { SessionProvider } from 'next-auth/react'
 
@@ -19,12 +19,12 @@ export function Providers ({ children }) {
   }, []) // Le tableau de dépendances est vide pour éviter d'écouter inutilement des changements
 
   return (
-    <NextUIProvider>
+    <HeroUIProvider>
       <NextThemesProvider attribute='class' defaultTheme='light'>
         <SessionProvider>
           {children}
         </SessionProvider>
       </NextThemesProvider>
-    </NextUIProvider>
+    </HeroUIProvider>
   )
 }

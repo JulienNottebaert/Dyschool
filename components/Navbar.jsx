@@ -13,7 +13,7 @@ import {
   Avatar,
   AvatarIcon,
   Button
-} from '@nextui-org/react'
+} from '@heroui/react'
 import { auth, db } from '@/lib/firebase'
 import Logo from '@/public/asset/dyschool.png'
 import Image from 'next/image'

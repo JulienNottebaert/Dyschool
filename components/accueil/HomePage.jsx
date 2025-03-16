@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Accueil from '@/public/asset/home/accuel.png'
 import styles from './homePage.module.css'
-import { Button } from '@nextui-org/button'
+import { Button } from "@heroui/button"
 import { useRouter } from 'next/navigation'
 
 export default function HomePage () { // Accepter les données en prop

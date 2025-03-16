@@ -7,7 +7,7 @@ import {
   Switch, Button, ButtonGroup, Dropdown, DropdownTrigger,
   DropdownMenu, DropdownItem, Modal, ModalContent, ModalHeader,
   ModalBody, ModalFooter, Spinner
-} from '@nextui-org/react'
+} from '@heroui/react'
 import { auth, db } from '@/lib/firebase'
 import { doc, updateDoc, getDoc } from 'firebase/firestore'
 

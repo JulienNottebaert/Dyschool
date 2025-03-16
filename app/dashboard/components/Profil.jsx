@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Chip, Progress } from '@nextui-org/react'
+import { Chip, Progress } from '@heroui/react'
 
 function Profil ({ data }) {
   const lvlUp = data.niveau + 1

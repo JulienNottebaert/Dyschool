@@ -1,5 +1,5 @@
 import React from 'react'
-import { Progress, Skeleton } from '@nextui-org/react'
+import { Progress, Skeleton } from '@heroui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBullseye } from '@fortawesome/free-solid-svg-icons'
 

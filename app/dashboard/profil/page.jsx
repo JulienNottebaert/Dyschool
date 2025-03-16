@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { auth, db } from '@/lib/firebase'
 import { useRouter } from 'next/navigation'
 import { doc, getDoc } from 'firebase/firestore'
-import { Skeleton } from '@nextui-org/react'
+import { Skeleton } from '@heroui/react'
 
 import TypeAbonnement from './components/TypeAbonnement'
 import InformationsPrincipales from './components/InformationsPrincipales'
