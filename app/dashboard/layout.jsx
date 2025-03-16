@@ -7,17 +7,17 @@ import Link from 'next/link'
 import { auth, db } from '@/lib/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
 import { doc, onSnapshot } from 'firebase/firestore'
-import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import Image from 'next/image'
+import Logo from '@/public/asset/dyschool.png'
 // Solid icons
-import { faUser as faUserSolid, faSun as faSunSolid, faChessRook as faChessRookSolid, faCreditCard as faCreditCardSolid } from '@fortawesome/free-solid-svg-icons'
+import { faUser as faUserSolid, faSun as faSunSolid, faChessRook as faChessRookSolid, faCreditCard as faCreditCardSolid, faBars as faBarsSolid } from '@fortawesome/free-solid-svg-icons'
 // Regular icons
 import { faUser as faUserRegular, faSun as faSunRegular, faChessRook as faChessRookRegular, faCreditCard as faCreditCardRegular, faShareFromSquare, faCopyright } from '@fortawesome/free-regular-svg-icons'
-import Logo from '@/public/asset/dyschool.png'
 
 export default function DashboardLayout ({ children }) {
   const [userData, setUserData] = useState(null)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
 
@@ -98,72 +98,123 @@ export default function DashboardLayout ({ children }) {
     return pathname.startsWith(link) // startsWith pour les autres routes
   }
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen)
+  }
+
   return (
     <div className='flex'>
-      {/* Sidebar fixe */}
-      <aside className='w-64 bg-white h-screen p-4 fixed border shadow flex flex-col'>
-        {/* Logo */}
-        <div className='flex items-center mb-8'>
-          <Link href='/' className='cursor-pointer mx-auto'>
-            <Image src={Logo} width={100} height={100} alt='Logo' />
-          </Link>
-        </div>
+      {/* Sidebar */}
+      {!isSidebarOpen
+        ? (
+          <aside className='bg-white h-screen p-4 fixed border shadow flex flex-col w-20'>
+            <div className='flex items-center'>
+              <button onClick={toggleSidebar} className='text-secondary hover:bg-gray-100 p-2 rounded mx-auto'>
+                <FontAwesomeIcon icon={faBarsSolid} className='text-xl' />
+              </button>
+            </div>
+            <Divider className='my-2 mb-8' />
+            <nav className='flex flex-col space-y-4'>
+              <Link href='/dashboard'>
+                <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 justify-center items-center ${isActiveLink('/dashboard') ? '!bg-secondary-50 font-bold' : ''}`}>
+                  <FontAwesomeIcon icon={faSunRegular} className='text-xl' />
+                </span>
+              </Link>
+              <Link href='/dashboard/profil'>
+                <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 justify-center items-center ${isActiveLink('/dashboard/profil') ? '!bg-secondary-50 font-bold' : ''}`}>
+                  <FontAwesomeIcon icon={faUserRegular} className='text-xl' />
+                </span>
+              </Link>
+              <Link href='/dashboard/jeux' className='pointer-events-none'>
+                <span className='p-2 rounded text-secondary flex gap-3 justify-center items-center opacity-50 cursor-not-allowed'>
+                  <FontAwesomeIcon icon={faChessRookRegular} className='text-xl' />
+                </span>
+              </Link>
+              <Link href='/dashboard/abonnements'>
+                <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 justify-center items-center ${isActiveLink('/dashboard/abonnements') ? '!bg-secondary-50 font-bold' : ''}`}>
+                  <FontAwesomeIcon icon={faCreditCardRegular} className='text-xl' />
+                </span>
+              </Link>
+            </nav>
+            <div className='mt-auto'>
+              <button
+                onClick={() => {
+                  auth.signOut()
+                  router.push('/connexion')
+                }}
+                className='p-2 rounded text-left cursor-pointer w-full flex items-center justify-center text-primary hover:bg-primary-50'
+              >
+                <FontAwesomeIcon icon={faShareFromSquare} className='text-xl' />
+              </button>
+              <Divider className='my-2' />
+              <p className='text-center text-xs text-gray-400'>
+                © 2024
+              </p>
+            </div>
+          </aside>
+          )
+        : (
+          <aside className='bg-white h-screen p-4 fixed border shadow flex flex-col w-64'>
+            <div className='flex items-center justify-between'>
+              <Image src={Logo} alt='Dyschool' width={72} height={72} />
+              <button onClick={toggleSidebar} className='text-secondary hover:bg-gray-100 p-2 rounded'>
+                <FontAwesomeIcon icon={faBarsSolid} className='text-xl' />
+              </button>
+            </div>
+            <Divider className='my-2 mb-8' />
+            <nav className='flex flex-col space-y-4'>
+              <Link href='/dashboard'>
+                <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard') ? '!bg-secondary-50 font-bold' : ''}`}>
+                  <FontAwesomeIcon icon={faSunRegular} className='text-xl' />
+                  Tableau de bord
+                </span>
+              </Link>
+              <Link href='/dashboard/profil'>
+                <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard/profil') ? '!bg-secondary-50 font-bold' : ''}`}>
+                  <FontAwesomeIcon icon={faUserRegular} className='text-xl' />
+                  Profil
+                </span>
+              </Link>
+              <Link href='/dashboard/jeux' className='pointer-events-none'>
+                <span className='p-2 rounded text-secondary flex gap-3 items-center opacity-50 cursor-not-allowed'>
+                  <FontAwesomeIcon icon={faChessRookRegular} className='text-xl' />
+                  Jeux
+                  <Chip variant='flat' color='secondary' size='sm'>Bientôt disponible</Chip>
+                </span>
+              </Link>
+              <Link href='/dashboard/abonnements'>
+                <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard/abonnements') ? '!bg-secondary-50 font-bold' : ''}`}>
+                  <FontAwesomeIcon icon={faCreditCardRegular} className='text-xl' />
+                  Abonnements
+                </span>
+              </Link>
+            </nav>
 
-        {/* Conteneur principal */}
-        <div className='flex-grow flex flex-col justify-between'>
-          {/* Navigation */}
-          <nav className='flex flex-col space-y-4'>
-            <Link href='/dashboard'>
-              <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard') ? '!bg-secondary-50 font-bold' : ''}`}>
-                <FontAwesomeIcon icon={faSunRegular} className='text-xl' />
-                Tableau de bord
-              </span>
-            </Link>
-            <Link href='/dashboard/profil'>
-              <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard/profil') ? '!bg-secondary-50 font-bold' : ''}`}>
-                <FontAwesomeIcon icon={faUserRegular} className='text-xl' />
-                Profil
-              </span>
-            </Link>
-            <Link href='/dashboard/jeux' className='pointer-events-none'>
-              <span className='p-2 rounded text-secondary flex gap-3 items-center opacity-50 cursor-not-allowed'>
-                <FontAwesomeIcon icon={faChessRookRegular} className='text-xl' />
-                Jeux
-                <Chip variant='flat' color='secondary' size='sm'>Bientôt disponible</Chip>
-              </span>
-            </Link>
-            <Link href='/dashboard/abonnements'>
-              <span className={`p-2 hover:bg-gray-100 rounded cursor-pointer text-secondary flex gap-3 items-center ${isActiveLink('/dashboard/abonnements') ? '!bg-secondary-50 font-bold' : ''}`}>
-                <FontAwesomeIcon icon={faCreditCardRegular} className='text-xl' />
-                Abonnements
-              </span>
-            </Link>
-          </nav>
-        </div>
-
-        {/* Bouton de déconnexion */}
-        <div className='mt-auto'>
-          <button
-            onClick={() => {
-              auth.signOut()
-              router.push('/connexion')
-            }}
-            className='p-2 rounded text-left cursor-pointer w-full flex items-center gap-3 text-primary hover:bg-primary-50'
-          >
-            <FontAwesomeIcon icon={faShareFromSquare} className='text-xl' />
-            Déconnexion
-          </button>
-          <Divider className='my-2' />
-        </div>
-        <p className='text-right text-xs text-gray-400'>
-          Dyschool <FontAwesomeIcon icon={faCopyright} /> 2024
-        </p>
-      </aside>
+            <div className='mt-auto'>
+              <button
+                onClick={() => {
+                  auth.signOut()
+                  router.push('/connexion')
+                }}
+                className='p-2 rounded text-left cursor-pointer w-full flex items-center gap-3 text-primary hover:bg-primary-50'
+              >
+                <FontAwesomeIcon icon={faShareFromSquare} className='text-xl' />
+                Déconnexion
+              </button>
+              <Divider className='my-2' />
+              <p className='text-right text-xs text-gray-400'>
+                Dyschool <FontAwesomeIcon icon={faCopyright} /> 2024
+              </p>
+            </div>
+          </aside>
+          )}
 
       {/* Contenu principal */}
-      <main className='ml-64 flex-grow'>
-        <div className='flex items-center justify-between px-8 py-4 border bg-white shadow fixed top-0 left-64 right-0 h-20 z-50'>
-          <h3 className='font-bold text-primary'>{sectionTitle()}</h3>
+      <main className={`flex-grow ${isSidebarOpen ? 'ml-64' : 'ml-20'}`}>
+        <div className={`flex items-center justify-between px-8 py-4 border bg-white shadow fixed top-0 right-0 h-20 z-40 ${isSidebarOpen ? 'left-64' : 'left-20'}`}>
+          <div className='flex items-center gap-4'>
+            <h3 className='font-bold text-primary'>{sectionTitle()}</h3>
+          </div>
           <div className='flex items-center gap-3'>
             {userData
               ? (
