@@ -149,7 +149,7 @@ export default function Profil () {
 
   // Afficher le contenu une fois les données chargées
   return (
-    <div className='grid grid-cols-1 md:grid-cols-4 lg:grid-cols-10 gap-4 md:gap-6 min-h-[calc(100vh-80px)] content-start'>
+    <div className='grid grid-cols-1 md:grid-cols-4 lg:grid-cols-10 gap-6 min-h-[calc(100vh-80px)] content-start'>
       <div className='col-span-1 md:col-span-2 lg:col-span-3 h-full'>
         <div className='h-full'>
           <InformationsPrincipales userData={userData} setUserData={setUserData} />

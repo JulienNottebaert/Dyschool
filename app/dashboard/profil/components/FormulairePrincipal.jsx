@@ -129,7 +129,7 @@ export default function FormulairePrincipal ({ userData, setUserData }) {
           ? (
             <Button
               color='secondary'
-              variant='ghost'
+              variant='solid'
               onPress={() => setEditing(true)}
               className='mx-auto mt-4 text-xs md:text-sm'
               size='sm'

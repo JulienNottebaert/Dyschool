@@ -247,7 +247,7 @@ export default function DashboardLayout ({ children }) {
                 )}
           </div>
         </div>
-        <div className='flex-1 p-4 md:p-8 bg-gray-50 overflow-y-auto'>
+        <div className='flex-1 p-6 md:p-8 bg-gray-50 overflow-y-auto'>
           {children}
         </div>
       </div>
