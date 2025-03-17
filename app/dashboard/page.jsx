@@ -159,47 +159,49 @@ export default function Dashboard () {
   }
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-6 min-h-[calc(100vh-80px)] content-start'>
+    <div className='grid grid-cols-1 md:grid-cols-8 lg:grid-cols-9 lg:grid-rows-10 gap-8 lg:h-[calc(100vh-128px)]'>
       {/* Première ligne */}
-      <div className='col-span-1 md:col-span-5 lg:col-span-8 h-full'>
+      <div className='col-span-1 md:col-span-5 lg:col-span-6 lg:row-span-3 h-full'>
         <div className='h-full'>
           <Welcoming data={userData} />
         </div>
       </div>
-      <div className='col-span-1 md:col-span-3 lg:col-span-4 h-full'>
+      <div className='col-span-1 md:col-span-3 lg:col-span-3 lg:row-span-5 h-full'>
         <div className='h-full'>
           <Profil data={userData} />
         </div>
       </div>
 
       {/* Deuxième ligne */}
-      <div className='col-span-1 md:col-span-2 lg:col-span-3 h-full'>
+      <div className='col-span-1 md:col-span-2 lg:col-span-2 lg:row-span-3 h-full'>
         <div className='h-full'>
           <CompletionJournaliere data={userData} />
         </div>
       </div>
-      <div className='col-span-1 md:col-span-3 lg:col-span-3 h-full'>
+      <div className='col-span-1 md:col-span-3 lg:col-span-2 lg:row-span-3 h-full'>
         <div className='h-full'>
           <CompletionHebdomadaire data={userData} />
         </div>
       </div>
-      <div className='col-span-1 md:col-span-3 lg:col-span-3 h-full'>
+      <div className='col-span-1 md:col-span-3 lg:col-span-2 lg:row-span-3 h-full'>
         <div className='h-full'>
           <CompletionMensuelle data={userData} />
         </div>
       </div>
-      <div className='col-span-1 md:col-span-3 lg:col-span-3 h-full'>
+
+      <div className='col-span-1 md:col-span-3 lg:col-span-3 lg:row-span-5 h-full'>
         <div className='h-full'>
           <Progression data={userData} />
         </div>
       </div>
 
       {/* Troisième ligne */}
-      <div className='col-span-1 md:col-span-5 lg:col-span-8 h-full'>
+      <div className='col-span-1 md:col-span-5 lg:col-span-6 lg:row-span-4 h-full'>
         <div className='h-full'>
           <JeuxFavoris data={userData} />
         </div>
       </div>
+
     </div>
   )
 }

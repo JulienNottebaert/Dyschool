@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faUser } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Chip, Progress } from '@heroui/react'
@@ -10,7 +10,7 @@ function Profil ({ data }) {
   return (
     <div className='bg-white shadow-lg rounded-md flex flex-col h-full'>
       <div className='bg-secondary flex justify-between text-white w-full rounded-t-md py-3 md:py-4 px-4 md:px-6'>
-        <h3 className='text-sm md:text-base'>Mon profil</h3>
+        <h3 className='text-sm md:text-base font-bold'>profil <FontAwesomeIcon icon={faUser} className='ml-2' /></h3>
         <Link href='/dashboard/profil' className='flex items-center justify-center'>
           <FontAwesomeIcon icon={faEdit} className='text-sm md:text-md bg-white bg-opacity-25 p-2 rounded-lg' />
         </Link>

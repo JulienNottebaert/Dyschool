@@ -7,7 +7,7 @@ function Progression ({ data }) {
   if (!data) {
     return (
       <div className='bg-white shadow-lg p-4 md:p-6 lg:p-8 rounded-md h-full'>
-        <h3 className='text-secondary text-sm md:text-base'>
+        <h3 className='text-secondary text-sm md:text-base font-bold'>
           Objectifs Mensuels <FontAwesomeIcon icon={faBullseye} className='ml-2' />
         </h3>
         <div className='flex flex-col gap-3 md:gap-4 mt-4 md:mt-6'>
@@ -22,11 +22,11 @@ function Progression ({ data }) {
 
   return (
     <div className='bg-white shadow-lg p-4 md:p-6 lg:p-8 rounded-md h-full'>
-      <h3 className='text-secondary text-sm md:text-base'>
+      <h3 className='text-secondary text-sm md:text-base font-bold'>
         Objectifs Mensuels <FontAwesomeIcon icon={faBullseye} className='ml-2' />
       </h3>
 
-      <div className='flex flex-col gap-3 md:gap-4 mt-4 md:mt-6'>
+      <div className='flex flex-col gap-3 md:gap-6 mt-4 md:mt-6 justify-between'>
         {/* Expériences */}
         <Progress
           color='success'

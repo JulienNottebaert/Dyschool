@@ -9,7 +9,7 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons'
 function JeuxFavoris () {
   return (
     <div className='bg-white shadow-lg p-4 md:p-6 lg:p-8 rounded-md h-full'>
-      <h3 className='text-secondary text-sm md:text-base'>
+      <h3 className='text-secondary text-sm md:text-base font-bold'>
         Jeux favoris <FontAwesomeIcon icon={faHeart} className='ml-2' />
       </h3>
       <div className='flex flex-wrap gap-4 md:gap-6 mt-4 md:mt-6 justify-center md:justify-between'>
