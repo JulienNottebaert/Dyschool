@@ -159,49 +159,48 @@ export default function Dashboard () {
   }
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-8 lg:grid-cols-9 lg:grid-rows-10 gap-8 lg:h-[calc(100vh-128px)]'>
+    <div className='grid grid-cols-1 md:grid-cols-8 lg:grid-cols-9 gap-4 md:gap-6 lg:gap-8 min-h-[calc(100vh-128px)] lg:h-[calc(100vh-128px)] lg:grid-rows-12 xl:grid-rows-10 max-h-[1080px]'>
       {/* Première ligne */}
-      <div className='col-span-1 md:col-span-5 lg:col-span-6 lg:row-span-3 h-full'>
+      <div className='col-span-1 md:col-span-8 lg:col-span-6 xl:row-span-3 h-full lg:row-span-3'>
         <div className='h-full'>
           <Welcoming data={userData} />
         </div>
       </div>
-      <div className='col-span-1 md:col-span-3 lg:col-span-3 lg:row-span-5 h-full'>
+      <div className='col-span-1 md:col-span-4 lg:col-span-3 xl:row-span-5 h-full lg:row-span-6'>
         <div className='h-full'>
           <Profil data={userData} />
         </div>
       </div>
 
       {/* Deuxième ligne */}
-      <div className='col-span-1 md:col-span-2 lg:col-span-2 lg:row-span-3 h-full'>
+      <div className='col-span-1 md:col-span-4 lg:col-span-2 xl:row-span-3 h-full lg:row-span-3'>
         <div className='h-full'>
           <CompletionJournaliere data={userData} />
         </div>
       </div>
-      <div className='col-span-1 md:col-span-3 lg:col-span-2 lg:row-span-3 h-full'>
+      <div className='col-span-1 md:col-span-4 lg:col-span-2 xl:row-span-3 h-full lg:row-span-3'>
         <div className='h-full'>
           <CompletionHebdomadaire data={userData} />
         </div>
       </div>
-      <div className='col-span-1 md:col-span-3 lg:col-span-2 lg:row-span-3 h-full'>
+      <div className='col-span-1 md:col-span-4 lg:col-span-2 xl:row-span-3 h-full lg:row-span-3'>
         <div className='h-full'>
           <CompletionMensuelle data={userData} />
         </div>
       </div>
 
-      <div className='col-span-1 md:col-span-3 lg:col-span-3 lg:row-span-5 h-full'>
+      <div className='col-span-1 md:col-span-4 lg:col-span-3 xl:row-span-5 h-full lg:row-span-6'>
         <div className='h-full'>
           <Progression data={userData} />
         </div>
       </div>
 
       {/* Troisième ligne */}
-      <div className='col-span-1 md:col-span-5 lg:col-span-6 lg:row-span-4 h-full'>
+      <div className='col-span-1 md:col-span-8 lg:col-span-6 xl:row-span-4 h-full lg:row-span-6'>
         <div className='h-full'>
           <JeuxFavoris data={userData} />
         </div>
       </div>
-
     </div>
   )
 }

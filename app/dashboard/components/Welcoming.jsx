@@ -21,7 +21,7 @@ function Welcoming ({ data }) {
         </div>
       </div>
       <Image
-        className='absolute right-4 top-4 md:right-8 md:top-8 w-[200px] opacity-50 md:opacity-100'
+        className='absolute right-4 top-4 md:right-8 md:top-8 w-[200px] lg:w-[250px] hidden md:block'
         src={Enfants}
         alt="Illustration d'enfants"
       />
