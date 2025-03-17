@@ -3,14 +3,14 @@
 import Image from 'next/image'
 import Accueil from '@/public/asset/home/accuel.png'
 import styles from './homePage.module.css'
-import { Button } from "@heroui/button"
+import { Button } from '@heroui/button'
 import { useRouter } from 'next/navigation'
 
 export default function HomePage () { // Accepter les données en prop
   const router = useRouter()
 
   return (
-    <div className='container mx-auto flex flex-col lg:flex-row justify-center items-center gap-10 pt-20 mb-20'>
+    <div className='container mx-auto flex flex-col lg:flex-row justify-center items-center gap-10 pt-20 mb-20 md:px-20'>
       <div className='flex flex-col justify-between gap-10 px-4'>
         <h1 className='text-primary'>Apprends <br /> en t'amusant</h1>
         <p>
