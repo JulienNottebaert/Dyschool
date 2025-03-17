@@ -135,7 +135,9 @@ export default function DashboardLayout ({ children }) {
       <Drawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} placement='left' size='xs'>
         <DrawerContent>
           <DrawerHeader className='flex items-center justify-between p-4 border-b'>
-            <Image src={Logo} alt='Dyschool' width={80} height={80} />
+            <div onClick={() => router.push('/')}>
+              <Image src={Logo} alt='Dyschool' width={80} height={80} className='cursor-pointer' />
+            </div>
           </DrawerHeader>
           <DrawerBody className='p-0'>
             <nav className='flex flex-col space-y-4 p-4'>
