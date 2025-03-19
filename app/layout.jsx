@@ -4,6 +4,14 @@ import CustomNavbar from '@/components/Navbar'
 import CustomFooter from '@/components/Footer'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
+export const metadata = {
+  title: 'Dyschool',
+  description: 'Plateforme de jeux éducatifs pour les enfants dys',
+  icons: {
+    icon: '/favicon.ico',
+  },
+}
+
 export default function RootLayout ({ children }) {
   return (
     <html lang='fr'>
