@@ -6,12 +6,14 @@ import { faCircleCheck } from '@fortawesome/free-regular-svg-icons'
 import { loadStripe } from '@stripe/stripe-js'
 import { auth } from '@/lib/firebase'
 import { useRouter } from 'next/navigation'
+import { Skeleton } from '@heroui/react'
 
 function Abonnements () {
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
   const [userId, setUserId] = useState(null)
   const [loadingSubscription, setLoadingSubscription] = useState(null) // Track subscription type being loaded
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     let isMounted = true // Pour éviter les mises à jour sur un composant démonté
@@ -77,8 +79,57 @@ function Abonnements () {
     }
   }
 
-  return (
+  if (loading) {
+    return (
+      <div className='grid grid-cols-1 md:grid-cols-8 lg:grid-cols-9 gap-4 md:gap-6 lg:gap-8 min-h-[calc(100vh-128px)] lg:h-[calc(100vh-128px)] lg:grid-rows-12 xl:grid-rows-10 max-h-[1080px]'>
+        {/* Skeleton pour AbonnementPremium */}
+        <div className='col-span-1 md:col-span-4 lg:col-span-4 xl:row-span-3 h-full lg:row-span-3'>
+          <div className='bg-white flex flex-col gap-4 p-4 md:p-6 lg:p-8 shadow-lg rounded-lg w-full h-full'>
+            <Skeleton className='w-3/4 h-8 rounded-md mx-auto' />
+            <Skeleton className='w-1/2 h-12 rounded-md mx-auto' />
+            <div className='flex flex-col gap-2'>
+              <Skeleton className='w-full h-6 rounded-md' />
+              <Skeleton className='w-full h-6 rounded-md' />
+              <Skeleton className='w-full h-6 rounded-md' />
+              <Skeleton className='w-full h-6 rounded-md' />
+              <Skeleton className='w-full h-6 rounded-md' />
+            </div>
+            <Skeleton className='w-3/4 h-12 rounded-md mx-auto mt-4' />
+          </div>
+        </div>
 
+        {/* Skeleton pour AbonnementMax */}
+        <div className='col-span-1 md:col-span-4 lg:col-span-5 xl:row-span-3 h-full lg:row-span-3'>
+          <div className='bg-white flex flex-col gap-4 p-4 md:p-6 lg:p-8 shadow-lg rounded-lg w-full h-full'>
+            <Skeleton className='w-3/4 h-8 rounded-md mx-auto' />
+            <Skeleton className='w-1/2 h-12 rounded-md mx-auto' />
+            <div className='flex flex-col gap-2'>
+              <Skeleton className='w-full h-6 rounded-md' />
+              <Skeleton className='w-full h-6 rounded-md' />
+              <Skeleton className='w-full h-6 rounded-md' />
+              <Skeleton className='w-full h-6 rounded-md' />
+              <Skeleton className='w-full h-6 rounded-md' />
+            </div>
+            <Skeleton className='w-3/4 h-12 rounded-md mx-auto mt-4' />
+          </div>
+        </div>
+
+        {/* Skeleton pour HistoriqueAbonnements */}
+        <div className='col-span-1 md:col-span-8 lg:col-span-9 xl:row-span-7 h-full lg:row-span-7'>
+          <div className='bg-white flex flex-col gap-4 p-4 md:p-6 lg:p-8 shadow-lg rounded-lg w-full h-full'>
+            <Skeleton className='w-3/4 h-8 rounded-md mx-auto' />
+            <div className='flex flex-col gap-4'>
+              <Skeleton className='w-full h-16 rounded-lg' />
+              <Skeleton className='w-full h-16 rounded-lg' />
+              <Skeleton className='w-full h-16 rounded-lg' />
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
     <div className='min-h-[calc(100vh-80px)] content-center'>
       <h1 className='text-2xl md:text-3xl lg:text-5xl font-bold text-center mb-2'>Nos abonnements</h1>
       <p className='text-center text-gray-400 mb-8'>Choisissez l'offre qui correspond à vos besoins</p>
@@ -169,7 +220,6 @@ function Abonnements () {
         </div>
       </div>
     </div>
-
   )
 }
 

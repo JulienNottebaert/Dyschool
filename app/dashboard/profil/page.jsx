@@ -93,55 +93,49 @@ export default function Profil () {
   // Afficher les Skeletons tant que les données sont en cours de chargement
   if (loading) {
     return (
-      <div className='grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-4 md:gap-6 lg:gap-8 min-h-[calc(100vh-80px)] content-start'>
-        {/* Skeleton pour InformationsPrincipales */}
-        <div className='bg-white flex flex-col gap-4 p-4 md:p-6 lg:p-8 shadow-lg rounded-lg w-full items-center col-span-1 md:col-span-2 h-full'>
-          <Skeleton className='w-[120px] md:w-[150px] h-[120px] md:h-[150px] rounded-full' />
-          <Skeleton className='w-32 md:w-40 h-6 rounded-md' />
-          <Skeleton className='w-20 md:w-24 h-6 rounded-md' />
-          <div className='flex gap-2 flex-wrap justify-center w-full'>
-            <Skeleton className='w-14 md:w-16 h-6 rounded-md' />
-            <Skeleton className='w-14 md:w-16 h-6 rounded-md' />
-            <Skeleton className='w-14 md:w-16 h-6 rounded-md' />
+      <div className='grid grid-cols-1 md:grid-cols-8 lg:grid-cols-9 gap-4 md:gap-6 lg:gap-8 min-h-[calc(100vh-128px)] lg:h-[calc(100vh-128px)] lg:grid-rows-12 xl:grid-rows-10 max-h-[1080px]'>
+        {/* Skeleton pour Profil */}
+        <div className='col-span-1 md:col-span-8 lg:col-span-6 xl:row-span-3 h-full lg:row-span-3'>
+          <div className='bg-white flex flex-col gap-4 p-4 md:p-6 lg:p-8 shadow-lg rounded-lg w-full h-full'>
+            <Skeleton className='w-[100px] md:w-[120px] lg:w-[150px] h-[100px] md:h-[120px] lg:h-[150px] rounded-full mx-auto' />
+            <Skeleton className='w-3/4 md:w-40 h-6 rounded-md mx-auto' />
+            <Skeleton className='w-1/2 md:w-24 h-6 rounded-md mx-auto' />
+            <div className='flex gap-2 flex-wrap justify-center w-full'>
+              <Skeleton className='w-16 h-6 rounded-md' />
+              <Skeleton className='w-16 h-6 rounded-md' />
+              <Skeleton className='w-16 h-6 rounded-md' />
+            </div>
+            <Skeleton className='w-full h-6 rounded-md' />
           </div>
-          <Skeleton className='w-full h-6 rounded-md' />
         </div>
 
-        {/* Skeleton pour FormulairePrincipal */}
-        <div className='bg-white flex flex-col gap-4 p-4 md:p-6 lg:p-8 shadow-lg rounded-lg col-span-1 md:col-span-2 lg:col-span-6 items-center h-full'>
-          <div className='flex flex-col md:flex-row gap-4 w-full'>
-            <Skeleton className='w-full h-12 rounded-md' />
-            <Skeleton className='w-full h-12 rounded-md' />
-            <Skeleton className='w-full h-12 rounded-md' />
+        {/* Skeleton pour Progression */}
+        <div className='col-span-1 md:col-span-4 lg:col-span-3 xl:row-span-5 h-full lg:row-span-6'>
+          <div className='bg-white flex flex-col gap-4 p-4 md:p-6 lg:p-8 shadow-lg rounded-lg w-full h-full'>
+            <Skeleton className='w-3/4 h-6 rounded-md mx-auto' />
+            <div className='flex gap-2 w-full'>
+              <Skeleton className='w-full h-8 rounded-md' />
+              <Skeleton className='w-full h-8 rounded-md' />
+            </div>
+            <Skeleton className='w-full h-8 rounded-md' />
+            <div className='flex flex-wrap gap-2 justify-center'>
+              <Skeleton className='w-16 h-6 rounded-md' />
+              <Skeleton className='w-16 h-6 rounded-md' />
+              <Skeleton className='w-16 h-6 rounded-md' />
+            </div>
           </div>
-          <Skeleton className='w-full h-12 rounded-md' />
-          <div className='flex flex-wrap gap-4 justify-center'>
-            <Skeleton className='w-14 md:w-16 h-6 rounded-md' />
-            <Skeleton className='w-14 md:w-16 h-6 rounded-md' />
-            <Skeleton className='w-14 md:w-16 h-6 rounded-md' />
+        </div>
+
+        {/* Skeleton pour JeuxFavoris */}
+        <div className='col-span-1 md:col-span-8 lg:col-span-6 xl:row-span-4 h-full lg:row-span-6'>
+          <div className='bg-white flex flex-col gap-4 p-4 md:p-6 lg:p-8 shadow-lg rounded-lg w-full h-full'>
+            <Skeleton className='w-3/4 h-6 rounded-md mx-auto' />
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+              <Skeleton className='w-full h-32 rounded-lg' />
+              <Skeleton className='w-full h-32 rounded-lg' />
+              <Skeleton className='w-full h-32 rounded-lg' />
+            </div>
           </div>
-          <Skeleton className='w-28 md:w-32 h-12 rounded-md mt-4 mx-auto' />
-        </div>
-
-        {/* Skeleton pour TypeAbonnement */}
-        <div className='bg-white shadow-lg p-4 md:p-6 lg:p-8 rounded-lg col-span-1 md:col-span-2 lg:col-span-3 h-full'>
-          <Skeleton className='h-12 w-full md:w-1/2 mx-auto' />
-          <Skeleton className='h-8 w-full md:w-1/2 mx-auto mt-4' />
-          <Skeleton className='h-8 w-full md:w-1/3 mx-auto mt-2' />
-        </div>
-
-        {/* Skeleton pour Notifications */}
-        <div className='bg-white shadow-lg p-4 md:p-6 lg:p-8 rounded-lg col-span-1 md:col-span-2 h-full'>
-          <Skeleton className='h-12 w-full md:w-1/2 mx-auto' />
-          <Skeleton className='h-8 w-full md:w-1/2 mx-auto mt-4' />
-          <Skeleton className='h-8 w-full md:w-1/3 mx-auto mt-2' />
-        </div>
-
-        {/* Skeleton pour Options */}
-        <div className='bg-white shadow-lg p-4 md:p-6 lg:p-8 rounded-lg col-span-1 md:col-span-2 lg:col-span-3 h-full'>
-          <Skeleton className='h-12 w-full md:w-1/2 mx-auto' />
-          <Skeleton className='h-8 w-full md:w-1/2 mx-auto mt-4' />
-          <Skeleton className='h-8 w-full md:w-1/3 mx-auto mt-2' />
         </div>
       </div>
     )
