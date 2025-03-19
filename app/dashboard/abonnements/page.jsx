@@ -186,7 +186,7 @@ function Abonnements () {
           </div>
           <div className='px-4 md:px-6 lg:px-8 flex items-end mt-4 text-white'>
             <h1 className='text-2xl md:text-3xl lg:text-6xl font-bold'>90€</h1>
-            <p className='mb-1 ml-1 text-sm md:text-base'>/an</p>
+            <p className='mb-1 ml-1 text-sm md:text-base text-white'>/an</p>
           </div>
           <p className='px-4 md:px-6 lg:px-8 my-4 text-xs md:text-sm text-white/90'>Pour une utilisation avancée</p>
           <div className='px-4 md:px-6 lg:px-8 mb-4'>
