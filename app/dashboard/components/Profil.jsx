@@ -43,14 +43,15 @@ function Profil ({ data }) {
         showValueLabel
         size='sm'
         value={26}
+        isDisabled={true}
       />
       <p className='px-4 md:px-6 text-xs pt-2'>Expériences manquantes : 230</p>
       <div className='px-4 md:px-6 flex flex-wrap gap-2 pt-2 pb-4 md:pb-6'>
-        <Chip variant='flat' color='primary' size='sm'>Roi du Simon</Chip>
-        <Chip variant='flat' color='primary' size='sm'>Fou du Puissance 4</Chip>
+        <Chip variant='flat' color='primary' size='sm' isDisabled>Roi du Simon</Chip>
+        <Chip variant='flat' color='primary' size='sm' isDisabled>Fou du Puissance 4</Chip>
       </div>
     </div>
   )
 }
-
 export default Profil
+

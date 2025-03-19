@@ -43,5 +43,5 @@ function JeuxFavoris () {
     </div>
   )
 }
-
 export default JeuxFavoris
+
